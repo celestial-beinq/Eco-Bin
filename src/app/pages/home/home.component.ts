@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeroSection } from '../../components/hero-section/hero-section';
+import { QuickBookingComponent } from '../../components/quick-booking/quick-booking';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeroSection],
+  imports: [CommonModule, RouterModule, HeroSection, QuickBookingComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
