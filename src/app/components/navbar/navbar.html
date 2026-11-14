@@ -1,0 +1,85 @@
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-bar" aria-label="Primary Navigation">
+      <div class="nav-links-desktop">
+        <a
+          routerLink="/"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+          (click)="closeMenus()"
+        >
+          Home
+        </a>
+
+        <a routerLink="/case-studies" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+          Operations
+        </a>
+
+        <a routerLink="/about" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+          About
+        </a>
+        <a routerLink="/services" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+          Service
+        </a>
+        <a routerLink="/tracking" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+          Tracking
+        </a>
+        <a routerLink="/contact" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+          Contact
+        </a>
+      </div>
+
+      <a routerLink="/" class="nav-brand" aria-label="EcoBin Home" (click)="closeMenus()">
+        <span class="brand-text">EcoBin</span>
+      </a>
+
+      <div class="nav-actions">
+        @if (auth.isAuthenticated()) {
+          <a routerLink="/dashboard" class="nav-link nav-portal-link" (click)="closeMenus()">
+            Dashboard
+          </a>
+        } @else {
+          <a routerLink="/login" class="nav-link nav-portal-link" (click)="closeMenus()">
+            Login
+          </a>
+        }
+
+        <a routerLink="/contact" class="btn btn-dark nav-cta" (click)="closeMenus()">
+          Work With Us
+        </a>
+
+        <button
+          type="button"
+          class="mobile-toggle"
+          aria-label="Toggle Menu"
+          [attr.aria-expanded]="mobileMenuOpen()"
+          (click)="toggleMobileMenu()"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    @if (mobileMenuOpen()) {
+      <div class="mobile-drawer">
+        <a routerLink="/" class="mobile-link" (click)="closeMenus()">Home</a>
+        <a routerLink="/case-studies" class="mobile-link" (click)="closeMenus()">Operations</a>
+        <a routerLink="/about" class="mobile-link" (click)="closeMenus()">About</a>
+        <a routerLink="/services" class="mobile-link" (click)="closeMenus()">Service</a>
+        <a routerLink="/tracking" class="mobile-link" (click)="closeMenus()">Tracking</a>
+        <a routerLink="/contact" class="mobile-link" (click)="closeMenus()">Contact</a>
+        <a
+          [routerLink]="auth.isAuthenticated() ? '/dashboard' : '/login'"
+          class="mobile-link"
+          (click)="closeMenus()"
+        >
+          {{ auth.isAuthenticated() ? 'Dashboard' : 'Portal Login' }}
+        </a>
+        <a routerLink="/contact" class="btn btn-dark mobile-cta" (click)="closeMenus()">Work With Us</a>
+      </div>
+    }
+  </div>
+</header>
+

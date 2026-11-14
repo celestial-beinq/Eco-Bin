@@ -172,6 +172,102 @@
   font-weight: 500;
 }
 
+/* About Section */
+.about-section {
+  padding: 5rem 0;
+  background: #0d120c;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.about-desc {
+  font-size: 1.05rem;
+  color: #9dae98;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.highlight-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #9fe826;
+  color: #0b1208;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.highlight-item strong {
+  display: block;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.highlight-item p {
+  font-size: 0.9rem;
+  color: #8da089;
+  margin: 0;
+}
+
+.about-fleet-card {
+  background: linear-gradient(145deg, #182315 0%, #10170e 100%);
+  border: 1px solid rgba(159, 232, 38, 0.2);
+  border-radius: 24px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.fleet-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #9fe826;
+  letter-spacing: 0.05em;
+}
+
+.fleet-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-num {
+  font-size: 2.5rem;
+  font-weight: 850;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.fleet-lbl {
+  font-size: 0.9rem;
+  color: #8da089;
+  margin-top: 0.35rem;
+}
+
 /* CTA Section */
 .cta-section {
   padding: 4rem 0 6rem;
@@ -260,6 +356,9 @@
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
   .cta-card {
     padding: 3rem 1.5rem;
   }
@@ -270,4 +369,3 @@
     grid-template-columns: 1fr;
   }
 }
-
