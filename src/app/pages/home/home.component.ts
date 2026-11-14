@@ -45,3 +45,4 @@ export class HomeComponent {
     { number: '12+', label: 'Years Serving Communities' }
   ];
 }
+

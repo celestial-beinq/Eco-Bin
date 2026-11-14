@@ -17,3 +17,4 @@ export class AboutComponent {
     { title: 'Safety & Compliance', desc: 'Fully licensed, insured, and adhering strictly to federal EPA and state environmental quality directives.' }
   ];
 }
+

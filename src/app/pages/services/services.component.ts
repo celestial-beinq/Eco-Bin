@@ -65,3 +65,4 @@ export class ServicesComponent {
     return this.servicesList.filter(s => s.category === cat);
   }
 }
+

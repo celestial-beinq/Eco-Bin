@@ -21,3 +21,4 @@ export class HeroComponent {
     this.isVideoModalOpen.set(false);
   }
 }
+
