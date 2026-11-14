@@ -78,6 +78,37 @@ export interface CustomerAccount {
   nextPickupDate: string;
 }
 
+export interface TransactionRecord {
+  id: string;
+  reference: string;
+  customerName: string;
+  accountNumber: string;
+  serviceType: string;
+  amount: number;
+  formattedAmount: string;
+  date: string;
+  time: string;
+  paymentMethod: 'Bank Transfer' | 'Corporate Invoicing' | 'Card' | 'Direct Debit';
+  status: 'Completed' | 'Pending' | 'Processing';
+  invoiceId: string;
+}
+
+export interface CollectionRequestRecord {
+  id: string;
+  requestCode: string;
+  customerName: string;
+  accountNumber: string;
+  location: string;
+  lga: string;
+  wasteType: string;
+  volume: string;
+  priority: 'Urgent' | 'High' | 'Normal' | 'Scheduled';
+  scheduledDate: string;
+  status: 'Pending' | 'Dispatched' | 'In Progress' | 'Completed';
+  assignedCrew?: string;
+  truckId?: string;
+}
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -89,7 +120,7 @@ export class AdminDashboardComponent {
   // Sidebar state
   sidebarOpen = signal<boolean>(true);
   mobileSidebarOpen = signal<boolean>(false);
-  activeSidebarItem = signal<string>('Customers');
+  activeSidebarItem = signal<string>('Dashboard Overview');
   routesTreeExpanded = signal<boolean>(true);
 
   // View format toggle: 'table' or 'grid' (defaults to 'table')
@@ -290,6 +321,90 @@ export class AdminDashboardComponent {
       initialBg: '#4f46e5',
       lastPickupDate: 'Nov 13, 07:00 AM',
       nextPickupDate: 'Today, 22:00'
+    },
+    {
+      id: 'cst-9',
+      accountNumber: 'ECB-CST-1019',
+      name: 'Victoria Garden City Residents Association',
+      category: 'Residential',
+      contactPerson: 'Chief Olatunbosun (Estate Admin)',
+      phone: '+234 802 111 2233',
+      email: 'admin@vgc-lagos.org',
+      address: 'Km 22 Lekki-Epe Expressway, VGC',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      servicePlan: 'Gated Estate Comprehensive Curbside',
+      pickupFrequency: '3x / Week (Mon, Wed, Fri)',
+      binAllocation: '35x 660L Curbside Bins',
+      monthlyTonnage: '42.0 T / mo',
+      esgTier: 'Platinum ESG',
+      status: 'Active',
+      initials: 'VG',
+      initialBg: '#047857',
+      lastPickupDate: 'Nov 14, 06:00 AM',
+      nextPickupDate: 'Nov 16, 06:00 AM'
+    },
+    {
+      id: 'cst-10',
+      accountNumber: 'ECB-CST-1020',
+      name: 'Maryland Mall Commercial Hub',
+      category: 'Commercial',
+      contactPerson: 'Bimpe Adebayo (Facilities Lead)',
+      phone: '+234 811 444 7788',
+      email: 'facilities@marylandmall.ng',
+      address: '350 Ikorodu Road, Anthony Village',
+      lga: 'Ikeja',
+      servicePlan: 'Retail Packaging & Food Court Waste',
+      pickupFrequency: 'Daily (Night Shift)',
+      binAllocation: '6x 1,100L Heavy-duty Bins',
+      monthlyTonnage: '19.5 T / mo',
+      esgTier: 'Gold Partner',
+      status: 'Active',
+      initials: 'MM',
+      initialBg: '#7c3aed',
+      lastPickupDate: 'Today, 04:00 AM',
+      nextPickupDate: 'Tomorrow, 04:00 AM'
+    },
+    {
+      id: 'cst-11',
+      accountNumber: 'ECB-CST-1021',
+      name: 'Dangote Industrial Logistics Hub',
+      category: 'Industrial',
+      contactPerson: 'Engr. Haruna Bello (Site Safety)',
+      phone: '+234 815 666 9900',
+      email: 'safety.lekki@dangotegroup.com',
+      address: 'Lekki Free Trade Zone, Ibeju-Lekki',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      servicePlan: 'Heavy Industrial Scrap & Corrugated',
+      pickupFrequency: 'Weekly Bulk Roll-off Haul',
+      binAllocation: '5x 20-Ton Industrial Skips',
+      monthlyTonnage: '64.0 T / mo',
+      esgTier: 'Platinum ESG',
+      status: 'Active',
+      initials: 'DG',
+      initialBg: '#1e3a8a',
+      lastPickupDate: 'Nov 10, 15:30',
+      nextPickupDate: 'Nov 17, 10:00 AM'
+    },
+    {
+      id: 'cst-12',
+      accountNumber: 'ECB-CST-1022',
+      name: 'Federal Medical Centre Ebute Metta',
+      category: 'Commercial',
+      contactPerson: 'Dr. (Mrs) Kemi Davies (Waste Safety)',
+      phone: '+234 803 777 8899',
+      email: 'safety@fmc-eb.gov.ng',
+      address: 'Railway Compound, Ebute Metta',
+      lga: 'Surulere / Mainland',
+      servicePlan: 'Regulated Medical & Bio-Waste Stream',
+      pickupFrequency: 'Daily Specialized Transfer',
+      binAllocation: '8x Biohazard Lockable Enclosures',
+      monthlyTonnage: '14.5 T / mo',
+      esgTier: 'Green Verified',
+      status: 'Active',
+      initials: 'FM',
+      initialBg: '#dc2626',
+      lastPickupDate: 'Today, 08:00 AM',
+      nextPickupDate: 'Tomorrow, 08:00 AM'
     }
   ]);
 
@@ -301,6 +416,449 @@ export class AdminDashboardComponent {
   teamModalOpen = signal<boolean>(false);
   notificationsOpen = signal<boolean>(false);
   toastMessage = signal<string | null>(null);
+
+  // Table Tabs & Pagination State
+  activeTableTab = signal<'transactions' | 'customers' | 'requests' | 'crews'>('transactions');
+  currentPage = signal<number>(1);
+  pageSize = signal<number>(5);
+  tableSearchQuery = signal<string>('');
+  tableStatusFilter = signal<string>('All');
+
+  // Transactions Dataset (Recent Waste Operations Billing & Payments)
+  transactions = signal<TransactionRecord[]>([
+    {
+      id: 'txn-1',
+      reference: 'TXN-8841',
+      customerName: 'Eko Hotels & Suites',
+      accountNumber: 'ECB-CST-1011',
+      serviceType: 'Commercial Food Scraps & Recovery',
+      amount: 480000,
+      formattedAmount: '₦480,000',
+      date: 'Nov 14, 2026',
+      time: '09:30 AM',
+      paymentMethod: 'Bank Transfer',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0841'
+    },
+    {
+      id: 'txn-2',
+      reference: 'TXN-8840',
+      customerName: 'Landmark Centre & Beach Village',
+      accountNumber: 'ECB-CST-1012',
+      serviceType: 'Event Waste Roll-Off Compactor Haul',
+      amount: 650000,
+      formattedAmount: '₦650,000',
+      date: 'Nov 14, 2026',
+      time: '08:15 AM',
+      paymentMethod: 'Corporate Invoicing',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0840'
+    },
+    {
+      id: 'txn-3',
+      reference: 'TXN-8839',
+      customerName: '1004 Housing Estate Community',
+      accountNumber: 'ECB-CST-1013',
+      serviceType: 'Monthly Residential Curbside Pickup',
+      amount: 820000,
+      formattedAmount: '₦820,000',
+      date: 'Nov 13, 2026',
+      time: '16:45',
+      paymentMethod: 'Direct Debit',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0839'
+    },
+    {
+      id: 'txn-4',
+      reference: 'TXN-8838',
+      customerName: 'Ikeja City Mall',
+      accountNumber: 'ECB-CST-1014',
+      serviceType: 'Retail Packaging & Baler Stream',
+      amount: 540000,
+      formattedAmount: '₦540,000',
+      date: 'Nov 13, 2026',
+      time: '14:20',
+      paymentMethod: 'Bank Transfer',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0838'
+    },
+    {
+      id: 'txn-5',
+      reference: 'TXN-8837',
+      customerName: 'Seven-Up Bottling Co.',
+      accountNumber: 'ECB-CST-1016',
+      serviceType: 'Bulk PET & Industrial Glass Haul',
+      amount: 1250000,
+      formattedAmount: '₦1,250,000',
+      date: 'Nov 13, 2026',
+      time: '11:00 AM',
+      paymentMethod: 'Corporate Invoicing',
+      status: 'Pending',
+      invoiceId: 'INV-2026-0837'
+    },
+    {
+      id: 'txn-6',
+      reference: 'TXN-8836',
+      customerName: 'Parkview Estate Residents',
+      accountNumber: 'ECB-CST-1015',
+      serviceType: 'Eco-Sorted Curbside Organic Fee',
+      amount: 380000,
+      formattedAmount: '₦380,000',
+      date: 'Nov 12, 2026',
+      time: '10:15 AM',
+      paymentMethod: 'Card',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0836'
+    },
+    {
+      id: 'txn-7',
+      reference: 'TXN-8835',
+      customerName: 'Lekki Conservation Centre',
+      accountNumber: 'ECB-CST-1017',
+      serviceType: 'Solar Smart Bin Recycling Subsidy',
+      amount: 175000,
+      formattedAmount: '₦175,000',
+      date: 'Nov 12, 2026',
+      time: '09:00 AM',
+      paymentMethod: 'Bank Transfer',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0835'
+    },
+    {
+      id: 'txn-8',
+      reference: 'TXN-8834',
+      customerName: 'Radisson Blu Anchorage Hotel',
+      accountNumber: 'ECB-CST-1018',
+      serviceType: 'Hazardous & Kitchen Waste Evacuation',
+      amount: 420000,
+      formattedAmount: '₦420,000',
+      date: 'Nov 11, 2026',
+      time: '15:30',
+      paymentMethod: 'Corporate Invoicing',
+      status: 'Processing',
+      invoiceId: 'INV-2026-0834'
+    },
+    {
+      id: 'txn-9',
+      reference: 'TXN-8833',
+      customerName: 'Victoria Garden City Residents',
+      accountNumber: 'ECB-CST-1019',
+      serviceType: 'Comprehensive Curbside Waste Levy',
+      amount: 960000,
+      formattedAmount: '₦960,000',
+      date: 'Nov 11, 2026',
+      time: '13:00',
+      paymentMethod: 'Direct Debit',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0833'
+    },
+    {
+      id: 'txn-10',
+      reference: 'TXN-8832',
+      customerName: 'Maryland Mall Commercial Hub',
+      accountNumber: 'ECB-CST-1020',
+      serviceType: 'Food Court Organic Waste Evacuation',
+      amount: 290000,
+      formattedAmount: '₦290,000',
+      date: 'Nov 10, 2026',
+      time: '17:15',
+      paymentMethod: 'Card',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0832'
+    },
+    {
+      id: 'txn-11',
+      reference: 'TXN-8831',
+      customerName: 'Dangote Industrial Logistics Hub',
+      accountNumber: 'ECB-CST-1021',
+      serviceType: 'Industrial Heavy Scrap Metal Haul',
+      amount: 1850000,
+      formattedAmount: '₦1,850,000',
+      date: 'Nov 10, 2026',
+      time: '11:45 AM',
+      paymentMethod: 'Corporate Invoicing',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0831'
+    },
+    {
+      id: 'txn-12',
+      reference: 'TXN-8830',
+      customerName: 'Federal Medical Centre Ebute Metta',
+      accountNumber: 'ECB-CST-1022',
+      serviceType: 'Regulated Medical Bio-Waste Incineration',
+      amount: 750000,
+      formattedAmount: '₦750,000',
+      date: 'Nov 09, 2026',
+      time: '14:10',
+      paymentMethod: 'Corporate Invoicing',
+      status: 'Pending',
+      invoiceId: 'INV-2026-0830'
+    },
+    {
+      id: 'txn-13',
+      reference: 'TXN-8829',
+      customerName: 'Palms Shopping Mall Lekki',
+      accountNumber: 'ECB-CST-1023',
+      serviceType: 'Tenant Mixed Waste Compactor Evacuation',
+      amount: 620000,
+      formattedAmount: '₦620,000',
+      date: 'Nov 09, 2026',
+      time: '08:45 AM',
+      paymentMethod: 'Bank Transfer',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0829'
+    },
+    {
+      id: 'txn-14',
+      reference: 'TXN-8828',
+      customerName: 'Nestle Distribution Warehouse',
+      accountNumber: 'ECB-CST-1024',
+      serviceType: 'Corrugated Paperboard Baler Transfer',
+      amount: 510000,
+      formattedAmount: '₦510,000',
+      date: 'Nov 08, 2026',
+      time: '16:00',
+      paymentMethod: 'Bank Transfer',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0828'
+    },
+    {
+      id: 'txn-15',
+      reference: 'TXN-8827',
+      customerName: 'Genesis Deluxe Cinemas',
+      accountNumber: 'ECB-CST-1025',
+      serviceType: 'Concession Packaging & Plastics Clear-out',
+      amount: 195000,
+      formattedAmount: '₦195,000',
+      date: 'Nov 08, 2026',
+      time: '10:30 AM',
+      paymentMethod: 'Card',
+      status: 'Completed',
+      invoiceId: 'INV-2026-0827'
+    }
+  ]);
+
+  // Collection Requests Dataset
+  collectionRequests = signal<CollectionRequestRecord[]>([
+    {
+      id: 'req-1',
+      requestCode: 'REQ-3041',
+      customerName: 'Eko Hotels & Suites',
+      accountNumber: 'ECB-CST-1011',
+      location: 'Plot 1415 Adetokunbo Ademola St',
+      lga: 'Eti-Osa (Victoria Island)',
+      wasteType: 'Cardboard & Paper Baler',
+      volume: '4.5 Tons',
+      priority: 'Urgent',
+      scheduledDate: 'Today, 02:00 PM',
+      status: 'In Progress',
+      assignedCrew: 'Al-Ameen Haulage',
+      truckId: 'IKJ-892-LG'
+    },
+    {
+      id: 'req-2',
+      requestCode: 'REQ-3042',
+      customerName: 'Landmark Centre & Beach Village',
+      accountNumber: 'ECB-CST-1012',
+      location: 'Water Corporation Drive',
+      lga: 'Eti-Osa (Victoria Island)',
+      wasteType: 'Event Mixed Waste Roll-Off',
+      volume: '8.0 Tons',
+      priority: 'High',
+      scheduledDate: 'Today, 04:30 PM',
+      status: 'Dispatched',
+      assignedCrew: 'EcoFleet Express',
+      truckId: 'LKK-401-VI'
+    },
+    {
+      id: 'req-3',
+      requestCode: 'REQ-3043',
+      customerName: '1004 Housing Estate Community',
+      accountNumber: 'ECB-CST-1013',
+      location: 'VI High-Rise Blocks A-E',
+      lga: 'Eti-Osa (Victoria Island)',
+      wasteType: 'Curbside Residential Bins',
+      volume: '12.0 Tons',
+      priority: 'Scheduled',
+      scheduledDate: 'Tomorrow, 06:30 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-4',
+      requestCode: 'REQ-3044',
+      customerName: 'Ikeja City Mall',
+      accountNumber: 'ECB-CST-1014',
+      location: 'Obafemi Awolowo Way, Alausa',
+      lga: 'Ikeja',
+      wasteType: 'Retail Corrugated Packaging',
+      volume: '6.2 Tons',
+      priority: 'High',
+      scheduledDate: 'Today, 07:00 PM',
+      status: 'Dispatched',
+      assignedCrew: 'CleanPath Municipal',
+      truckId: 'YAB-552-MN'
+    },
+    {
+      id: 'req-5',
+      requestCode: 'REQ-3045',
+      customerName: 'Seven-Up Bottling Co.',
+      accountNumber: 'ECB-CST-1016',
+      location: 'Mobolaji Johnson Ave, Oregun',
+      lga: 'Ikeja',
+      wasteType: 'Industrial PET Scrap Bottles',
+      volume: '15.0 Tons',
+      priority: 'Urgent',
+      scheduledDate: 'Tomorrow, 09:00 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-6',
+      requestCode: 'REQ-3046',
+      customerName: 'Radisson Blu Anchorage Hotel',
+      accountNumber: 'ECB-CST-1018',
+      location: '1A Ozumba Mbadiwe Ave',
+      lga: 'Eti-Osa (Victoria Island)',
+      wasteType: 'Kitchen Organic Compost',
+      volume: '3.2 Tons',
+      priority: 'Normal',
+      scheduledDate: 'Today, 01:15 PM',
+      status: 'In Progress',
+      assignedCrew: 'BioWaste Haulers',
+      truckId: 'ORG-771-BG'
+    },
+    {
+      id: 'req-7',
+      requestCode: 'REQ-3047',
+      customerName: 'Parkview Estate Residents',
+      accountNumber: 'ECB-CST-1015',
+      location: 'Parkview Avenue, Ikoyi',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Garden Trimmings & Curbside',
+      volume: '5.0 Tons',
+      priority: 'Scheduled',
+      scheduledDate: 'Nov 16, 08:00 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-8',
+      requestCode: 'REQ-3048',
+      customerName: 'Lekki Conservation Centre',
+      accountNumber: 'ECB-CST-1017',
+      location: 'Km 19 Lekki-Epe Expressway',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Educational Eco-Recyclables',
+      volume: '2.1 Tons',
+      priority: 'Normal',
+      scheduledDate: 'Nov 16, 11:00 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-9',
+      requestCode: 'REQ-3049',
+      customerName: 'Maryland Mall Commercial Hub',
+      accountNumber: 'ECB-CST-1020',
+      location: '350 Ikorodu Road, Anthony',
+      lga: 'Ikeja',
+      wasteType: 'Food Court Organic Scraps',
+      volume: '4.0 Tons',
+      priority: 'High',
+      scheduledDate: 'Today, 11:30 PM',
+      status: 'Dispatched',
+      assignedCrew: 'Apex Heavy Fleet',
+      truckId: 'VIS-902-AP'
+    },
+    {
+      id: 'req-10',
+      requestCode: 'REQ-3050',
+      customerName: 'Victoria Garden City Residents',
+      accountNumber: 'ECB-CST-1019',
+      location: 'Km 22 Lekki-Epe Expressway',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Sorted Curbside Plastics & Glass',
+      volume: '7.8 Tons',
+      priority: 'Scheduled',
+      scheduledDate: 'Nov 17, 07:00 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-11',
+      requestCode: 'REQ-3051',
+      customerName: 'Federal Medical Centre Ebute Metta',
+      accountNumber: 'ECB-CST-1022',
+      location: 'Railway Compound, Ebute Metta',
+      lga: 'Surulere / Mainland',
+      wasteType: 'Sealed Medical Biohazard Bins',
+      volume: '1.8 Tons',
+      priority: 'Urgent',
+      scheduledDate: 'Today, 03:00 PM',
+      status: 'Dispatched',
+      assignedCrew: 'Lagos Recyclers',
+      truckId: 'SRL-119-CO'
+    },
+    {
+      id: 'req-12',
+      requestCode: 'REQ-3052',
+      customerName: 'Dangote Industrial Logistics Hub',
+      accountNumber: 'ECB-CST-1021',
+      location: 'Lekki Free Trade Zone',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Heavy Industrial Pallets & Metal',
+      volume: '18.0 Tons',
+      priority: 'High',
+      scheduledDate: 'Nov 18, 10:00 AM',
+      status: 'Pending',
+      assignedCrew: 'Unassigned'
+    },
+    {
+      id: 'req-13',
+      requestCode: 'REQ-3053',
+      customerName: 'Palms Shopping Mall Lekki',
+      accountNumber: 'ECB-CST-1023',
+      location: '1 Bisway St, Maroko, Lekki',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Mixed Commercial Compactor Waste',
+      volume: '9.5 Tons',
+      priority: 'Normal',
+      scheduledDate: 'Nov 15, 05:00 AM',
+      status: 'Completed',
+      assignedCrew: 'Al-Ameen Haulage',
+      truckId: 'IKJ-892-LG'
+    },
+    {
+      id: 'req-14',
+      requestCode: 'REQ-3054',
+      customerName: 'Genesis Deluxe Cinemas',
+      accountNumber: 'ECB-CST-1025',
+      location: 'The Palms, Lekki Expressway',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      wasteType: 'Popcorn Boxes & Soft Drink Cans',
+      volume: '2.4 Tons',
+      priority: 'Normal',
+      scheduledDate: 'Nov 14, 08:00 AM',
+      status: 'Completed',
+      assignedCrew: 'CleanPath Municipal',
+      truckId: 'YAB-552-MN'
+    }
+  ]);
+
+  // Dashboard Overview Metrics
+  overviewStats = signal({
+    registeredCustomers: '2,450',
+    collectionRequests: '1,470',
+    pendingRequests: '186',
+    activeVehicles: '24',
+    totalRevenue: '₦24,850,000',
+    startDate: 'Nov 12, 2026',
+    targetDate: 'Nov 19, 2026',
+    zoneLocation: 'Victoria Island, Lekki & Ikeja Central',
+    manifestId: 'ECB-76431',
+    operationsLead: 'Engr. Babatunde Alabi'
+  });
 
   // Operation Details
   operationInfo = signal<OperationHeaderInfo>({
@@ -456,7 +1014,7 @@ export class AdminDashboardComponent {
     }
 
     if (query) {
-      list = list.filter(c => 
+      list = list.filter(c =>
         c.name.toLowerCase().includes(query) ||
         (c.crewLead && c.crewLead.toLowerCase().includes(query)) ||
         c.depotLocation.toLowerCase().includes(query) ||
@@ -499,6 +1057,151 @@ export class AdminDashboardComponent {
     return list;
   });
 
+  // Computed filtered list for Transactions
+  filteredTransactions = computed(() => {
+    let list = this.transactions();
+    const query = this.tableSearchQuery().toLowerCase().trim();
+    const status = this.tableStatusFilter();
+
+    if (status !== 'All') {
+      list = list.filter(t => t.status === status);
+    }
+
+    if (query) {
+      list = list.filter(t =>
+        t.reference.toLowerCase().includes(query) ||
+        t.customerName.toLowerCase().includes(query) ||
+        t.accountNumber.toLowerCase().includes(query) ||
+        t.serviceType.toLowerCase().includes(query) ||
+        t.paymentMethod.toLowerCase().includes(query) ||
+        t.formattedAmount.toLowerCase().includes(query)
+      );
+    }
+
+    return list;
+  });
+
+  // Computed filtered list for Collection Requests
+  filteredRequests = computed(() => {
+    let list = this.collectionRequests();
+    const query = this.tableSearchQuery().toLowerCase().trim();
+    const status = this.tableStatusFilter();
+
+    if (status !== 'All') {
+      list = list.filter(r => r.status === status);
+    }
+
+    if (query) {
+      list = list.filter(r =>
+        r.requestCode.toLowerCase().includes(query) ||
+        r.customerName.toLowerCase().includes(query) ||
+        r.wasteType.toLowerCase().includes(query) ||
+        r.location.toLowerCase().includes(query) ||
+        r.lga.toLowerCase().includes(query) ||
+        (r.assignedCrew && r.assignedCrew.toLowerCase().includes(query))
+      );
+    }
+
+    return list;
+  });
+
+  // Active items total count
+  currentTotal = computed(() => {
+    const tab = this.activeTableTab();
+    if (tab === 'transactions') return this.filteredTransactions().length;
+    if (tab === 'customers') return this.filteredCustomers().length;
+    if (tab === 'requests') return this.filteredRequests().length;
+    return this.filteredCrews().length;
+  });
+
+  // Total pages
+  totalPages = computed(() => {
+    return Math.max(1, Math.ceil(this.currentTotal() / this.pageSize()));
+  });
+
+  // Start & End index for pagination display
+  startIndex = computed(() => {
+    if (this.currentTotal() === 0) return 0;
+    return (this.currentPage() - 1) * this.pageSize() + 1;
+  });
+
+  endIndex = computed(() => {
+    return Math.min(this.currentPage() * this.pageSize(), this.currentTotal());
+  });
+
+  // Slices for paginated tables
+  paginatedTransactions = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredTransactions().slice(start, start + this.pageSize());
+  });
+
+  paginatedCustomers = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredCustomers().slice(start, start + this.pageSize());
+  });
+
+  paginatedRequests = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredRequests().slice(start, start + this.pageSize());
+  });
+
+  paginatedCrews = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredCrews().slice(start, start + this.pageSize());
+  });
+
+  pagesList = computed(() => {
+    const total = this.totalPages();
+    return Array.from({ length: total }, (_, i) => i + 1);
+  });
+
+  // Table Tabs & Pagination Handlers
+  setTableTab(tab: 'transactions' | 'customers' | 'requests' | 'crews'): void {
+    this.activeTableTab.set(tab);
+    this.currentPage.set(1);
+    this.tableSearchQuery.set('');
+    this.tableStatusFilter.set('All');
+  }
+
+  setPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(p => p + 1);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+    }
+  }
+
+  setPageSize(size: number): void {
+    this.pageSize.set(size);
+    this.currentPage.set(1);
+  }
+
+  setTableStatusFilter(status: string): void {
+    this.tableStatusFilter.set(status);
+    this.currentPage.set(1);
+  }
+
+  downloadReceipt(txn: TransactionRecord): void {
+    this.triggerToast(`Generating official receipt for ${txn.reference} (${txn.customerName})... Download ready.`);
+  }
+
+  dispatchRequest(req: CollectionRequestRecord): void {
+    this.collectionRequests.update(prev =>
+      prev.map(r => r.id === req.id ? { ...r, status: 'Dispatched', assignedCrew: 'EcoFleet Express (LKK-401-VI)' } : r)
+    );
+    this.triggerToast(`Crew dispatched for ${req.requestCode} (${req.customerName}).`);
+  }
+
   // Action methods
   toggleSidebar(): void {
     this.sidebarOpen.update(v => !v);
@@ -514,7 +1217,9 @@ export class AdminDashboardComponent {
 
   setSidebarItem(item: string): void {
     this.activeSidebarItem.set(item);
-    if (item === 'Customers') {
+    if (item === 'Dashboard Overview') {
+      this.activeSubTab.set('CREWS');
+    } else if (item === 'Customers') {
       this.activeSubTab.set('CUSTOMERS');
     } else if (item === 'Fleet Management') {
       this.activeSubTab.set('CREWS');
@@ -633,14 +1338,14 @@ export class AdminDashboardComponent {
   }
 
   toggleSave(card: HaulerCrewCard): void {
-    this.crews.update(prev => 
+    this.crews.update(prev =>
       prev.map(c => c.id === card.id ? { ...c, saved: !c.saved } : c)
     );
     this.triggerToast(card.saved ? `Removed ${card.name} from saved fleet` : `Saved ${card.name} to priority fleet roster`);
   }
 
   toggleDispatch(card: HaulerCrewCard): void {
-    this.crews.update(prev => 
+    this.crews.update(prev =>
       prev.map(c => c.id === card.id ? { ...c, dispatched: !c.dispatched } : c)
     );
     this.triggerToast(card.dispatched ? `Recalled dispatch for ${card.name}` : `Route manifest dispatched to ${card.name}`);

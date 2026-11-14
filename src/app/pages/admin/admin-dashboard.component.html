@@ -29,7 +29,7 @@
             </svg>
           </div>
           <span class="cadre-brand-text">EcoBin</span>
-          <span class="cadre-pro-pill">OPS</span>
+          <span class="cadre-pro-pill">Lagos</span>
         </a>
 
         <!-- Mobile close button -->
@@ -41,7 +41,28 @@
         <span class="sidebar-section-title">Operations &amp; Logistics</span>
         <ul class="sidebar-nav-list">
 
-          <!-- 1. Customers -->
+          <!-- 1. Dashboard Overview -->
+          <li class="sidebar-nav-item">
+            <a 
+              href="javascript:void(0)" 
+              class="nav-link-btn" 
+              [class.is-active]="activeSidebarItem() === 'Dashboard Overview'"
+              (click)="setSidebarItem('Dashboard Overview')"
+              title="Overview of operations, live telemetry and waste analytics."
+            >
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                </svg>
+              </span>
+              <span class="nav-text">Dashboard Overview</span>
+            </a>
+          </li>
+
+          <!-- 2. Customers -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
@@ -51,22 +72,19 @@
               title="Manage registered residents and businesses."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Customers</span>
-                <span class="nav-text-desc">Manage registered residents &amp; businesses.</span>
-              </div>
+              <span class="nav-text">Customers</span>
               <span class="nav-count-pill">{{ customers().length }}</span>
             </a>
           </li>
 
-          <!-- 2. Collection Requests -->
+          <!-- 3. Collection Requests -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
@@ -76,16 +94,13 @@
               title="View, assign, approve and manage collection requests."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
                   <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                   <path d="M9 14l2 2 4-4"></path>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Collection Requests</span>
-                <span class="nav-text-desc">View, assign, approve and manage collection requests.</span>
-              </div>
+              <span class="nav-text">Requests</span>
               <span class="nav-count-pill alert">14</span>
             </a>
           </li>
@@ -100,17 +115,14 @@
               title="Plan daily, weekly and recurring collections."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>
                   <line x1="8" y1="2" x2="8" y2="6"></line>
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Collection Schedule</span>
-                <span class="nav-text-desc">Plan daily, weekly and recurring collections.</span>
-              </div>
+              <span class="nav-text">Collection Schedule</span>
             </a>
           </li>
 
@@ -124,17 +136,14 @@
               title="Manage collection vehicles and their availability."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="1" y="3" width="15" height="13" rx="2"></rect>
                   <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
                   <circle cx="5.5" cy="18.5" r="2.5"></circle>
                   <circle cx="18.5" cy="18.5" r="2.5"></circle>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Fleet Management</span>
-                <span class="nav-text-desc">Manage collection vehicles and their availability.</span>
-              </div>
+              <span class="nav-text">Fleet Management</span>
               <span class="nav-count-pill">{{ crews().length }}</span>
             </a>
           </li>
@@ -149,17 +158,14 @@
               title="Manage drivers, field workers and assignments."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="4" width="18" height="16" rx="2"></rect>
                   <line x1="7" y1="8" x2="17" y2="8"></line>
                   <line x1="7" y1="12" x2="13" y2="12"></line>
                   <circle cx="15" cy="13" r="2"></circle>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Staff &amp; Drivers</span>
-                <span class="nav-text-desc">Manage drivers, field workers and assignments.</span>
-              </div>
+              <span class="nav-text">Staff &amp; Drivers</span>
             </a>
           </li>
 
@@ -173,16 +179,13 @@
               title="Manage locations, routes and coverage areas."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
                   <line x1="8" y1="2" x2="8" y2="18"></line>
                   <line x1="16" y1="6" x2="16" y2="22"></line>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Service Areas</span>
-                <span class="nav-text-desc">Manage locations, routes and coverage areas.</span>
-              </div>
+              <span class="nav-text">Service Areas</span>
             </a>
           </li>
 
@@ -204,15 +207,12 @@
               title="Track customer payments, invoices and outstanding balances."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="5" width="20" height="14" rx="2"></rect>
                   <line x1="2" y1="10" x2="22" y2="10"></line>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Payments &amp; Billing</span>
-                <span class="nav-text-desc">Track customer payments, invoices &amp; balances.</span>
-              </div>
+              <span class="nav-text">Payments &amp; Billing</span>
             </a>
           </li>
 
@@ -226,16 +226,13 @@
               title="Review operational and financial performance."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="18" y1="20" x2="18" y2="10"></line>
                   <line x1="12" y1="20" x2="12" y2="4"></line>
                   <line x1="6" y1="20" x2="6" y2="14"></line>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Reports &amp; Analytics</span>
-                <span class="nav-text-desc">Review operational and financial performance.</span>
-              </div>
+              <span class="nav-text">Reports &amp; Analytics</span>
             </a>
           </li>
 
@@ -257,15 +254,12 @@
               title="Send service updates and important announcements."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Notifications</span>
-                <span class="nav-text-desc">Send service updates &amp; announcements.</span>
-              </div>
+              <span class="nav-text">Notifications</span>
               <span class="nav-count-pill warning">2</span>
             </a>
           </li>
@@ -280,15 +274,12 @@
               title="Manage platform configuration and permissions."
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Settings</span>
-                <span class="nav-text-desc">Manage platform config &amp; permissions.</span>
-              </div>
+              <span class="nav-text">Settings</span>
             </a>
           </li>
 
@@ -296,15 +287,13 @@
           <li class="sidebar-nav-item mt-2">
             <a routerLink="/" class="nav-link-btn logout-link">
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                   <polyline points="16 17 21 12 16 7"></polyline>
                   <line x1="21" y1="12" x2="9" y2="12"></line>
                 </svg>
               </span>
-              <div class="nav-text-block">
-                <span class="nav-text-title">Sign Out</span>
-              </div>
+              <span class="nav-text">Sign Out</span>
             </a>
           </li>
 
@@ -412,76 +401,50 @@
     <!-- MAIN SCROLLABLE BODY -->
     <main class="cadre-page-content">
 
-      <!-- MAIN TABS (ROUTE DETAILS / WASTE STREAMS / SLA & COMPLIANCE) -->
-      <section class="project-header-section">
-        <div class="project-main-tabs" role="tablist">
-          
-          <button 
-            type="button" 
-            class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'ROUTE DETAILS'"
-            (click)="setMainTab('ROUTE DETAILS')"
-          >
-            <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13" rx="2"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-              </svg>
-            </span>
-            <span>ROUTE DETAILS</span>
-          </button>
-
-          <button 
-            type="button" 
-            class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'WASTE STREAMS'"
-            (click)="setMainTab('WASTE STREAMS')"
-          >
-            <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
-              </svg>
-            </span>
-            <span>WASTE STREAMS &amp; TONNAGE</span>
-          </button>
-
-          <button 
-            type="button" 
-            class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'SLA & COMPLIANCE'"
-            (click)="setMainTab('SLA & COMPLIANCE')"
-          >
-            <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </span>
-            <span>SLA &amp; COMPLIANCE</span>
-          </button>
-
-        </div>
-      </section>
-
       <!-- CUSTOMER OVERVIEW HERO & KPI BANNER (Shown when on CUSTOMERS tab) -->
       @if (activeSubTab() === 'CUSTOMERS') {
         <section class="customers-hero-section">
           <div class="customers-hero-card">
+            
+            <!-- Top Hero Row -->
             <div class="customers-hero-top">
-              <div>
+              <div class="customers-hero-headline-wrap">
                 <div class="customers-badge-tag">
                   <span class="dot-live-green"></span>
-                  <span>LGA WASTE SERVICE DIRECTORY</span>
+                  <span>LGA MUNICIPAL WASTE SERVICE DIRECTORY</span>
                 </div>
                 <h2 class="customers-hero-title">Customer Accounts &amp; Service Contracts</h2>
                 <p class="customers-hero-desc">
                   Active directory of registered commercial establishments, hotels, and residential estates with verified waste collection manifests across Lagos LGAs.
                 </p>
               </div>
-              <div class="customers-hero-cta">
-                <button type="button" class="btn-register-customer" (click)="openNewCustomerModal()">
-                  <span class="plus-icon">+</span>
+
+              <!-- Top CTA Buttons -->
+              <div class="customers-hero-actions">
+                <button 
+                  type="button" 
+                  class="btn-cst-export" 
+                  (click)="triggerToast('Exporting customer accounts directory (CSV)...')"
+                  title="Export customer accounts directory"
+                >
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Export CSV</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  class="btn-register-customer" 
+                  (click)="openNewCustomerModal()"
+                  title="Register new customer establishment"
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
                   <span>Register Customer</span>
                 </button>
               </div>
@@ -489,9 +452,11 @@
 
             <!-- KPI Metric Cards Grid -->
             <div class="customers-kpi-grid">
+              
+              <!-- 1. Total Registered -->
               <div class="customer-kpi-card">
                 <div class="kpi-icon-wrap kpi-blue">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -500,14 +465,20 @@
                 </div>
                 <div class="kpi-info-block">
                   <span class="customer-kpi-label">TOTAL REGISTERED</span>
-                  <div class="customer-kpi-val">{{ customers().length }} Accounts</div>
-                  <span class="customer-kpi-sub positive">100% Verified Lagos LGAs</span>
+                  <div class="customer-kpi-val">2,450 Accounts</div>
+                  <span class="customer-kpi-sub positive">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                    +12% MoM • 100% Verified
+                  </span>
                 </div>
               </div>
 
+              <!-- 2. Commercial Clients -->
               <div class="customer-kpi-card">
                 <div class="kpi-icon-wrap kpi-green">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                   </svg>
@@ -519,9 +490,10 @@
                 </div>
               </div>
 
+              <!-- 3. Residential Estates -->
               <div class="customer-kpi-card">
                 <div class="kpi-icon-wrap kpi-amber">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                   </svg>
@@ -533,9 +505,10 @@
                 </div>
               </div>
 
+              <!-- 4. Monthly Diverted -->
               <div class="customer-kpi-card">
                 <div class="kpi-icon-wrap kpi-emerald">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
                   </svg>
                 </div>
@@ -545,6 +518,7 @@
                   <span class="customer-kpi-sub positive">88.7% Diversion Rate</span>
                 </div>
               </div>
+
             </div>
 
           </div>
@@ -562,24 +536,24 @@
                 <thead>
                   <tr class="matrix-head-row">
                     <th class="matrix-cell">
-                      <span class="matrix-metric-label">TRUCKS DISPATCHED</span>
-                      <div class="matrix-metric-value brand-accent">{{ operationInfo().dispatchedCount }}</div>
+                      <span class="matrix-metric-label">REGISTERED CUSTOMERS</span>
+                      <div class="matrix-metric-value brand-accent">{{ overviewStats().registeredCustomers }}</div>
                     </th>
                     <th class="matrix-cell">
-                      <span class="matrix-metric-label">ESTIMATED TONNAGE</span>
-                      <div class="matrix-metric-value">{{ operationInfo().estimatedTonnage }}</div>
+                      <span class="matrix-metric-label">COLLECTION REQUESTS</span>
+                      <div class="matrix-metric-value">{{ overviewStats().collectionRequests }}</div>
                     </th>
                     <th class="matrix-cell">
-                      <span class="matrix-metric-label">OVERFLOW ALERTS</span>
-                      <div class="matrix-metric-value text-ok">{{ operationInfo().overflowAlerts }}</div>
+                      <span class="matrix-metric-label">PENDING REQUESTS</span>
+                      <div class="matrix-metric-value text-amber">{{ overviewStats().pendingRequests }}</div>
                     </th>
                     <th class="matrix-cell">
-                      <span class="matrix-metric-label">RECOVERY HUBS</span>
-                      <div class="matrix-metric-value">{{ operationInfo().recoveryHubs }}</div>
+                      <span class="matrix-metric-label">ACTIVE VEHICLES</span>
+                      <div class="matrix-metric-value">{{ overviewStats().activeVehicles }}</div>
                     </th>
                     <th class="matrix-cell">
-                      <span class="matrix-metric-label">SLA COMPLIANCE</span>
-                      <div class="matrix-metric-value brand-accent">{{ operationInfo().slaCompliance }}</div>
+                      <span class="matrix-metric-label">TOTAL REVENUE</span>
+                      <div class="matrix-metric-value brand-accent">{{ overviewStats().totalRevenue }}</div>
                     </th>
                   </tr>
                 </thead>
@@ -589,23 +563,23 @@
                   <tr class="matrix-body-row">
                     <td class="matrix-cell meta">
                       <span class="matrix-meta-label">START DATE</span>
-                      <span class="matrix-meta-val">{{ operationInfo().startDate }}</span>
+                      <span class="matrix-meta-val">{{ overviewStats().startDate }}</span>
                     </td>
                     <td class="matrix-cell meta">
                       <span class="matrix-meta-label">TARGET COMPLETION</span>
-                      <span class="matrix-meta-val">{{ operationInfo().targetDate }}</span>
+                      <span class="matrix-meta-val">{{ overviewStats().targetDate }}</span>
                     </td>
                     <td class="matrix-cell meta">
                       <span class="matrix-meta-label">ZONE / LOCATION</span>
-                      <span class="matrix-meta-val truncate" [title]="operationInfo().zoneLocation">{{ operationInfo().zoneLocation }}</span>
+                      <span class="matrix-meta-val truncate" [title]="overviewStats().zoneLocation">{{ overviewStats().zoneLocation }}</span>
                     </td>
                     <td class="matrix-cell meta">
                       <span class="matrix-meta-label">MANIFEST ID</span>
-                      <span class="matrix-meta-val font-mono">{{ operationInfo().manifestId }}</span>
+                      <span class="matrix-meta-val font-mono">{{ overviewStats().manifestId }}</span>
                     </td>
                     <td class="matrix-cell meta">
                       <span class="matrix-meta-label">OPERATIONS LEAD</span>
-                      <span class="matrix-meta-val">{{ operationInfo().operationsLead }}</span>
+                      <span class="matrix-meta-val">{{ overviewStats().operationsLead }}</span>
                     </td>
                   </tr>
                 </tbody>
@@ -616,309 +590,586 @@
           </div>
         </section>
 
-      }
+        <!-- DASHBOARD OVERVIEW CHARTS ROW (Graph & Pie Chart) -->
+        @if (activeSidebarItem() === 'Dashboard Overview') {
+          <section class="overview-charts-section">
+            <div class="overview-charts-grid">
+              
+              <!-- 1. Volume Collection & Diversion Trend Graph -->
+              <div class="chart-card">
+                <div class="chart-card-header">
+                  <div class="chart-header-content">
+                    <div class="chart-header-top-row">
+                      <div class="chart-tag">
+                        <span class="chart-dot-pulse"></span>
+                        <span>LIVE TONNAGE TELEMETRY</span>
+                      </div>
+                      <div class="chart-legend-inline">
+                        <span class="legend-indicator-item">
+                          <span class="legend-box-color total-collected"></span>
+                          <span>Total Collected</span>
+                        </span>
+                        <span class="legend-indicator-item">
+                          <span class="legend-box-color diverted-recycled"></span>
+                          <span>Recycled &amp; Diverted</span>
+                        </span>
+                      </div>
+                    </div>
+                    <h3 class="chart-title">Weekly Waste Collection &amp; Recovery Volume</h3>
+                    <p class="chart-subtitle">Daily tonnage recorded across Victoria Island, Lekki &amp; Ikeja zones.</p>
+                  </div>
+                </div>
 
-      <!-- SUB-NAVIGATION TABS & TOOLBAR -->
-      <section class="sub-nav-toolbar-row">
-        
-        <!-- Left Sub Tabs (Horizontally scrollable on mobile) -->
-        <div class="sub-nav-tabs-scroll">
-          <div class="sub-nav-tabs">
-            
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'CREWS'"
-              (click)="setSubTab('CREWS')"
-            >
-              <span>HAULER CREWS</span>
-              <span class="sub-tab-badge">12</span>
-            </button>
+                <!-- Bar / Trend Visual Graph -->
+                <div class="trend-chart-body">
+                  <div class="chart-svg-wrapper">
+                    <svg class="trend-svg" viewBox="0 0 540 180" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="barGradientTotal" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#059669" stop-opacity="0.95"/>
+                          <stop offset="100%" stop-color="#10b981" stop-opacity="0.4"/>
+                        </linearGradient>
+                        <linearGradient id="barGradientDiverted" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#2563eb" stop-opacity="0.95"/>
+                          <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.4"/>
+                        </linearGradient>
+                      </defs>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'MANIFESTS'"
-              (click)="setSubTab('MANIFESTS')"
-            >
-              <span>MANIFESTS</span>
-            </button>
+                      <!-- Horizontal Grid lines & Y-axis labels -->
+                      <line x1="40" y1="20" x2="525" y2="20" stroke="#f1f5f9" stroke-width="1"/>
+                      <text x="32" y="24" fill="#94a3b8" font-size="10" text-anchor="end">45T</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'CUSTOMERS'"
-              (click)="setSubTab('CUSTOMERS')"
-            >
-              <span>CUSTOMERS</span>
-              <span class="sub-tab-badge">{{ customers().length }}</span>
-            </button>
+                      <line x1="40" y1="60" x2="525" y2="60" stroke="#f1f5f9" stroke-width="1"/>
+                      <text x="32" y="64" fill="#94a3b8" font-size="10" text-anchor="end">30T</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'WEIGHBRIDGE'"
-              (click)="setSubTab('WEIGHBRIDGE')"
-            >
-              <span>WEIGHBRIDGE LOGS</span>
-            </button>
+                      <line x1="40" y1="100" x2="525" y2="100" stroke="#f1f5f9" stroke-width="1"/>
+                      <text x="32" y="104" fill="#94a3b8" font-size="10" text-anchor="end">15T</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'COMPACTORS'"
-              (click)="setSubTab('COMPACTORS')"
-            >
-              <span>COMPACTORS</span>
-              <span class="sub-tab-badge subtle">6</span>
-            </button>
+                      <line x1="40" y1="140" x2="525" y2="140" stroke="#e2e8f0" stroke-width="1"/>
+                      <text x="32" y="144" fill="#94a3b8" font-size="10" text-anchor="end">0T</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'BINS'"
-              (click)="setSubTab('BINS')"
-            >
-              <span>COMMERCIAL BINS</span>
-              <span class="sub-tab-badge subtle">3</span>
-            </button>
+                      <!-- Mon (Total: 28.4T, Diverted: 22.1T) -->
+                      <rect x="65" y="55" width="16" height="85" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="83" y="74" width="16" height="66" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="82" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Mon</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'CERTIFICATES'"
-              (click)="setSubTab('CERTIFICATES')"
-            >
-              <span>CERTIFICATES</span>
-            </button>
+                      <!-- Tue (Total: 34.2T, Diverted: 28.0T) -->
+                      <rect x="133" y="38" width="16" height="102" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="151" y="56" width="16" height="84" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="150" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Tue</text>
 
-            <button 
-              type="button" 
-              class="sub-tab-item"
-              [class.is-active]="activeSubTab() === 'ESG AUDIT'"
-              (click)="setSubTab('ESG AUDIT')"
-            >
-              <span>ESG AUDIT</span>
-            </button>
+                      <!-- Wed (Total: 31.8T, Diverted: 26.4T) -->
+                      <rect x="201" y="45" width="16" height="95" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="219" y="61" width="16" height="79" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="218" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Wed</text>
 
-          </div>
-        </div>
+                      <!-- Thu - Peak Day (Total: 42.5T, Diverted: 36.8T) -->
+                      <rect x="269" y="13" width="16" height="127" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="287" y="30" width="16" height="110" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="286" y="158" fill="#15803d" font-size="11" font-weight="800" text-anchor="middle">Thu*</text>
 
-        <!-- Right Toolbar: Search, Available Toggle, View Switcher & Filter -->
-        <div class="toolbar-controls">
-          
-          <!-- Search Input -->
-          <div class="search-input-box">
-            <span class="search-icon">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </span>
-            @if (activeSubTab() === 'CUSTOMERS') {
-              <input 
-                type="text" 
-                class="search-field" 
-                placeholder="Search customers, account ID, LGA, address..." 
-                [ngModel]="customerSearchQuery()"
-                (ngModelChange)="customerSearchQuery.set($event)"
-              />
-            } @else {
-              <input 
-                type="text" 
-                class="search-field" 
-                placeholder="Search haulers, trucks, hubs..." 
-                [ngModel]="searchQuery()"
-                (ngModelChange)="searchQuery.set($event)"
-              />
-            }
-          </div>
+                      <!-- Fri (Total: 38.0T, Diverted: 32.5T) -->
+                      <rect x="337" y="26" width="16" height="114" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="355" y="43" width="16" height="97" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="354" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Fri</text>
 
-          <!-- Available Now Toggle Switch (Only for Crews) -->
-          @if (activeSubTab() === 'CREWS') {
-            <label class="recently-hired-switch">
-              <input 
-                type="checkbox" 
-                [checked]="availableOnly()"
-                (change)="toggleAvailableOnly()"
-              />
-              <span class="toggle-slider"></span>
-              <span class="toggle-label">Available</span>
-            </label>
-          }
+                      <!-- Sat (Total: 40.2T, Diverted: 35.0T) -->
+                      <rect x="405" y="20" width="16" height="120" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="423" y="35" width="16" height="105" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="422" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Sat</text>
 
-          <!-- Format Switcher: Table vs Cards -->
-          <div class="format-switcher-group" role="group" aria-label="View format">
-            <button 
-              type="button" 
-              class="btn-format-switch" 
-              [class.is-active]="viewMode() === 'table'"
-              (click)="setViewMode('table')"
-              title="Table Format"
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-                <line x1="3" y1="15" x2="21" y2="15"></line>
-                <line x1="9" y1="3" x2="9" y2="21"></line>
-              </svg>
-              <span>Table</span>
-            </button>
+                      <!-- Sun (Total: 19.6T, Diverted: 15.8T) -->
+                      <rect x="473" y="81" width="16" height="59" rx="3" fill="url(#barGradientTotal)"/>
+                      <rect x="491" y="93" width="16" height="47" rx="3" fill="url(#barGradientDiverted)"/>
+                      <text x="490" y="158" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">Sun</text>
+                    </svg>
+                  </div>
 
-            <button 
-              type="button" 
-              class="btn-format-switch" 
-              [class.is-active]="viewMode() === 'grid'"
-              (click)="setViewMode('grid')"
-              title="Cards Grid Format"
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-              </svg>
-              <span>Grid</span>
-            </button>
-          </div>
+                  <div class="trend-chart-footer">
+                    <div class="trend-metric-pill">
+                      <span class="txt-muted">Weekly Total:</span>
+                      <strong>234.7 Tons</strong>
+                    </div>
+                    <div class="trend-metric-pill positive">
+                      <span class="txt-muted">Recovery Efficiency:</span>
+                      <strong>83.9% Diverted</strong>
+                    </div>
+                    <div class="trend-metric-pill highlight">
+                      <span class="txt-muted">Peak Shift:</span>
+                      <strong>Thursday (42.5 T)</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <!-- Filters Pill Button / Register Button -->
-          @if (activeSubTab() === 'CUSTOMERS') {
-            <button type="button" class="btn-topbar-project btn-small-add" (click)="openNewCustomerModal()">
-              <span class="plus-icon">+</span>
-              <span>New Customer</span>
-            </button>
-          } @else {
-            <button type="button" class="btn-filter-pill" (click)="openFilterModal()">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="21" x2="4" y2="14"></line>
-                <line x1="4" y1="10" x2="4" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12" y2="3"></line>
-                <line x1="20" y1="21" x2="20" y2="16"></line>
-                <line x1="20" y1="12" x2="20" y2="3"></line>
-                <line x1="1" y1="14" x2="7" y2="14"></line>
-                <line x1="9" y1="8" x2="15" y2="8"></line>
-                <line x1="17" y1="16" x2="23" y2="16"></line>
-              </svg>
-              <span>Filters</span>
-            </button>
-          }
+              <!-- 2. Waste Stream Breakdown Donut / Pie Chart -->
+              <div class="chart-card">
+                <div class="chart-card-header">
+                  <div>
+                    <div class="chart-tag stream-tag">
+                      <span>STREAM COMPOSITION</span>
+                    </div>
+                    <h3 class="chart-title">Waste Stream Breakdown</h3>
+                    <p class="chart-subtitle">Recovery distribution by material category.</p>
+                  </div>
+                </div>
 
-        </div>
+                <div class="pie-chart-body">
+                  <!-- Circular Donut / Pie Chart -->
+                  <div class="donut-visual-wrap">
+                    <svg class="donut-svg" viewBox="0 0 180 180">
+                      <!-- Donut Track background -->
+                      <circle cx="90" cy="90" r="70" fill="none" stroke="#f1f5f9" stroke-width="24"/>
+                      
+                      <!-- Cardboard & Paper: 38% (167.2 of 440) -->
+                      <circle 
+                        cx="90" cy="90" r="70" 
+                        fill="none" 
+                        stroke="#16a34a" 
+                        stroke-width="24"
+                        stroke-dasharray="167.2 440"
+                        stroke-dashoffset="0"
+                        transform="rotate(-90 90 90)"
+                        class="donut-slice"
+                      />
 
-      </section>
+                      <!-- Plastics (PET / HDPE): 28% (123.2 of 440) -->
+                      <circle 
+                        cx="90" cy="90" r="70" 
+                        fill="none" 
+                        stroke="#2563eb" 
+                        stroke-width="24"
+                        stroke-dasharray="123.2 440"
+                        stroke-dashoffset="-167.2"
+                        transform="rotate(-90 90 90)"
+                        class="donut-slice"
+                      />
 
-      <!-- CUSTOMER CATEGORY FILTER PILLS (Only shown on CUSTOMERS tab) -->
-      @if (activeSubTab() === 'CUSTOMERS') {
-        <div class="customer-filter-pills-row">
-          <div class="cat-pills-wrap">
-            <button 
-              type="button" 
-              class="cat-pill-btn" 
-              [class.is-active]="customerCategoryFilter() === 'All'"
-              (click)="setCustomerCategoryFilter('All')"
-            >
-              All Accounts ({{ customers().length }})
-            </button>
-            <button 
-              type="button" 
-              class="cat-pill-btn" 
-              [class.is-active]="customerCategoryFilter() === 'Commercial'"
-              (click)="setCustomerCategoryFilter('Commercial')"
-            >
-              Commercial
-            </button>
-            <button 
-              type="button" 
-              class="cat-pill-btn" 
-              [class.is-active]="customerCategoryFilter() === 'Residential'"
-              (click)="setCustomerCategoryFilter('Residential')"
-            >
-              Residential Estates
-            </button>
-            <button 
-              type="button" 
-              class="cat-pill-btn" 
-              [class.is-active]="customerCategoryFilter() === 'Industrial'"
-              (click)="setCustomerCategoryFilter('Industrial')"
-            >
-              Industrial
-            </button>
-            <button 
-              type="button" 
-              class="cat-pill-btn" 
-              [class.is-active]="customerCategoryFilter() === 'Recycling Partner'"
-              (click)="setCustomerCategoryFilter('Recycling Partner')"
-            >
-              Recycling Partners
-            </button>
-          </div>
+                      <!-- Organic & Market Waste: 22% (96.8 of 440) -->
+                      <circle 
+                        cx="90" cy="90" r="70" 
+                        fill="none" 
+                        stroke="#f59e0b" 
+                        stroke-width="24"
+                        stroke-dasharray="96.8 440"
+                        stroke-dashoffset="-290.4"
+                        transform="rotate(-90 90 90)"
+                        class="donut-slice"
+                      />
 
-          <!-- Status Dropdown Filter -->
-          <div class="customer-status-filter-wrap">
-            <label class="status-filter-label">Status:</label>
-            <select 
-              class="customer-status-select"
-              [ngModel]="customerStatusFilter()"
-              (ngModelChange)="setCustomerStatusFilter($event)"
-            >
-              <option value="All">All Status</option>
-              <option value="Active">Active Service</option>
-              <option value="Scheduled">Scheduled Pickup</option>
-              <option value="Pending Review">Pending Review</option>
-            </select>
-          </div>
-        </div>
-      }
+                      <!-- Metals & Glass: 12% (52.8 of 440) -->
+                      <circle 
+                        cx="90" cy="90" r="70" 
+                        fill="none" 
+                        stroke="#8b5cf6" 
+                        stroke-width="24"
+                        stroke-dasharray="52.8 440"
+                        stroke-dashoffset="-387.2"
+                        transform="rotate(-90 90 90)"
+                        class="donut-slice"
+                      />
+                    </svg>
 
-      <!-- RESULTS COUNT & STATUS BANNER -->
-      <div class="results-count-header">
-        @if (activeSubTab() === 'CUSTOMERS') {
-          <span>{{ filteredCustomers().length }} REGISTERED CUSTOMER ACCOUNTS FOUND</span>
-        } @else if (activeSubTab() === 'CREWS') {
-          <span>{{ filteredCrews().length }} VERIFIED HAULER CREWS FOUND</span>
-        } @else if (activeSubTab() === 'MANIFESTS') {
-          <span>{{ manifests().length }} ACTIVE ROUTE MANIFESTS RECORDED</span>
-        } @else {
-          <span>OPERATIONS DATA MATRIX • ACTIVE AUDIT STATUS</span>
+                    <!-- Donut Center Information -->
+                    <div class="donut-center-content">
+                      <span class="donut-center-sub">TOTAL STREAM</span>
+                      <strong class="donut-center-val">42.5 T</strong>
+                      <span class="donut-center-tag">100% Sorted</span>
+                    </div>
+                  </div>
+
+                  <!-- Rich Stream Legend List -->
+                  <div class="donut-legend-list">
+                    <div class="donut-legend-item">
+                      <span class="legend-color-dot" style="background-color: #16a34a;"></span>
+                      <div class="legend-info">
+                        <span class="legend-name">Cardboard &amp; Paper</span>
+                        <span class="legend-tons">16.1 T recovered</span>
+                      </div>
+                      <strong class="legend-pct">38%</strong>
+                    </div>
+
+                    <div class="donut-legend-item">
+                      <span class="legend-color-dot" style="background-color: #2563eb;"></span>
+                      <div class="legend-info">
+                        <span class="legend-name">PET &amp; Rigid Plastics</span>
+                        <span class="legend-tons">11.9 T recovered</span>
+                      </div>
+                      <strong class="legend-pct">28%</strong>
+                    </div>
+
+                    <div class="donut-legend-item">
+                      <span class="legend-color-dot" style="background-color: #f59e0b;"></span>
+                      <div class="legend-info">
+                        <span class="legend-name">Organic &amp; Food Scraps</span>
+                        <span class="legend-tons">9.4 T bio-stream</span>
+                      </div>
+                      <strong class="legend-pct">22%</strong>
+                    </div>
+
+                    <div class="donut-legend-item">
+                      <span class="legend-color-dot" style="background-color: #8b5cf6;"></span>
+                      <div class="legend-info">
+                        <span class="legend-name">Scrap Metals &amp; Glass</span>
+                        <span class="legend-tons">5.1 T diverted</span>
+                      </div>
+                      <strong class="legend-pct">12%</strong>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </section>
         }
-      </div>
 
-      <!-- MAIN DATA VIEW (TABLE FORMAT VS CARDS GRID) -->
+      }
 
-      <!-- 0. CUSTOMERS TABLE FORMAT -->
-      @if (activeSubTab() === 'CUSTOMERS' && viewMode() === 'table') {
-        <div class="data-table-container">
+
+
+      <!-- ========================================================
+           OPERATIONS DATA CONSOLE: TABS & PAGINATED TABLES
+           Tabs: Recent Transactions, Customers, Collection Requests, Hauler Crews
+           ======================================================== -->
+      <section class="operations-datatable-card">
+
+        <!-- CARD HEADER: TABS & CONTROLS -->
+        <div class="datatable-header-bar">
+          
+          <!-- Left Navigation Tabs -->
+          <div class="datatable-nav-tabs" role="tablist">
+            
+            <!-- 1. Recent Transactions Tab -->
+            <button 
+              type="button" 
+              class="datatable-tab-btn" 
+              [class.is-active]="activeTableTab() === 'transactions'"
+              (click)="setTableTab('transactions')"
+              role="tab"
+              [attr.aria-selected]="activeTableTab() === 'transactions'"
+            >
+              <span class="tab-label">Recent Transactions</span>
+              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'transactions'">
+                {{ filteredTransactions().length }}
+              </span>
+            </button>
+
+            <!-- 2. Customers Tab -->
+            <button 
+              type="button" 
+              class="datatable-tab-btn" 
+              [class.is-active]="activeTableTab() === 'customers'"
+              (click)="setTableTab('customers')"
+              role="tab"
+              [attr.aria-selected]="activeTableTab() === 'customers'"
+            >
+              <span class="tab-label">Customers</span>
+              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'customers'">
+                {{ filteredCustomers().length }}
+              </span>
+            </button>
+
+            <!-- 3. Collection Requests Tab -->
+            <button 
+              type="button" 
+              class="datatable-tab-btn" 
+              [class.is-active]="activeTableTab() === 'requests'"
+              (click)="setTableTab('requests')"
+              role="tab"
+              [attr.aria-selected]="activeTableTab() === 'requests'"
+            >
+              <span class="tab-label">Requests</span>
+              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'requests'">
+                {{ filteredRequests().length }}
+              </span>
+            </button>
+
+            <!-- 4. Hauler Crews Tab -->
+            <button 
+              type="button" 
+              class="datatable-tab-btn" 
+              [class.is-active]="activeTableTab() === 'crews'"
+              (click)="setTableTab('crews')"
+              role="tab"
+              [attr.aria-selected]="activeTableTab() === 'crews'"
+            >
+              <span class="tab-label">Hauler Crews</span>
+              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'crews'">
+                {{ filteredCrews().length }}
+              </span>
+            </button>
+
+          </div>
+
+          <!-- Right Toolbar Controls: Search, Status Filter & Action Button -->
+          <div class="datatable-toolbar-controls">
+            
+            <!-- Quick Search Input -->
+            <div class="search-input-box table-quick-search">
+              <span class="search-icon">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                class="search-field" 
+                [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : activeTableTab() === 'customers' ? 'Search customers, LGA, plan...' : activeTableTab() === 'requests' ? 'Search request code, waste stream...' : 'Search haulers, trucks, hubs...'"
+                [ngModel]="tableSearchQuery()"
+                (ngModelChange)="tableSearchQuery.set($event)"
+              />
+            </div>
+
+            <!-- Status Filter Dropdown -->
+            <div class="table-status-filter-wrap">
+              <select 
+                class="table-select-filter"
+                [ngModel]="tableStatusFilter()"
+                (ngModelChange)="setTableStatusFilter($event)"
+                aria-label="Filter status"
+              >
+                @if (activeTableTab() === 'transactions') {
+                  <option value="All">All Statuses</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Processing">Processing</option>
+                } @else if (activeTableTab() === 'customers') {
+                  <option value="All">All Statuses</option>
+                  <option value="Active">Active</option>
+                  <option value="Scheduled">Scheduled</option>
+                  <option value="Pending Review">Pending Review</option>
+                } @else if (activeTableTab() === 'requests') {
+                  <option value="All">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Dispatched">Dispatched</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                } @else {
+                  <option value="All">All Fleet</option>
+                  <option value="available">Available</option>
+                  <option value="busy">On Duty</option>
+                  <option value="maintenance">Maintenance</option>
+                }
+              </select>
+            </div>
+
+            <!-- Action Button -->
+            @if (activeTableTab() === 'customers') {
+              <button type="button" class="btn-table-primary-add" (click)="openNewCustomerModal()">
+                <span class="plus-icon">+</span>
+                <span>Add Customer</span>
+              </button>
+            } @else if (activeTableTab() === 'requests') {
+              <button type="button" class="btn-table-primary-add" (click)="openNewRouteModal()">
+                <span class="plus-icon">+</span>
+                <span>New Request</span>
+              </button>
+            } @else if (activeTableTab() === 'crews') {
+              <button type="button" class="btn-table-primary-add" (click)="openTeamModal()">
+                <span class="plus-icon">+</span>
+                <span>Dispatch Fleet</span>
+              </button>
+            } @else {
+              <button type="button" class="btn-table-primary-add" (click)="triggerToast('Invoice generator opened. Ready to bill account.')">
+                <span class="plus-icon">+</span>
+                <span>Record Payment</span>
+              </button>
+            }
+
+          </div>
+
+        </div>
+
+        <!-- ========================================================
+             1. RECENT TRANSACTIONS TABLE
+             ======================================================== -->
+        @if (activeTableTab() === 'transactions') {
           <div class="table-responsive-wrapper">
             <table class="ecobin-data-table">
               <thead>
                 <tr>
-                  <th scope="col" style="min-width: 240px;">CUSTOMER ACCOUNT</th>
-                  <th scope="col" style="min-width: 200px;">LOCATION &amp; LGA</th>
-                  <th scope="col" style="min-width: 220px;">SERVICE PLAN &amp; BINS</th>
-                  <th scope="col" style="min-width: 170px;">ESG &amp; RECOVERY</th>
-                  <th scope="col" style="min-width: 140px;">STATUS</th>
-                  <th scope="col" style="min-width: 180px; text-align: right;">ACTIONS</th>
+                  <th scope="col" style="min-width: 170px;">TRANSACTION REF</th>
+                  <th scope="col" style="min-width: 220px;">CUSTOMER ACCOUNT</th>
+                  <th scope="col" style="min-width: 230px;">SERVICE DESCRIPTION</th>
+                  <th scope="col" style="min-width: 150px;">PAYMENT METHOD</th>
+                  <th scope="col" style="min-width: 130px;">AMOUNT</th>
+                  <th scope="col" style="min-width: 120px;">STATUS</th>
+                  <th scope="col" style="min-width: 110px; text-align: right;">RECEIPT</th>
                 </tr>
               </thead>
               <tbody>
-                @for (cst of filteredCustomers(); track cst.id) {
+                @for (txn of paginatedTransactions(); track txn.id) {
                   <tr class="data-table-row">
+                    
+                    <!-- Reference & Time -->
+                    <td>
+                      <div class="txn-ref-block">
+                        <strong class="font-mono txn-ref-code">{{ txn.reference }}</strong>
+                        <span class="txn-date-time">{{ txn.date }} • {{ txn.time }}</span>
+                      </div>
+                    </td>
+
+                    <!-- Customer Account -->
+                    <td class="cell-hauler-main">
+                      <div class="table-user-cell">
+                        <div class="table-avatar-initials" style="background-color: #0e2a16;">
+                          {{ txn.customerName.slice(0, 2).toUpperCase() }}
+                        </div>
+                        <div class="table-user-info">
+                          <strong class="table-hauler-name">{{ txn.customerName }}</strong>
+                          <span class="table-crew-lead font-mono">{{ txn.accountNumber }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Service Description -->
+                    <td>
+                      <span class="service-desc-txt">{{ txn.serviceType }}</span>
+                    </td>
+
+                    <!-- Payment Method -->
+                    <td>
+                      <span class="payment-method-pill">{{ txn.paymentMethod }}</span>
+                    </td>
+
+                    <!-- Amount -->
+                    <td>
+                      <strong class="txn-amount-val">{{ txn.formattedAmount }}</strong>
+                    </td>
+
+                    <!-- Status -->
+                    <td>
+                      <span 
+                        class="status-badge-cell"
+                        [class.ok]="txn.status === 'Completed'"
+                        [class.busy]="txn.status === 'Processing'"
+                        [class.alert]="txn.status === 'Pending'"
+                      >
+                        <span class="status-cell-dot"></span>
+                        <span>{{ txn.status }}</span>
+                      </span>
+                    </td>
+
+                    <!-- Action: Receipt -->
+                    <td style="text-align: right;">
+                      <button 
+                        type="button" 
+                        class="btn-tbl-receipt" 
+                        (click)="downloadReceipt(txn)"
+                        title="Download official EcoBin receipt"
+                      >
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Receipt</span>
+                      </button>
+                    </td>
+
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        <!-- ========================================================
+             2. CUSTOMERS TABLE
+             ======================================================== -->
+        @if (activeTableTab() === 'customers') {
+          
+          <!-- Customer Category Filter Pills Sub-Bar -->
+          <div class="cst-table-filter-bar">
+            <div class="cst-pills-row">
+              <button 
+                type="button" 
+                class="cst-filter-pill-btn" 
+                [class.is-active]="customerCategoryFilter() === 'All'"
+                (click)="setCustomerCategoryFilter('All')"
+              >
+                <span>All Accounts</span>
+                <span class="pill-count">2,450</span>
+              </button>
+              <button 
+                type="button" 
+                class="cst-filter-pill-btn" 
+                [class.is-active]="customerCategoryFilter() === 'Commercial'"
+                (click)="setCustomerCategoryFilter('Commercial')"
+              >
+                <span>Commercial</span>
+                <span class="pill-count">412</span>
+              </button>
+              <button 
+                type="button" 
+                class="cst-filter-pill-btn" 
+                [class.is-active]="customerCategoryFilter() === 'Residential'"
+                (click)="setCustomerCategoryFilter('Residential')"
+              >
+                <span>Residential Estates</span>
+                <span class="pill-count">836</span>
+              </button>
+              <button 
+                type="button" 
+                class="cst-filter-pill-btn" 
+                [class.is-active]="customerCategoryFilter() === 'Industrial'"
+                (click)="setCustomerCategoryFilter('Industrial')"
+              >
+                <span>Industrial</span>
+                <span class="pill-count">92</span>
+              </button>
+              <button 
+                type="button" 
+                class="cst-filter-pill-btn" 
+                [class.is-active]="customerCategoryFilter() === 'Recycling Partner'"
+                (click)="setCustomerCategoryFilter('Recycling Partner')"
+              >
+                <span>Recycling Partners</span>
+                <span class="pill-count">48</span>
+              </button>
+            </div>
+
+            <div class="cst-table-count-info">
+              <span>Showing <strong>{{ filteredCustomers().length }}</strong> verified accounts in directory</span>
+            </div>
+          </div>
+
+          <div class="table-responsive-wrapper">
+            <table class="ecobin-data-table cst-elevated-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="min-width: 260px;">CUSTOMER ACCOUNT</th>
+                  <th scope="col" style="min-width: 210px;">LOCATION &amp; LGA</th>
+                  <th scope="col" style="min-width: 230px;">SERVICE PLAN &amp; BINS</th>
+                  <th scope="col" style="min-width: 170px;">ESG &amp; RECOVERY</th>
+                  <th scope="col" style="min-width: 130px;">STATUS</th>
+                  <th scope="col" style="min-width: 170px; text-align: right;">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cst of paginatedCustomers(); track cst.id) {
+                  <tr class="data-table-row cst-table-row">
+                    
                     <!-- Customer Main Info -->
                     <td class="cell-hauler-main">
                       <div class="table-user-cell">
-                        <div class="table-avatar-initials" [style.background-color]="cst.initialBg">
+                        <div class="table-avatar-initials cst-avatar-ring" [style.background-color]="cst.initialBg">
                           {{ cst.initials }}
                         </div>
                         <div class="table-user-info">
                           <div class="table-name-row">
-                            <strong class="table-hauler-name">{{ cst.name }}</strong>
+                            <strong class="table-hauler-name cst-interactive-name" (click)="viewCustomerDetails(cst)">{{ cst.name }}</strong>
                             <span class="badge-cat-tag" [class]="'cat-' + cst.category.toLowerCase().replace(' ', '-')">
                               {{ cst.category }}
                             </span>
                           </div>
-                          <span class="table-crew-lead">{{ cst.accountNumber }} • {{ cst.contactPerson }}</span>
+                          <div class="cst-subline-meta">
+                            <span class="cst-acc-code font-mono">{{ cst.accountNumber }}</span>
+                            <span class="cst-bullet">•</span>
+                            <span class="cst-contact-name">{{ cst.contactPerson }}</span>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -927,12 +1178,12 @@
                     <td>
                       <div class="table-location-block">
                         <span class="table-depot-title">{{ cst.address }}</span>
-                        <span class="table-distance-pill">
+                        <span class="table-lga-tag">
                           <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                           </svg>
-                          {{ cst.lga }}
+                          <span>{{ cst.lga }}</span>
                         </span>
                       </div>
                     </td>
@@ -940,15 +1191,20 @@
                     <!-- Service Plan & Bins -->
                     <td>
                       <div class="table-capacity-block">
-                        <strong class="table-cap-val">{{ cst.servicePlan }}</strong>
-                        <span class="table-cap-type">{{ cst.binAllocation }} ({{ cst.pickupFrequency }})</span>
+                        <strong class="cst-plan-title">{{ cst.servicePlan }}</strong>
+                        <span class="table-cap-type">{{ cst.binAllocation }} • {{ cst.pickupFrequency }}</span>
                       </div>
                     </td>
 
                     <!-- ESG & Recovery -->
                     <td>
                       <div class="table-esg-block">
-                        <span class="badge-esg-pill">{{ cst.esgTier }}</span>
+                        <span class="badge-esg-pill" [class]="'esg-' + cst.esgTier.toLowerCase().replace(' ', '-')">
+                          <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                          </svg>
+                          <span>{{ cst.esgTier }}</span>
+                        </span>
                         <span class="table-tonnage-txt">{{ cst.monthlyTonnage }}</span>
                       </div>
                     </td>
@@ -976,12 +1232,12 @@
                           title="Dispatch on-demand pickup truck"
                         >
                           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
                           </svg>
-                          <span>Pickup</span>
+                          <span>Dispatch</span>
                         </button>
 
                         <button 
@@ -990,107 +1246,136 @@
                           (click)="viewCustomerDetails(cst)"
                           title="View customer profile"
                         >
+                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
                           <span>Profile</span>
                         </button>
                       </div>
                     </td>
+
                   </tr>
                 }
               </tbody>
             </table>
           </div>
-        </div>
-      }
+        }
 
-      <!-- 0b. CUSTOMERS CARDS GRID FORMAT -->
-      @else if (activeSubTab() === 'CUSTOMERS' && viewMode() === 'grid') {
-        <div class="contractors-grid">
-          @for (cst of filteredCustomers(); track cst.id) {
-            <div class="contractor-card customer-card-item">
-              <div class="card-user-row">
-                <div class="user-initials-badge" [style.background-color]="cst.initialBg">
-                  {{ cst.initials }}
-                </div>
-                <div class="user-meta-info">
-                  <div class="user-name-line">
-                    <span class="user-full-name">{{ cst.name }}</span>
-                  </div>
-                  <div class="user-sub-line">
-                    <span class="badge-cat-tag" [class]="'cat-' + cst.category.toLowerCase().replace(' ', '-')">
-                      {{ cst.category }}
-                    </span>
-                    <span class="text-muted-micro font-mono">{{ cst.accountNumber }}</span>
-                  </div>
-                </div>
-              </div>
+        <!-- ========================================================
+             3. COLLECTION REQUESTS TABLE
+             ======================================================== -->
+        @if (activeTableTab() === 'requests') {
+          <div class="table-responsive-wrapper">
+            <table class="ecobin-data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="min-width: 160px;">REQUEST CODE</th>
+                  <th scope="col" style="min-width: 220px;">CUSTOMER &amp; LOCATION</th>
+                  <th scope="col" style="min-width: 210px;">WASTE CATEGORY &amp; VOLUME</th>
+                  <th scope="col" style="min-width: 120px;">PRIORITY</th>
+                  <th scope="col" style="min-width: 190px;">ASSIGNED CREW</th>
+                  <th scope="col" style="min-width: 130px;">STATUS</th>
+                  <th scope="col" style="min-width: 120px; text-align: right;">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (req of paginatedRequests(); track req.id) {
+                  <tr class="data-table-row">
+                    
+                    <!-- Code & Date -->
+                    <td>
+                      <div class="txn-ref-block">
+                        <strong class="font-mono text-brand">{{ req.requestCode }}</strong>
+                        <span class="txn-date-time">{{ req.scheduledDate }}</span>
+                      </div>
+                    </td>
 
-              <!-- Location & Plan Block -->
-              <div class="card-stats-box">
-                <div class="stats-box-col">
-                  <div class="stat-top-txt">{{ cst.address }}</div>
-                  <div class="stat-sub-label">{{ cst.lga }}</div>
-                </div>
-                <div class="stats-box-separator"></div>
-                <div class="stats-box-col">
-                  <div class="stat-top-txt bold font-brand">{{ cst.monthlyTonnage }}</div>
-                  <div class="stat-sub-label">{{ cst.esgTier }}</div>
-                </div>
-              </div>
+                    <!-- Customer & Location -->
+                    <td>
+                      <div class="table-location-block">
+                        <strong class="table-depot-title">{{ req.customerName }}</strong>
+                        <span class="table-distance-pill">{{ req.location }} • {{ req.lga }}</span>
+                      </div>
+                    </td>
 
-              <!-- Service Details Row -->
-              <div class="card-customer-plan-info">
-                <div class="info-row">
-                  <span class="lbl">Plan:</span>
-                  <span class="val">{{ cst.servicePlan }}</span>
-                </div>
-                <div class="info-row">
-                  <span class="lbl">Bins:</span>
-                  <span class="val">{{ cst.binAllocation }}</span>
-                </div>
-                <div class="info-row">
-                  <span class="lbl">Cycle:</span>
-                  <span class="val">{{ cst.pickupFrequency }}</span>
-                </div>
-              </div>
+                    <!-- Waste Category & Volume -->
+                    <td>
+                      <div class="table-capacity-block">
+                        <strong class="table-cap-val">{{ req.volume }}</strong>
+                        <span class="table-cap-type">{{ req.wasteType }}</span>
+                      </div>
+                    </td>
 
-              <!-- Card Actions -->
-              <div class="card-actions-row">
-                <button 
-                  type="button" 
-                  class="btn-card-extra-pickup"
-                  (click)="scheduleExtraPickup(cst)"
-                >
-                  <span>📅 Extra Pickup</span>
-                </button>
-                <button 
-                  type="button" 
-                  class="btn-card-profile"
-                  (click)="viewCustomerDetails(cst)"
-                >
-                  <span>View Details</span>
-                </button>
-              </div>
+                    <!-- Priority Badge -->
+                    <td>
+                      <span 
+                        class="priority-badge-pill"
+                        [class.p-urgent]="req.priority === 'Urgent'"
+                        [class.p-high]="req.priority === 'High'"
+                        [class.p-scheduled]="req.priority === 'Scheduled'"
+                        [class.p-normal]="req.priority === 'Normal'"
+                      >
+                        {{ req.priority }}
+                      </span>
+                    </td>
 
-              <!-- Card Footer Status -->
-              <div class="card-status-footer">
-                <span 
-                  class="status-footnote" 
-                  [class.status-ok]="cst.status === 'Active'"
-                  [class.status-busy]="cst.status === 'Scheduled'"
-                  [class.status-alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
-                >
-                  Next Pickup: {{ cst.nextPickupDate }}
-                </span>
-              </div>
-            </div>
-          }
-        </div>
-      }
+                    <!-- Assigned Crew -->
+                    <td>
+                      <div class="assigned-crew-info">
+                        <strong class="assigned-crew-name">{{ req.assignedCrew || 'Unassigned' }}</strong>
+                        @if (req.truckId) {
+                          <span class="assigned-truck-id font-mono">{{ req.truckId }}</span>
+                        }
+                      </div>
+                    </td>
 
-      <!-- 1. CREWS TABLE FORMAT -->
-      @else if (activeSubTab() === 'CREWS' && viewMode() === 'table') {
-        
-        <div class="data-table-container">
+                    <!-- Status -->
+                    <td>
+                      <span 
+                        class="status-badge-cell"
+                        [class.ok]="req.status === 'Completed'"
+                        [class.busy]="req.status === 'In Progress' || req.status === 'Dispatched'"
+                        [class.alert]="req.status === 'Pending'"
+                      >
+                        <span class="status-cell-dot"></span>
+                        <span>{{ req.status }}</span>
+                      </span>
+                    </td>
+
+                    <!-- Actions -->
+                    <td style="text-align: right;">
+                      @if (req.status === 'Pending') {
+                        <button 
+                          type="button" 
+                          class="btn-tbl-dispatch"
+                          (click)="dispatchRequest(req)"
+                          title="Dispatch available hauler crew"
+                        >
+                          <span>+ Dispatch</span>
+                        </button>
+                      } @else {
+                        <button 
+                          type="button" 
+                          class="btn-tbl-details"
+                          (click)="triggerToast('Viewing telemetry for request ' + req.requestCode)"
+                        >
+                          <span>Details</span>
+                        </button>
+                      }
+                    </td>
+
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        <!-- ========================================================
+             4. HAULER CREWS TABLE
+             ======================================================== -->
+        @if (activeTableTab() === 'crews') {
           <div class="table-responsive-wrapper">
             <table class="ecobin-data-table">
               <thead>
@@ -1104,7 +1389,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for (item of filteredCrews(); track item.id) {
+                @for (item of paginatedCrews(); track item.id) {
                   <tr class="data-table-row">
                     
                     <!-- Hauler Crew Name & Lead -->
@@ -1119,7 +1404,6 @@
                             {{ item.initials }}
                           </div>
                         }
-                        
                         <div class="table-user-info">
                           <div class="table-name-row">
                             <strong class="table-hauler-name">{{ item.name }}</strong>
@@ -1181,8 +1465,6 @@
                     <!-- Action Buttons -->
                     <td style="text-align: right;">
                       <div class="table-actions-cell">
-                        
-                        <!-- Save Button -->
                         <button 
                           type="button" 
                           class="btn-tbl-save"
@@ -1193,7 +1475,6 @@
                           <span>{{ item.saved ? '♥' : '♡' }}</span>
                         </button>
 
-                        <!-- Dispatch Button -->
                         <button 
                           type="button" 
                           class="btn-tbl-dispatch"
@@ -1206,7 +1487,6 @@
                             <span>+ Dispatch</span>
                           }
                         </button>
-
                       </div>
                     </td>
 
@@ -1215,189 +1495,114 @@
               </tbody>
             </table>
           </div>
-        </div>
+        }
 
-      }
+        <!-- EMPTY STATE IF NO MATCHES -->
+        @if (currentTotal() === 0) {
+          <div class="empty-table-state-box">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#94a3b8" stroke-width="1.8">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <h5>No matching records found</h5>
+            <p>Try adjusting your search query or reset the status filter.</p>
+            <button type="button" class="btn-reset-filters" (click)="tableSearchQuery.set(''); tableStatusFilter.set('All');">
+              Reset Filters
+            </button>
+          </div>
+        }
 
-      <!-- 2. CREWS CARDS GRID FORMAT -->
-      @else if (activeSubTab() === 'CREWS' && viewMode() === 'grid') {
-        
-        <div class="contractors-grid">
+        <!-- ========================================================
+             REACTIVE PAGINATION COMPONENT FOOTER
+             ======================================================== -->
+        <div class="datatable-pagination-footer">
           
-          @for (item of filteredCrews(); track item.id) {
+          <!-- Left: Results Counter -->
+          <div class="pagination-count-info">
+            Showing <strong class="font-mono">{{ startIndex() }}</strong> to <strong class="font-mono">{{ endIndex() }}</strong> of <strong class="font-mono">{{ currentTotal() }}</strong> results
+          </div>
+
+          <!-- Middle: Page Size Selector -->
+          <div class="pagination-page-size-wrap">
+            <span class="page-size-label">Rows per page:</span>
+            <div class="page-size-buttons">
+              <button 
+                type="button" 
+                class="btn-size-choice" 
+                [class.is-active]="pageSize() === 5"
+                (click)="setPageSize(5)"
+              >
+                5
+              </button>
+              <button 
+                type="button" 
+                class="btn-size-choice" 
+                [class.is-active]="pageSize() === 10"
+                (click)="setPageSize(10)"
+              >
+                10
+              </button>
+              <button 
+                type="button" 
+                class="btn-size-choice" 
+                [class.is-active]="pageSize() === 20"
+                (click)="setPageSize(20)"
+              >
+                20
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Page Stepper Navigation -->
+          <div class="pagination-stepper">
             
-            <div class="contractor-card">
-              
-              <!-- Card Header: Avatar & Info -->
-              <div class="card-user-row">
-                
-                @if (item.avatar) {
-                  <div class="user-photo-wrap">
-                    <img [src]="item.avatar" [alt]="item.name" class="user-photo-img" />
-                  </div>
-                } @else {
-                  <div class="user-initials-badge" [style.background-color]="item.initialBg || '#16a34a'">
-                    {{ item.initials }}
-                  </div>
-                }
-
-                <div class="user-meta-info">
-                  
-                  <div class="user-name-line">
-                    <span class="user-full-name">{{ item.name }}</span>
-                    @if (item.verified) {
-                      <span class="verified-check" title="Verified LGA Hauler">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#16a34a">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                      </span>
-                    }
-                  </div>
-
-                  <div class="user-sub-line">
-                    @if (item.isNew) {
-                      <span class="badge-pill-micro">{{ item.badgeLabel }}</span>
-                    } @else {
-                      <div class="rating-box">
-                        <span class="star-gold">★</span>
-                        <span class="rating-num">{{ item.rating }}</span>
-                        <span class="review-count-txt">({{ item.tripsCount }} Pickups)</span>
-                      </div>
-                    }
-                  </div>
-
-                </div>
-
-              </div>
-
-              <!-- Card Stats Split Box -->
-              <div class="card-stats-box">
-                
-                <div class="stats-box-col">
-                  <div class="stat-top-txt">{{ item.depotLocation }}</div>
-                  <div class="stat-sub-label">{{ item.distance }}</div>
-                </div>
-
-                <div class="stats-box-separator"></div>
-
-                <div class="stats-box-col">
-                  <div class="stat-top-txt bold font-brand">{{ item.capacity }}</div>
-                  <div class="stat-sub-label">{{ item.capacityLabel }}</div>
-                </div>
-
-              </div>
-
-              <!-- Card Actions: Save & Dispatch -->
-              <div class="card-actions-row">
-                
-                <button 
-                  type="button" 
-                  class="btn-card-wishlist"
-                  [class.is-liked]="item.saved"
-                  (click)="toggleSave(item)"
-                >
-                  <span class="heart-icon" [class.filled]="item.saved">{{ item.saved ? '♥' : '♡' }}</span>
-                  <span>{{ item.saved ? 'Saved' : 'Save' }}</span>
-                </button>
-
-                <button 
-                  type="button" 
-                  class="btn-card-invite"
-                  [class.is-invited]="item.dispatched"
-                  (click)="toggleDispatch(item)"
-                >
-                  <span class="action-symbol">{{ item.dispatched ? '✓' : '+' }}</span>
-                  <span>{{ item.dispatched ? 'Dispatched' : 'Dispatch' }}</span>
-                </button>
-
-              </div>
-
-              <!-- Card Footer Status -->
-              <div class="card-status-footer">
-                <span 
-                  class="status-footnote" 
-                  [class.status-alert]="item.statusType === 'maintenance'"
-                  [class.status-busy]="item.statusType === 'busy'"
-                  [class.status-ok]="item.statusType === 'available'"
-                >
-                  {{ item.statusText }}
-                </span>
-              </div>
-
-            </div>
-
-          }
-
-        </div>
-
-      }
-
-      <!-- 3. MANIFESTS TABLE FORMAT -->
-      @else if (activeSubTab() === 'MANIFESTS') {
-        
-        <div class="data-table-container">
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col">MANIFEST ID</th>
-                  <th scope="col">ZONE &amp; COLLECTION SECTOR</th>
-                  <th scope="col">WASTE STREAM</th>
-                  <th scope="col">TONNAGE</th>
-                  <th scope="col">ASSIGNED CREW &amp; TRUCK</th>
-                  <th scope="col">DISPATCH TIME</th>
-                  <th scope="col">STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (mnf of manifests(); track mnf.id) {
-                  <tr class="data-table-row">
-                    <td><strong class="font-mono text-brand">{{ mnf.id }}</strong></td>
-                    <td>{{ mnf.zone }}</td>
-                    <td><span class="waste-tag">{{ mnf.wasteType }}</span></td>
-                    <td><strong>{{ mnf.tonnage }}</strong></td>
-                    <td>
-                      <div>
-                        <strong>{{ mnf.assignedCrew }}</strong>
-                        <div class="text-muted-micro">{{ mnf.truckNumber }}</div>
-                      </div>
-                    </td>
-                    <td>{{ mnf.time }}</td>
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="mnf.status === 'Completed'"
-                        [class.busy]="mnf.status === 'In Progress' || mnf.status === 'Dispatched'"
-                        [class.alert]="mnf.status === 'Pending'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ mnf.status }}</span>
-                      </span>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      }
-
-      <!-- 4. OTHER SUB-TABS PLACEHOLDER TABLE -->
-      @else {
-        <div class="data-table-container">
-          <div class="empty-tab-state">
-            <div class="empty-icon-wrap">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#15803d" stroke-width="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <!-- Previous Page Button -->
+            <button 
+              type="button" 
+              class="btn-pagination-nav" 
+              [disabled]="currentPage() === 1"
+              (click)="prevPage()"
+              aria-label="Previous page"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
+              <span>Prev</span>
+            </button>
+
+            <!-- Page Number Pills -->
+            <div class="pagination-number-pills">
+              @for (p of pagesList(); track p) {
+                <button 
+                  type="button" 
+                  class="btn-page-number" 
+                  [class.is-active]="p === currentPage()"
+                  (click)="setPage(p)"
+                >
+                  {{ p }}
+                </button>
+              }
             </div>
-            <h4>{{ activeSubTab() | titlecase }} Active Telemetry</h4>
-            <p>Real-time records for {{ activeSubTab() | lowercase }} are synchronizing with Lagos LGA Central Weighbridge nodes.</p>
-            <button type="button" class="btn-topbar-team" (click)="setSubTab('CREWS')">Return to Hauler Crews</button>
+
+            <!-- Next Page Button -->
+            <button 
+              type="button" 
+              class="btn-pagination-nav" 
+              [disabled]="currentPage() === totalPages()"
+              (click)="nextPage()"
+              aria-label="Next page"
+            >
+              <span>Next</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+
           </div>
+
         </div>
-      }
+
+      </section>
 
     </main>
 
