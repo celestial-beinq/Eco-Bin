@@ -1,0 +1,182 @@
+.page-container {
+  background-color: #0d120c;
+  color: #ffffff;
+  padding-top: 6.5rem;
+  min-height: 100vh;
+}
+
+.page-hero {
+  padding: 4.5rem 0 3.5rem;
+  background: linear-gradient(180deg, #151d13 0%, #0d120c 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.page-tag {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: rgba(159, 232, 38, 0.12);
+  border: 1px solid rgba(159, 232, 38, 0.3);
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #9fe826;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.page-title .highlight {
+  color: #9fe826;
+}
+
+.page-subtitle {
+  font-size: 1.15rem;
+  color: #9eb19a;
+  max-width: 650px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d1d9cc;
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.pill-btn.active {
+  background: #9fe826;
+  color: #0d140a;
+  border-color: #9fe826;
+  font-weight: 700;
+}
+
+.content-section {
+  padding: 4.5rem 1.5rem 6rem;
+}
+
+.services-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.service-detail-card {
+  background: rgba(21, 28, 19, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-detail-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(159, 232, 38, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.service-price-pill {
+  display: inline-block;
+  background: rgba(159, 232, 38, 0.15);
+  color: #9fe826;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+.service-card-title {
+  font-size: 1.4rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.service-card-desc {
+  font-size: 0.95rem;
+  color: #9dae98;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.card-features {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.features-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.card-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.card-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  color: #d1d9cc;
+}
+
+.btn-book-service {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.85rem;
+  background: rgba(159, 232, 38, 0.12);
+  border: 1px solid rgba(159, 232, 38, 0.35);
+  color: #9fe826;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-book-service:hover {
+  background: #9fe826;
+  color: #0b1208;
+}

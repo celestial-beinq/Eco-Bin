@@ -1,0 +1,126 @@
+.page-container {
+  background-color: #0d120c;
+  color: #ffffff;
+  padding-top: 6.5rem;
+  min-height: 100vh;
+}
+
+.page-hero {
+  padding: 4.5rem 0 3.5rem;
+  background: linear-gradient(180deg, #151d13 0%, #0d120c 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.page-tag {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: rgba(159, 232, 38, 0.12);
+  border: 1px solid rgba(159, 232, 38, 0.3);
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #9fe826;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.page-title .highlight {
+  color: #9fe826;
+}
+
+.page-subtitle {
+  font-size: 1.15rem;
+  color: #9eb19a;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.content-section {
+  padding: 4.5rem 1.5rem 6rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: rgba(22, 29, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(159, 232, 38, 0.35);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.client-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #9fe826;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.project-title {
+  font-size: 1.35rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  color: #9dae98;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.project-metrics {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.metric-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e5ece0;
+}
+
+.metric-val.highlight {
+  color: #9fe826;
+}
