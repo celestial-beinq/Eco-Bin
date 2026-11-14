@@ -7,3 +7,18 @@
 .main-content {
   flex: 1 0 auto;
 }
+
+/* Standalone full-screen pages: Hide marketing navbar */
+:host:has(app-admin-dashboard) app-navbar,
+:host:has(app-sign-in) app-navbar,
+:host:has(app-sign-up) app-navbar {
+  display: none !important;
+}
+
+:host:has(app-admin-dashboard) .main-content,
+:host:has(app-sign-in) .main-content,
+:host:has(app-sign-up) .main-content {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+}

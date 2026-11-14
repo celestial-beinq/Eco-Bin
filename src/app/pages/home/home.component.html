@@ -10,67 +10,106 @@
     <div class="container">
       
       <!-- Top Header Row -->
-      <div class="about-header-row">
-        <div class="badge-pill-lime">About Eco Bin</div>
-        <div class="about-header-text">
-          <h2 class="about-heading-text">
-            We are bringing waste management activities into one coordinated digital system.
-            <span class="text-sub">
-              Residents can report waste problems, businesses can arrange collections, operators can manage assigned jobs, and administrators can monitor activities across the entire LGA.
-            </span>
-            <span class="text-sub sub-break">
+      <div class="row align-items-start g-3 mb-4 about-header-row">
+        <div class="col-auto">
+          <div class="badge-pill-light">
+            <span>About Eco Bin</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="about-header-text">
+            <p class="about-intro-paragraph mb-3">
+              <strong class="about-bold-intro">We are bringing waste management activities into one coordinated digital system.</strong>
+              <span class="about-muted-text"> Residents can report waste problems, businesses can arrange collections, operators can manage assigned jobs, and administrators can monitor activities across the entire LGA.</span>
+            </p>
+            <p class="about-sub-paragraph mb-0">
               With location-based reporting, collection tracking and operational monitoring, we aim to make waste management more organised, transparent and responsive.
-            </span>
-          </h2>
+            </p>
+          </div>
         </div>
       </div>
 
       <!-- Main Visual & Content Grid -->
-      <div class="about-content-grid">
-        <!-- Left Column: Large Truck Photo -->
-        <div class="about-image-wrapper">
-          <img
-            src="/images/about-truck.jpg"
-            alt="Cleanbin waste management truck and operator"
-            class="about-truck-image"
-          />
+      <div class="row g-4 align-items-stretch about-content-grid">
+        <!-- Left Column: Recycling & Waste Collection Image -->
+        <div class="col-12 col-lg-6">
+          <div class="about-image-wrapper h-100">
+            <img
+              src="/images/about-recycling.jpg"
+              alt="Person disposing a plastic bottle into a blue recycling bin"
+              class="about-truck-image w-100 h-100"
+            />
+          </div>
         </div>
 
-        <!-- Right Column: Vision, Mission, Intention & Button -->
-        <div class="about-cards-wrapper">
-          <div class="about-card">
-            <h3 class="card-heading">Our Vision</h3>
-            <p class="card-paragraph">
-              To create cleaner, healthier and more sustainable communities across Lagos by transforming how waste is managed, collected and recovered. We envision an environment where every neighbourhood is properly maintained, waste is treated as a resource, and responsible waste management creates lasting economic and environmental value.
-            </p>
-          </div>
+        <!-- Right Column: Vision, Mission & Button -->
+        <div class="col-12 col-lg-6">
+          <div class="about-cards-wrapper d-flex flex-column justify-content-between h-100">
+            <div class="about-card mb-3">
+              <h3 class="card-heading">Our Vision</h3>
+              <p class="card-paragraph">
+                To create cleaner, healthier and more sustainable communities across Lagos by transforming how waste is managed, collected and recovered. We envision an environment where every neighbourhood is properly maintained, waste is treated as a resource, and responsible waste management creates lasting economic and environmental value.
+              </p>
+            </div>
 
-          <div class="about-card">
-            <h3 class="card-heading">Our Mission</h3>
-            <p class="card-paragraph">
-              To provide accessible, reliable and organised waste management solutions across our target Local Government Area in Lagos. We aim to connect residents, businesses, waste collection operators and recycling partners through an efficient system that improves waste collection, encourages responsible disposal, supports material recovery and creates local employment opportunities.
-            </p>
-            <p class="card-paragraph">
-              Our mission is to move beyond simply removing waste by building a sustainable system that keeps communities clean, protects the environment and turns today's waste challenges into tomorrow's opportunities.
-            </p>
-          </div>
+            <div class="about-card mb-3">
+              <h3 class="card-heading">Our Mission</h3>
+              <p class="card-paragraph">
+                To deliver reliable, organised waste management across our LGA by connecting residents, businesses, collection operators, and recyclers into an efficient network—improving collection, promoting responsible disposal, and unlocking local economic opportunities through recycling.
+              </p>
+            </div>
 
-          <div class="about-card">
-            <h3 class="card-heading">Our Intention</h3>
-            <p class="card-paragraph">
-              This project was initiated to address the growing waste management challenges across Lagos, where improper disposal, irregular collection and unmanaged waste continue to affect neighbourhoods, businesses, public spaces and the quality of everyday life.
-            </p>
-            <p class="card-paragraph">
-              Our intention is to establish a coordinated, technology-enabled waste management system that serves an entire Local Government Area. By making waste collection more accessible, improving reporting and monitoring, and connecting recoverable materials to recycling opportunities, we aim to make cleaner communities achievable and sustainable.
-            </p>
-            <p class="card-paragraph">
-              Beyond environmental cleanliness, we want to unlock economic opportunities through recycling, local partnerships, employment and the development of a more circular waste economy.
-            </p>
+            <div class="about-btn-wrap mt-auto">
+              <a routerLink="/" fragment="services" class="btn-learn-more-lime">
+                <span>Learn More</span>
+                <span class="btn-arrow-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </a>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <div class="about-btn-wrap">
-            <a routerLink="/" fragment="services" class="btn-learn-more-lime">
-              <span>Learn More</span>
+      <!-- Bottom Stats Row -->
+      <div class="row g-3 g-md-4 about-stats-grid mt-4 pt-4">
+        @for (stat of stats; track stat.number) {
+          <div class="col-6 col-lg-3">
+            <div class="about-stat-item d-flex align-items-center">
+              <div class="stat-number-val me-3">{{ stat.number }}</div>
+              <div class="stat-label-wrap">
+                <span>{{ stat.labelTop }}</span>
+                <span>{{ stat.labelBottom }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: How It Works -->
+  <section class="how-it-works-section" id="how-it-works">
+    <div class="container">
+      <div class="how-it-works-layout">
+
+        <!-- Left Intro Column -->
+        <div class="how-it-works-intro">
+          <div class="badge-pill-light">How it Works</div>
+          <h2 class="how-it-works-title">
+            Making Waste Management Work Better.
+          </h2>
+          <p class="how-it-works-desc">
+            A coordinated digital platform connecting residents, businesses, operators, and administrators across the Local Government Area for cleaner, healthier communities.
+          </p>
+
+          <div class="how-it-works-cta">
+            <a routerLink="/" fragment="booking" class="btn-learn-more-lime">
+              <span>Get in Touch</span>
               <span class="btn-arrow-box">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -80,21 +119,52 @@
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- Bottom Stats Row -->
-      <div class="about-stats-grid">
-        @for (stat of stats; track stat.number) {
-          <div class="about-stat-item">
-            <div class="stat-number-val">{{ stat.number }}</div>
-            <div class="stat-label-wrap">
-              <span>{{ stat.labelTop }}</span>
-              <span>{{ stat.labelBottom }}</span>
+        <!-- Right Steps Grid -->
+        <div class="how-it-works-grid">
+          @for (item of howItWorksSteps; track item.step) {
+            <div class="step-card">
+              <div class="step-badge-wrap">
+                <div class="step-badge">
+                  <span class="step-icon">
+                    @if (item.icon === 'report') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                      </svg>
+                    } @else if (item.icon === 'collection') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                    } @else if (item.icon === 'recovery') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-.9 1.8 1.8 0 0 1 0-1.8L7.2 9.5"></path>
+                        <path d="M11 19h8.2a1.8 1.8 0 0 0 1.6-.9 1.8 1.8 0 0 0 0-1.8l-4.1-7.1"></path>
+                        <path d="M9.1 5.4a1.8 1.8 0 0 1 3.2 0l4.2 7.3"></path>
+                      </svg>
+                    } @else if (item.icon === 'impact') {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                      </svg>
+                    }
+                  </span>
+                  <span class="step-num">{{ item.step }}</span>
+                </div>
+              </div>
+
+              <h3 class="step-card-title">{{ item.title }}</h3>
+              <p class="step-card-desc">{{ item.desc }}</p>
             </div>
-          </div>
-        }
-      </div>
+          }
+        </div>
 
+      </div>
     </div>
   </section>
 
@@ -103,82 +173,78 @@
     <div class="container">
       
       <!-- Section Header -->
-      <div class="services-property-header">
+      <div class="services-property-header text-center mb-5">
         <div class="badge-pill-lime">What We Do</div>
         <h2 class="services-property-title">Services for Every Property Type</h2>
-        <p class="services-property-sub">
+        <p class="services-property-sub mx-auto">
           From a single weekly trash route to a 30-yard construction dumpster, we have the right service plan for you.
         </p>
       </div>
 
-      <!-- 6 Cards Grid -->
-      <div class="services-six-grid">
+      <!-- 6 Cards Grid via Bootstrap Rows and Cols -->
+      <div class="row g-4 services-six-grid">
         @for (item of propertyServices; track item.title) {
-          <div class="service-box-card" [class.is-featured]="item.featured">
-            
-            <div class="service-icon-box" [class.featured-icon-box]="item.featured">
-              @if (item.icon === 'residential') {
-                <!-- Truck Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="1" y="4" width="14" height="12" rx="2"></rect>
-                  <path d="M15 8h4l3 4v4h-7"></path>
-                  <circle cx="6" cy="18" r="2.5"></circle>
-                  <circle cx="18" cy="18" r="2.5"></circle>
-                </svg>
-              } @else if (item.icon === 'commercial') {
-                <!-- Commercial Waste Vehicle Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 6H2v10h12V6z"></path>
-                  <path d="M14 10h4l3 3v3h-7"></path>
-                  <circle cx="5" cy="18" r="2"></circle>
-                  <circle cx="17" cy="18" r="2"></circle>
-                </svg>
-              } @else if (item.icon === 'dumpster') {
-                <!-- Dumpster Rental Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 7h18l-2 11H5L3 7z"></path>
-                  <path d="M7 7V4h10v3"></path>
-                  <line x1="10" y1="11" x2="10" y2="15"></line>
-                  <line x1="14" y1="11" x2="14" y2="15"></line>
-                </svg>
-              } @else if (item.icon === 'recycling') {
-                <!-- Recycling Triangle Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"></path>
-                  <path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.91 1.777 1.777 0 0 0 .005-1.77L16.8 9.5"></path>
-                  <path d="M12 3a1.8 1.8 0 0 0-1.565.91L6.5 10.5"></path>
-                  <polyline points="10 19 7 19 8.5 16"></polyline>
-                  <polyline points="14 19 11 19 12.5 22"></polyline>
-                  <polyline points="17 9.5 16.8 9.5 15.3 12"></polyline>
-                </svg>
-              } @else if (item.icon === 'construction') {
-                <!-- Crane / Excavator Debris Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M2 20h20"></path>
-                  <path d="M5 20V8l7-5 7 5v12"></path>
-                  <path d="M9 12h6"></path>
-                  <path d="M12 9v6"></path>
-                </svg>
-              } @else {
-                <!-- Bulk Item Removal Icon -->
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path>
-                  <path d="M3 13v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"></path>
-                  <path d="M3 11a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2H3v-2z"></path>
-                  <line x1="6" y1="20" x2="6" y2="22"></line>
-                  <line x1="18" y1="20" x2="18" y2="22"></line>
-                </svg>
-              }
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="service-box-card h-100" [class.is-featured]="item.featured">
+              
+              <div class="service-icon-box" [class.featured-icon-box]="item.featured">
+                @if (item.icon === 'residential') {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="4" width="14" height="12" rx="2"></rect>
+                    <path d="M15 8h4l3 4v4h-7"></path>
+                    <circle cx="6" cy="18" r="2.5"></circle>
+                    <circle cx="18" cy="18" r="2.5"></circle>
+                  </svg>
+                } @else if (item.icon === 'commercial') {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 6H2v10h12V6z"></path>
+                    <path d="M14 10h4l3 3v3h-7"></path>
+                    <circle cx="5" cy="18" r="2"></circle>
+                    <circle cx="17" cy="18" r="2"></circle>
+                  </svg>
+                } @else if (item.icon === 'dumpster') {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7h18l-2 11H5L3 7z"></path>
+                    <path d="M7 7V4h10v3"></path>
+                    <line x1="10" y1="11" x2="10" y2="15"></line>
+                    <line x1="14" y1="11" x2="14" y2="15"></line>
+                  </svg>
+                } @else if (item.icon === 'recycling') {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"></path>
+                    <path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.91 1.777 1.777 0 0 0 .005-1.77L16.8 9.5"></path>
+                    <path d="M12 3a1.8 1.8 0 0 0-1.565.91L6.5 10.5"></path>
+                    <polyline points="10 19 7 19 8.5 16"></polyline>
+                    <polyline points="14 19 11 19 12.5 22"></polyline>
+                    <polyline points="17 9.5 16.8 9.5 15.3 12"></polyline>
+                  </svg>
+                } @else if (item.icon === 'construction') {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 20h20"></path>
+                    <path d="M5 20V8l7-5 7 5v12"></path>
+                    <path d="M9 12h6"></path>
+                    <path d="M12 9v6"></path>
+                  </svg>
+                } @else {
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path>
+                    <path d="M3 13v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"></path>
+                    <path d="M3 11a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2H3v-2z"></path>
+                    <line x1="6" y1="20" x2="6" y2="22"></line>
+                    <line x1="18" y1="20" x2="18" y2="22"></line>
+                  </svg>
+                }
+              </div>
+
+              <h3 class="service-box-title">{{ item.title }}</h3>
+              <p class="service-box-desc">{{ item.desc }}</p>
+
+              <a [routerLink]="item.link" class="service-box-link mt-auto">
+                <span>Learn More</span>
+                <span class="link-arrow">→</span>
+              </a>
+
             </div>
-
-            <h3 class="service-box-title">{{ item.title }}</h3>
-            <p class="service-box-desc">{{ item.desc }}</p>
-
-            <a [routerLink]="item.link" class="service-box-link">
-              <span>Learn More</span>
-              <span class="link-arrow">→</span>
-            </a>
-
           </div>
         }
       </div>
@@ -191,53 +257,241 @@
     <div class="container">
       
       <!-- Section Header -->
-      <div class="hauling-header">
+      <div class="hauling-header text-center mb-5">
         <div class="badge-pill-light">One crew, every property</div>
         <h2 class="hauling-title">
-          Whether it's your home, business,<br>
-          or job site — we'll haul it.
+          Every Space Deserves a<br>
+          Cleaner Environment
         </h2>
-        <p class="hauling-subtitle">
+        <p class="hauling-subtitle mx-auto">
           From single-item pickups to full-property cleanouts, one licensed crew handles it all.
         </p>
       </div>
 
-      <!-- 3 Property Cards Grid -->
-      <div class="hauling-three-grid">
+      <!-- 3 Property Cards Grid via Bootstrap Rows and Cols -->
+      <div class="row g-4 hauling-three-grid justify-content-center">
         @for (card of haulingCards; track card.title) {
-          <div class="hauling-card-item">
-            
-            <div class="hauling-thumb-wrap">
-              <img [src]="card.image" [alt]="card.title" class="hauling-thumb-img" />
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="hauling-card-item h-100 d-flex flex-column justify-content-between">
+              <div>
+                <div class="hauling-thumb-wrap">
+                  <img [src]="card.image" [alt]="card.title" class="hauling-thumb-img w-100" />
+                </div>
+                <div class="hauling-card-content">
+                  <span class="hauling-tag">{{ card.category }}</span>
+                  <h3 class="hauling-card-heading">{{ card.title }}</h3>
+
+                  <ul class="hauling-check-list">
+                    @for (check of card.checklist; track check) {
+                      <li class="hauling-check-item">
+                        <span class="check-circle-icon">
+                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        </span>
+                        <span class="check-item-text">{{ check }}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              <div class="px-2 pb-2">
+                <a routerLink="/services" class="hauling-card-action">
+                  <span>{{ card.linkText }}</span>
+                  <span class="action-arrow">→</span>
+                </a>
+              </div>
+
             </div>
-
-            <div class="hauling-card-content">
-              <span class="hauling-tag">{{ card.category }}</span>
-              <h3 class="hauling-card-heading">{{ card.title }}</h3>
-
-              <ul class="hauling-check-list">
-                @for (check of card.checklist; track check) {
-                  <li class="hauling-check-item">
-                    <span class="check-circle-icon">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    <span class="check-item-text">{{ check }}</span>
-                  </li>
-                }
-              </ul>
-
-              <a routerLink="/services" class="hauling-card-action">
-                <span>{{ card.linkText }}</span>
-                <span class="action-arrow">→</span>
-              </a>
-            </div>
-
           </div>
         }
       </div>
 
+    </div>
+  </section>
+
+  <!-- SECTION: Real Reviews / Testimonials (Image 7) -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      
+      <!-- Top Row: Header on Left, Collection Truck Image on Right -->
+      <div class="row align-items-center g-4 g-lg-5 mb-4 pb-2">
+        <div class="col-12 col-lg-6">
+          <div class="badge-pill-light mb-3">What Customers Say</div>
+          <h2 class="reviews-title">Real Reviews from Local Homes and Businesses</h2>
+          <p class="reviews-sub mb-0">
+            We've worked with homeowners and businesses on different types of outdoor projects. Here's what they shared about their experience.
+          </p>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="reviews-img-wrap">
+            <img
+              src="/images/reviews-truck.jpg"
+              alt="Sanitation workers loading clean green garbage truck"
+              class="reviews-truck-img w-100"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Testimonial Cards on Left, Nav Arrows on Right -->
+      <div class="row g-4 align-items-end">
+        <div class="col-12 col-lg-9 col-xl-8">
+          <div class="row g-3">
+            @for (rev of reviews; track rev.author) {
+              <div class="col-12 col-md-6">
+                <div class="review-card h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <div class="review-quote-icon">“</div>
+                    <p class="review-quote-text">{{ rev.quote }}</p>
+                  </div>
+                  <div class="reviewer-meta mt-auto">
+                    <img [src]="rev.avatar" [alt]="rev.author" class="reviewer-avatar" />
+                    <div class="reviewer-info">
+                      <span class="reviewer-name">{{ rev.author }}</span>
+                      <span class="reviewer-role">{{ rev.role }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-3 col-xl-4 d-flex justify-content-lg-end justify-content-start">
+          <div class="reviews-nav-arrows d-flex align-items-center gap-2">
+            <button type="button" class="btn-rev-nav" aria-label="Previous review">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="btn-rev-nav" aria-label="Next review">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: FAQs (Image 5) -->
+  <section class="faqs-section" id="faqs">
+    <div class="container">
+      <div class="row g-4 g-lg-5 align-items-center faqs-layout-grid">
+        
+        <!-- Left Column: Title, Subtitle & Social Icons -->
+        <div class="col-12 col-lg-5 faqs-info-col">
+          <div class="badge-pill-light mb-3">FAQs</div>
+          <h2 class="faqs-title">Answers to Common Questions About Services.</h2>
+          <p class="faqs-sub">
+            Find quick answers about pickup scheduling, accepted items, pricing, service areas, and how EcoBin handles junk removal responsibly.
+          </p>
+
+          <!-- Social Links -->
+          <div class="faqs-socials d-flex align-items-center gap-2 mt-4">
+            <a href="#" class="faq-social-link" aria-label="Facebook" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="#" class="faq-social-link" aria-label="Instagram" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="faq-social-link" aria-label="X" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="#" class="faq-social-link" aria-label="LinkedIn" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Accordion Card -->
+        <div class="col-12 col-lg-7 faqs-accordion-col">
+          <div class="faqs-accordion-card">
+            @for (faq of faqs; track faq.question; let i = $index) {
+              <div class="faq-accordion-item" [class.is-open]="faq.open">
+                <button
+                  type="button"
+                  class="faq-question-btn d-flex justify-content-between align-items-center w-100"
+                  (click)="toggleFaq(i)"
+                  [attr.aria-expanded]="faq.open"
+                >
+                  <span class="faq-q-text" [class.is-active]="faq.open">{{ faq.question }}</span>
+                  <span class="faq-chevron" [class.rotated]="faq.open" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                </button>
+                @if (faq.open) {
+                  <div class="faq-answer-panel">
+                    <p class="faq-a-text mb-0">{{ faq.answer }}</p>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CTA Banner (Image 2) -->
+  <section class="cta-banner-section" id="contact">
+    <div class="container">
+      <div class="cta-banner-card">
+        <div class="row g-4 align-items-center">
+          
+          <!-- Left Copy & Button -->
+          <div class="col-12 col-lg-7 cta-banner-content">
+            <h2 class="cta-banner-title">Ready to Schedule Service?</h2>
+            <p class="cta-banner-desc">
+              Tell us what you need, where you're located, and when you need service. Our team will provide a fast, transparent quote and get you started immediately.
+            </p>
+            <div class="cta-banner-btn-wrap">
+              <a routerLink="/contact" class="btn-cta-lime">
+                <span>Get Your Free Quote</span>
+                <span class="btn-arrow-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Image -->
+          <div class="col-12 col-lg-5">
+            <div class="cta-banner-img-wrap">
+              <img
+                src="/images/cta-workers.jpg"
+                alt="EcoBin recycling and warehouse collection crew"
+                class="cta-banner-img w-100"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </section>
 </div>

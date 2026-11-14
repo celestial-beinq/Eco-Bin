@@ -33,54 +33,93 @@
    ======================================================== */
 .about-cleanbin-section {
   background-color: #ffffff;
-  color: #111827;
-  padding: 84px 0 68px;
+  color: #000;
+  padding: 42px 0 32px;
 }
 
 .about-header-row {
+  margin-bottom: 24px;
+}
+
+/* Circular About Eco Bin badge matching reference */
+.badge-about-circle {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  min-height: 72px;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  background-color: #ddf5b0;
+  color: #1e3a12;
   display: flex;
-  align-items: flex-start;
-  gap: 40px;
-  margin-bottom: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin-top: 3px;
+  transition: transform 0.2s ease;
+  user-select: none;
 }
 
-.about-heading-text {
-  font-size: clamp(22px, 2.7vw, 32px);
-  font-weight: 700;
-  line-height: 1.35;
-  color: #111827;
-  letter-spacing: -0.02em;
+.badge-about-circle:hover {
+  transform: scale(1.04);
 }
 
-.about-heading-text .text-sub {
-  font-weight: 400;
-  color: #71717a;
-}
-
-.about-heading-text .sub-break {
+.badge-about-circle span {
   display: block;
-  margin-top: 14px;
+}
+
+.about-header-text {
+  flex: 1;
+}
+
+.about-intro-paragraph {
+  font-size: clamp(17px, 1.7vw, 20.5px);
+  line-height: 1.62;
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.about-bold-intro {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.about-muted-text {
+  font-weight: 400;
+  color: #556577;
+}
+
+.about-sub-paragraph {
+  font-size: clamp(16px, 1.55vw, 19.5px);
+  line-height: 1.62;
+  font-weight: 400;
+  color: #556577;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .about-content-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 32px;
-  align-items: stretch;
+  /* Handled by Bootstrap .row and .col */
 }
 
 .about-image-wrapper {
   position: relative;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
 }
 
 .about-truck-image {
   width: 100%;
   height: 100%;
-  min-height: 380px;
+  min-height: 280px;
   object-fit: cover;
   display: block;
 }
@@ -88,38 +127,39 @@
 .about-cards-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  justify-content: space-between;
+  gap: 14px;
 }
 
 .about-card {
   background: #ffffff;
-  border: 1px solid #eaeaea;
-  border-radius: 16px;
-  padding: 24px 28px;
+  border: 1px solid #e8eaed;
+  border-radius: 14px;
+  padding: 16px 20px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .about-card:hover {
-  border-color: #d4d4d8;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .card-heading {
-  font-size: 22px;
+  font-size: 17.5px;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 12px;
+  color: #000;
+  margin-bottom: 7px;
+  letter-spacing: -0.01em;
 }
 
 .card-paragraph {
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.72;
+  /* text-align: justify; */
+  color: #526274;
 }
 
-.card-paragraph + .card-paragraph {
-  margin-top: 10px;
+.card-paragraph+.card-paragraph {
+  margin-top: 8px;
 }
 
 .about-btn-wrap {
@@ -130,47 +170,51 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background-color: #a3f234;
-  color: #111827;
+  background-color: #a4eb34;
+  color: #0c2010;
   font-size: 14px;
   font-weight: 700;
-  padding: 9px 14px 9px 18px;
-  border-radius: 10px;
+  padding: 6px 6px 6px 18px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(164, 235, 52, 0.32);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(164, 235, 52, 0.5);
 }
 
 .btn-learn-more-lime:hover {
-  background-color: #b3f749;
+  background-color: #b5f543;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(163, 242, 52, 0.35);
+  box-shadow: 0 8px 24px rgba(164, 235, 52, 0.45);
+  color: #08170b;
 }
 
-.btn-arrow-box {
-  width: 26px;
-  height: 26px;
-  background-color: #101c11;
+.btn-arrow-circle {
+  width: 28px;
+  height: 28px;
+  background-color: #0d2212;
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
-.btn-arrow-box svg {
-  width: 15px;
-  height: 15px;
+.btn-learn-more-lime:hover .btn-arrow-circle {
+  transform: translateX(2px);
+  background-color: #000000;
+}
+
+.btn-arrow-circle svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ffffff;
 }
 
 /* Bottom Stats Row */
 .about-stats-grid {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin-top: 56px;
-  padding-top: 40px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .about-stat-item {
@@ -182,7 +226,7 @@
 .stat-number-val {
   font-size: clamp(34px, 3.8vw, 44px);
   font-weight: 800;
-  color: #111827;
+  color: #000;
   letter-spacing: -0.03em;
   line-height: 1;
 }
@@ -197,11 +241,146 @@
 }
 
 /* ========================================================
+   SECTION: How It Works
+   ======================================================== */
+.how-it-works-section {
+  background-color: #ffffff;
+  color: #111827;
+  padding: 100px 0;
+  border-top: 1px solid #f0f4ee;
+}
+
+.how-it-works-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 400px) 1fr;
+  gap: clamp(40px, 5vw, 68px);
+  align-items: start;
+}
+
+.how-it-works-intro {
+  position: sticky;
+  top: 110px;
+}
+
+.how-it-works-kicker {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #15803d;
+  margin: 16px 0 10px;
+}
+
+.how-it-works-title {
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #111827;
+  letter-spacing: -0.03em;
+  margin: 18px 0 16px;
+}
+
+.how-it-works-desc {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: #64748b;
+  margin-bottom: 32px;
+  max-width: 440px;
+}
+
+.how-it-works-cta {
+  display: flex;
+}
+
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.step-card {
+  background-color: #edf5eb;
+  border-radius: 20px;
+  padding: 30px 26px 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+  background-color: #e5f0e3;
+}
+
+.step-badge-wrap {
+  display: flex;
+  margin-bottom: 28px;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 6px 8px 6px 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+}
+
+.step-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke: #111827;
+  display: block;
+}
+
+.step-num {
+  background-color: #a4eb34;
+  color: #0e2a16;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 9999px;
+  letter-spacing: -0.01em;
+}
+
+.step-card-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.step-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5d6d7e;
+  margin: 0;
+}
+
+.step-card-wide {
+  grid-column: span 2;
+}
+
+/* ========================================================
    SECTION 2: Services for Every Property Type (Image 2)
    ======================================================== */
 .services-property-section {
   background-color: #f1f5ee;
-  color: #111827;
+  color: #000;
   padding: 96px 0 96px;
 }
 
@@ -213,7 +392,7 @@
 .services-property-title {
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 800;
-  color: #111827;
+  color: #000;
   margin: 18px 0 12px;
   letter-spacing: -0.025em;
 }
@@ -227,9 +406,7 @@
 }
 
 .services-six-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  /* Handled by Bootstrap .row and .col */
 }
 
 .service-box-card {
@@ -280,7 +457,7 @@
 .service-box-title {
   font-size: 21px;
   font-weight: 700;
-  color: #111827;
+  color: #000;
   margin-bottom: 12px;
 }
 
@@ -309,7 +486,7 @@
 }
 
 .service-box-card.is-featured .service-box-link {
-  color: #111827;
+  color: #000;
 }
 
 .link-arrow {
@@ -353,16 +530,14 @@
 }
 
 .hauling-three-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  /* Handled by Bootstrap .row and .col */
 }
 
 .hauling-card-item {
   background-color: #ffffff;
   border-radius: 20px;
   padding: 18px;
-  color: #111827;
+  color: #000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -406,7 +581,7 @@
 .hauling-card-heading {
   font-size: 20px;
   font-weight: 700;
-  color: #111827;
+  color: #000;
   margin-bottom: 18px;
   line-height: 1.3;
 }
@@ -447,7 +622,7 @@
   gap: 8px;
   font-size: 14.5px;
   font-weight: 700;
-  color: #111827;
+  color: #000;
   text-decoration: none;
   margin-top: auto;
   transition: transform 0.2s ease, color 0.2s ease;
@@ -465,6 +640,16 @@
    RESPONSIVE DESIGN ACROSS TABLET & MOBILE
    ======================================================== */
 @media (max-width: 992px) {
+  .how-it-works-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .how-it-works-intro {
+    position: static;
+    max-width: 600px;
+  }
+
   .about-content-grid {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -487,10 +672,20 @@
 }
 
 @media (max-width: 768px) {
+
   .about-cleanbin-section,
+  .how-it-works-section,
   .services-property-section,
   .hauling-property-section {
     padding: 64px 0;
+  }
+
+  .how-it-works-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card-wide {
+    grid-column: span 1;
   }
 
   .about-header-row {
@@ -531,5 +726,430 @@
 
   .hauling-thumb-wrap {
     height: 160px;
+  }
+}
+
+
+/* ========================================================
+   SECTION: Reviews & Testimonials (Image 7)
+   ======================================================== */
+.reviews-section {
+  background-color: #ffffff;
+  padding: 80px 0 72px;
+}
+
+.reviews-title {
+  font-size: clamp(26px, 3.8vw, 40px);
+  font-weight: 800;
+  color: #000;
+  letter-spacing: -0.025em;
+  margin: 16px 0 10px;
+  line-height: 1.2;
+}
+
+.reviews-sub {
+  font-size: 15.5px;
+  color: #64748b;
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+.reviews-img-wrap {
+  width: 100%;
+  height: 290px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.reviews-truck-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.review-card {
+  background: #ffffff;
+  border: 1px solid #edf0f3;
+  border-radius: 18px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.review-quote-icon {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 900;
+  color: #bbf046;
+  font-family: Georgia, serif;
+  margin-bottom: 12px;
+}
+
+.review-quote-text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.reviewer-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.reviewer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewer-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.reviewer-role {
+  font-size: 12.5px;
+  color: #8c9b88;
+}
+
+.reviews-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-rev-nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 9px;
+  background-color: #a4eb34;
+  color: #122814;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-rev-nav:hover {
+  background-color: #b5f543;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(164, 235, 52, 0.4);
+}
+
+/* ========================================================
+   SECTION: FAQs (Image 5)
+   ======================================================== */
+.faqs-section {
+  background-color: #edf4ec;
+  padding: 84px 0;
+}
+
+.faqs-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqs-title {
+  font-size: clamp(24px, 3.6vw, 40px);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 14px 0 14px;
+  line-height: 1.2;
+}
+
+.faqs-sub {
+  font-size: 15px;
+  color: #526274;
+  line-height: 1.62;
+  max-width: 460px;
+  margin: 0;
+}
+
+.faqs-socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.faq-social-link {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(20, 45, 20, 0.05);
+  color: #1c3818;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.faq-social-link:hover {
+  background-color: #a4eb34;
+  color: #0b2611;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(164, 235, 52, 0.35);
+}
+
+.faqs-accordion-col {
+  width: 100%;
+}
+
+.faqs-accordion-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 8px 30px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.faq-accordion-item {
+  border-bottom: 1px solid #f0f3f0;
+}
+
+.faq-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question-btn {
+  width: 100%;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.faq-question-btn:hover .faq-q-text {
+  color: #0d381e;
+}
+
+.faq-q-text {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.faq-q-text.is-active {
+  color: #0d381e;
+}
+
+.faq-chevron {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background-color: #f4f7f3;
+  color: #556577;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
+}
+
+.faq-chevron.rotated {
+  transform: rotate(180deg);
+  background-color: #a4eb34;
+  color: #0d2613;
+}
+
+@keyframes faqSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq-answer-panel {
+  padding: 0 0 20px;
+  animation: faqSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-a-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #556577;
+}
+
+@media (max-width: 991px) {
+  .faqs-section {
+    padding: 64px 0;
+  }
+
+  .faqs-info-col {
+    margin-bottom: 8px;
+  }
+
+  .faqs-sub {
+    max-width: 100%;
+  }
+
+  .faqs-socials {
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+
+  .faqs-accordion-card {
+    padding: 6px 22px;
+  }
+}
+
+@media (max-width: 576px) {
+  .faqs-section {
+    padding: 48px 0;
+  }
+
+  .faqs-accordion-card {
+    padding: 4px 16px;
+    border-radius: 14px;
+  }
+
+  .faq-question-btn {
+    padding: 16px 0;
+    gap: 12px;
+  }
+
+  .faq-q-text {
+    font-size: 15px;
+  }
+
+  .faq-chevron {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .faq-answer-panel {
+    padding-bottom: 16px;
+  }
+
+  .faq-a-text {
+    font-size: 13.5px;
+  }
+}
+
+/* ========================================================
+   SECTION: CTA Banner (Image 6)
+   ======================================================== */
+.cta-banner-section {
+  background-color: #ffffff;
+  padding: 44px 0 88px;
+}
+
+.cta-banner-card {
+  background-color: #0d381e;
+  border-radius: 24px;
+  padding: 42px 48px;
+  color: #ffffff;
+  box-shadow: 0 16px 45px rgba(12, 56, 34, 0.22);
+}
+
+.cta-banner-title {
+  font-size: clamp(28px, 3.8vw, 42px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+
+.cta-banner-desc {
+  font-size: 15px;
+  line-height: 1.62;
+  color: #d1e7d9;
+  max-width: 440px;
+  margin-bottom: 28px;
+}
+
+.btn-cta-lime {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background-color: #a4eb34;
+  color: #0d2613;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 8px 8px 8px 20px;
+  border-radius: 9px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-cta-lime:hover {
+  background-color: #b5f545;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(164, 235, 52, 0.4);
+}
+
+.cta-banner-img-wrap {
+  width: 100%;
+  height: 270px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cta-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive across all breakpoints */
+@media (max-width: 992px) {
+  .cta-banner-card {
+    padding: 36px 28px;
+  }
+
+  .cta-banner-img-wrap {
+    height: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .reviews-truck-img {
+    height: 220px;
+  }
+
+  .cta-banner-card {
+    padding: 28px 20px;
   }
 }

@@ -1,93 +1,103 @@
 <section class="quick-booking-section" id="booking">
   <div class="container">
     <div class="booking-card">
-      <form class="booking-form" (ngSubmit)="onSubmit()">
+      <form class="row g-3 align-items-end booking-form" (ngSubmit)="onSubmit()">
         
         <!-- Your Name Field -->
-        <div class="booking-field">
-          <label for="userName" class="booking-label">
-            Your Name <span class="asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="userName"
-            name="userName"
-            class="booking-input"
-            placeholder="Type Your Name"
-            [(ngModel)]="name"
-            required
-          />
+        <div class="col-12 col-sm-6 col-lg booking-col">
+          <div class="booking-field">
+            <label for="userName" class="booking-label">
+              Your Name <span class="asterisk">*</span>
+            </label>
+            <input
+              type="text"
+              id="userName"
+              name="userName"
+              class="booking-input"
+              placeholder="Type Your Name"
+              [(ngModel)]="name"
+              required
+            />
+          </div>
         </div>
 
         <!-- Service Type Field -->
-        <div class="booking-field">
-          <label for="serviceType" class="booking-label">
-            Service Type <span class="asterisk">*</span>
-          </label>
-          <div class="select-wrapper">
-            <select
-              id="serviceType"
-              name="serviceType"
-              class="booking-select"
-              [(ngModel)]="serviceType"
-              required
-            >
-              <option value="" disabled selected>Select Service Type</option>
-              <option value="residential">Residential Pickup</option>
-              <option value="commercial">Commercial Waste</option>
-              <option value="dumpster">Dumpster Rental</option>
-              <option value="recycling">Recycling Services</option>
-              <option value="construction">Construction Debris</option>
-              <option value="bulk">Bulk Item Removal</option>
-            </select>
-            <span class="select-chevron" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
+        <div class="col-12 col-sm-6 col-lg booking-col">
+          <div class="booking-field">
+            <label for="serviceType" class="booking-label">
+              Service Type <span class="asterisk">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select
+                id="serviceType"
+                name="serviceType"
+                class="booking-select"
+                [(ngModel)]="serviceType"
+                required
+              >
+                <option value="" disabled selected>Select Service Type</option>
+                <option value="residential">Residential Pickup</option>
+                <option value="commercial">Commercial Waste</option>
+                <option value="dumpster">Dumpster Rental</option>
+                <option value="recycling">Recycling Services</option>
+                <option value="construction">Construction Debris</option>
+                <option value="bulk">Bulk Item Removal</option>
+              </select>
+              <span class="select-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
 
         <!-- Contact Field -->
-        <div class="booking-field">
-          <label for="userContact" class="booking-label">
-            Contact <span class="asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="userContact"
-            name="userContact"
-            class="booking-input"
-            placeholder="Phone or Email"
-            [(ngModel)]="contact"
-            required
-          />
+        <div class="col-12 col-sm-6 col-lg booking-col">
+          <div class="booking-field">
+            <label for="userContact" class="booking-label">
+              Contact <span class="asterisk">*</span>
+            </label>
+            <input
+              type="text"
+              id="userContact"
+              name="userContact"
+              class="booking-input"
+              placeholder="Phone or Email"
+              [(ngModel)]="contact"
+              required
+            />
+          </div>
         </div>
 
         <!-- Service Date Field -->
-        <div class="booking-field">
-          <label for="serviceDate" class="booking-label">
-            Service Date <span class="asterisk">*</span>
-          </label>
-          <input
-            type="text"
-            id="serviceDate"
-            name="serviceDate"
-            class="booking-input"
-            placeholder="Select Date"
-            onfocus="(this.type='date')"
-            onblur="if(!this.value)this.type='text'"
-            [(ngModel)]="serviceDate"
-            required
-          />
+        <div class="col-12 col-sm-6 col-lg booking-col">
+          <div class="booking-field">
+            <label for="serviceDate" class="booking-label">
+              Service Date <span class="asterisk">*</span>
+            </label>
+            <input
+              type="text"
+              id="serviceDate"
+              name="serviceDate"
+              class="booking-input"
+              placeholder="Select Date"
+              onfocus="(this.type='date')"
+              onblur="if(!this.value)this.type='text'"
+              [(ngModel)]="serviceDate"
+              required
+            />
+          </div>
         </div>
 
         <!-- Submit Button -->
-        <div class="booking-action">
-          <button type="submit" class="booking-btn">
-            <span>Request Pickup</span>
-            <span class="btn-arrow" aria-hidden="true">→</span>
-          </button>
+        <div class="col-12 col-sm-6 col-lg-auto booking-btn-col">
+          <div class="booking-action">
+            <button type="submit" class="booking-btn w-100">
+              <span>Request Pickup</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
         </div>
 
       </form>

@@ -1,6 +1,13 @@
 <header class="site-header">
   <div class="container">
     <nav class="nav-bar" aria-label="Primary Navigation">
+      
+      <!-- 1. Brand on Left -->
+      <a routerLink="/" class="nav-brand" aria-label="EcoBin Home" (click)="closeMenus()">
+        <span class="brand-text">EcoBin</span>
+      </a>
+
+      <!-- 2. Navlinks in Center -->
       <div class="nav-links-desktop">
         <a
           routerLink="/"
@@ -25,13 +32,14 @@
         </a>
       </div>
 
-      <a routerLink="/" class="nav-brand" aria-label="EcoBin Home" (click)="closeMenus()">
-        <span class="brand-text">EcoBin</span>
-      </a>
-
+      <!-- 3. Sign In & Get Started Button on Right -->
       <div class="nav-actions">
-        <a routerLink="/" fragment="booking" class="btn btn-dark nav-cta" (click)="closeMenus()">
-          Book Now
+        <a routerLink="/sign-in" class="nav-portal-link" (click)="closeMenus()">
+          Sign In
+        </a>
+
+        <a routerLink="/sign-up" class="nav-cta" (click)="closeMenus()">
+          Get Started
         </a>
 
         <button
@@ -53,8 +61,9 @@
         <a routerLink="/" fragment="about" class="mobile-link" (click)="closeMenus()">About</a>
         <a routerLink="/" fragment="services" class="mobile-link" (click)="closeMenus()">Service</a>
         <a routerLink="/" fragment="cta" class="mobile-link" (click)="closeMenus()">Contact</a>
-        <a routerLink="/" fragment="booking" class="btn btn-dark mobile-cta" (click)="closeMenus()">
-          Book Now
+        <a routerLink="/sign-in" class="mobile-link" (click)="closeMenus()">Sign In</a>
+        <a routerLink="/sign-up" class="nav-cta mobile-cta" (click)="closeMenus()">
+          Get Started
         </a>
       </div>
     }

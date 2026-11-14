@@ -1,0 +1,253 @@
+<div class="auth-page">
+  <div class="auth-wrapper">
+    
+    <!-- LEFT PANEL: Brand & Project Scope Showcase -->
+    <div class="auth-showcase">
+      <div class="showcase-glow" aria-hidden="true"></div>
+      
+      <div class="showcase-content">
+        <!-- Logo and LGA Badge -->
+        <div class="showcase-brand">
+          <a routerLink="/" class="brand-link">
+            <span class="brand-name">EcoBin<span class="brand-accent">™</span></span>
+          </a>
+          <span class="lga-pill">LGA Digital System</span>
+        </div>
+
+        <div class="showcase-hero">
+          <h1 class="showcase-title">
+            Making Waste Management <span class="text-lime">Work Better</span>.
+          </h1>
+          <p class="showcase-description">
+            One coordinated platform bringing waste management activities across Lagos into an organised, transparent, and accountable digital network.
+          </p>
+        </div>
+
+        <!-- System Capabilities -->
+        <div class="showcase-features">
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Location-Based Reporting</span>
+              <span class="feature-sub">Report dumpsites and overflow bins with instant geolocation.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="14" height="12" rx="2"></rect>
+                <path d="M15 8h4l3 4v4h-7"></path>
+                <circle cx="6" cy="18" r="2.5"></circle>
+                <circle cx="18" cy="18" r="2.5"></circle>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Live Collection Tracking</span>
+              <span class="feature-sub">Follow scheduled pickups and verified crew dispatches.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-.9 1.8 1.8 0 0 1 0-1.8L7.2 9.5"></path>
+                <path d="M11 19h8.2a1.8 1.8 0 0 0 1.6-.9 1.8 1.8 0 0 0 0-1.8l-4.1-7.1"></path>
+                <path d="M9.1 5.4a1.8 1.8 0 0 1 3.2 0l4.2 7.3"></path>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Circular Economy &amp; Recovery</span>
+              <span class="feature-sub">Connecting collected materials to certified recycling channels.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verified Impact Mini Card -->
+        <div class="showcase-stat-card">
+          <div class="stat-bubble">
+            <span class="stat-number">5k+</span>
+            <span class="stat-desc">Completed LGA Pickups</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-bubble">
+            <span class="stat-number">100%</span>
+            <span class="stat-desc">Responsible Disposal</span>
+          </div>
+        </div>
+
+        <div class="showcase-footer">
+          <span>&copy; EcoBin Waste Network. Coordinated LGA Operations.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Authentication Form -->
+    <div class="auth-form-container">
+      <div class="auth-form-card">
+        
+        <!-- Header Actions -->
+        <div class="form-header-row">
+          <a routerLink="/" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Home</span>
+          </a>
+
+          <div class="auth-switch">
+            <span>New user?</span>
+            <a routerLink="/sign-up" class="switch-link">Create Account</a>
+          </div>
+        </div>
+
+        <div class="form-title-group">
+          <h2 class="form-title">Welcome Back</h2>
+        </div>
+
+        <!-- Error Alert -->
+        @if (errorMessage()) {
+          <div class="auth-alert alert-error">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <!-- Success Alert (Simulated) -->
+        @if (submitSuccess()) {
+          <div class="auth-alert alert-success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <div>
+              <strong>Sign In Successful!</strong>
+              <p>Redirecting to your dashboard...</p>
+            </div>
+          </div>
+        }
+
+        <!-- Actual Form -->
+        <form (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+          
+          <!-- Email / Phone Field -->
+          <div class="form-group">
+            <label for="identifier" class="form-label">Email Address or Phone Number</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </span>
+              <input
+                id="identifier"
+                name="identifier"
+                type="text"
+                class="form-input"
+                placeholder="you@example.com or 08012345678"
+                [(ngModel)]="formData.identifier"
+                autocomplete="username"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="password" class="form-label">Password</label>
+              <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a>
+            </div>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input
+                id="password"
+                name="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                class="form-input"
+                placeholder="Enter your password"
+                [(ngModel)]="formData.password"
+                autocomplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              >
+                @if (showPassword()) {
+                  <!-- Eye Off -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                } @else {
+                  <!-- Eye -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                [checked]="rememberMe()"
+                (change)="rememberMe.set(!rememberMe())"
+              />
+              <span class="custom-checkbox"></span>
+              <span class="checkbox-label">Keep me signed in on this device</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="auth-btn-primary"
+            [disabled]="isSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span class="spinner"></span>
+              <span>Authenticating...</span>
+            } @else {
+              <span>Sign In</span>
+              <span class="btn-arrow-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            }
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>

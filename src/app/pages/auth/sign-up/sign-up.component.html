@@ -1,0 +1,489 @@
+<div class="auth-page">
+  <div class="auth-wrapper">
+    
+    <!-- LEFT PANEL: Brand & Community Network Vision -->
+    <div class="auth-showcase">
+      <div class="showcase-glow" aria-hidden="true"></div>
+      
+      <div class="showcase-content">
+        <!-- Brand Header -->
+        <div class="showcase-brand">
+          <a routerLink="/" class="brand-link">
+            <span class="brand-name">EcoBin<span class="brand-accent">™</span></span>
+          </a>
+          <span class="lga-pill">LGA Coordinated Portal</span>
+        </div>
+
+        <div class="showcase-hero">
+          <h1 class="showcase-title">
+            Join the Local <span class="text-lime">Waste Network</span>.
+          </h1>
+          <p class="showcase-description">
+            Connecting households, commercial entities, and licensed collection operators into a unified digital ecosystem across your LGA.
+          </p>
+        </div>
+
+        <!-- 4-Step Process Reminder -->
+        <div class="showcase-steps-summary">
+          <div class="summary-step-item">
+            <span class="step-num-pill">01</span>
+            <div class="step-info">
+              <span class="step-label">Register Your Account</span>
+              <span class="step-text">Connect as a resident, business, or accredited operator.</span>
+            </div>
+          </div>
+
+          <div class="summary-step-item">
+            <span class="step-num-pill">02</span>
+            <div class="step-info">
+              <span class="step-label">Request &amp; Schedule Pickups</span>
+              <span class="step-text">Set convenient recurring dates or order specialized dumpsters.</span>
+            </div>
+          </div>
+
+          <div class="summary-step-item">
+            <span class="step-num-pill">03</span>
+            <div class="step-info">
+              <span class="step-label">Verified Operator Dispatch</span>
+              <span class="step-text">Licensed crews are assigned directly to your neighbourhood route.</span>
+            </div>
+          </div>
+
+          <div class="summary-step-item">
+            <span class="step-num-pill">04</span>
+            <div class="step-info">
+              <span class="step-label">Track Live Impact &amp; Recycling</span>
+              <span class="step-text">100% accountable recovery diverted from informal dumpsites.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Highlight Card -->
+        <div class="showcase-stat-card">
+          <div class="stat-bubble">
+            <span class="stat-number">10+</span>
+            <span class="stat-desc">Years Operational</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-bubble">
+            <span class="stat-number">24/7</span>
+            <span class="stat-desc">Disposal Support</span>
+          </div>
+        </div>
+
+        <div class="showcase-footer">
+          <span>&copy; EcoBin Waste Network • Transforming Lagos LGA Waste Infrastructure</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Registration Form -->
+    <div class="auth-form-container">
+      <div class="auth-form-card">
+        
+        <!-- Header Actions -->
+        <div class="form-header-row">
+          <a routerLink="/" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Home</span>
+          </a>
+
+          <div class="auth-switch">
+            <span>Already registered?</span>
+            <a routerLink="/sign-in" class="switch-link">Sign In</a>
+          </div>
+        </div>
+
+        <div class="form-title-group">
+          <h2 class="form-title">Create an Account</h2>
+          <p class="form-subtitle">
+            Choose your account role below to unlock tailored waste management services.
+          </p>
+        </div>
+
+        <!-- Role Selection Cards -->
+        <div class="role-grid-selector" role="radiogroup" aria-label="Account Role Selection">
+          
+          <button
+            type="button"
+            class="role-card-btn"
+            [class.is-selected]="selectedRole() === 'resident'"
+            (click)="selectRole('resident')"
+          >
+            <div class="role-card-top">
+              <span class="role-badge-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </span>
+              <span class="role-indicator"></span>
+            </div>
+            <span class="role-card-title">Resident</span>
+            <span class="role-card-desc">For households &amp; private homes</span>
+          </button>
+
+          <button
+            type="button"
+            class="role-card-btn"
+            [class.is-selected]="selectedRole() === 'business'"
+            (click)="selectRole('business')"
+          >
+            <div class="role-card-top">
+              <span class="role-badge-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                  <line x1="9" y1="22" x2="9" y2="22.01"></line>
+                  <line x1="15" y1="22" x2="15" y2="22.01"></line>
+                  <line x1="9" y1="18" x2="9" y2="18.01"></line>
+                  <line x1="15" y1="18" x2="15" y2="18.01"></line>
+                  <line x1="9" y1="14" x2="9" y2="14.01"></line>
+                  <line x1="15" y1="14" x2="15" y2="14.01"></line>
+                  <line x1="9" y1="10" x2="9" y2="10.01"></line>
+                  <line x1="15" y1="10" x2="15" y2="10.01"></line>
+                  <line x1="9" y1="6" x2="9" y2="6.01"></line>
+                  <line x1="15" y1="6" x2="15" y2="6.01"></line>
+                </svg>
+              </span>
+              <span class="role-indicator"></span>
+            </div>
+            <span class="role-card-title">Business</span>
+            <span class="role-card-desc">Commercial, retail &amp; offices</span>
+          </button>
+
+        </div>
+
+        <!-- Error Alert -->
+        @if (errorMessage()) {
+          <div class="auth-alert alert-error">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <!-- Success Alert (Simulated) -->
+        @if (submitSuccess()) {
+          <div class="auth-alert alert-success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <div>
+              <strong>Account Created Successfully!</strong>
+              <p>Welcome to the EcoBin {{ selectedRole() | titlecase }} Network. Redirecting to your setup checklist...</p>
+            </div>
+          </div>
+        }
+
+        <!-- Registration Form -->
+        <form (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+          
+          <!-- Business Name (Only if Business) -->
+          @if (selectedRole() === 'business') {
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label for="businessName" class="form-label">Business / Organisation Name</label>
+                <div class="input-container">
+                  <span class="input-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                  </span>
+                  <input
+                    id="businessName"
+                    name="businessName"
+                    type="text"
+                    class="form-input"
+                    placeholder="e.g. Landmark Plaza &amp; Retail"
+                    [(ngModel)]="formData.businessName"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group flex-1">
+                <label for="businessCategory" class="form-label">Business Sector</label>
+                <select
+                  id="businessCategory"
+                  name="businessCategory"
+                  class="form-select"
+                  [(ngModel)]="formData.businessCategory"
+                >
+                  <option value="Corporate / Office">Corporate / Office</option>
+                  <option value="Restaurant / Food Service">Restaurant / Food Service</option>
+                  <option value="Retail / Mall">Retail / Mall</option>
+                  <option value="Hospitality / Hotel">Hospitality / Hotel</option>
+                  <option value="Construction / Contractor">Construction / Contractor</option>
+                  <option value="Industrial / Warehouse">Industrial / Warehouse</option>
+                </select>
+              </div>
+            </div>
+          }
+
+          <!-- Full Name & Phone Row -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="fullName" class="form-label">
+                {{ selectedRole() === 'business' ? 'Contact Person Name' : 'Full Name' }}
+              </label>
+              <div class="input-container">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </span>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  class="form-input"
+                  placeholder="e.g. Babatunde Adeyemi"
+                  [(ngModel)]="formData.fullName"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="phone" class="form-label">Phone Number</label>
+              <div class="input-container">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </span>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  class="form-input"
+                  placeholder="e.g. 0802 345 6789"
+                  [(ngModel)]="formData.phone"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </span>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-input"
+                placeholder="you@example.com"
+                [(ngModel)]="formData.email"
+                autocomplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- LGA & Address Row -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="lga" class="form-label">Target LGA / District</label>
+              <select
+                id="lga"
+                name="lga"
+                class="form-select"
+                [(ngModel)]="formData.lga"
+              >
+                @for (lga of lgaOptions; track lga) {
+                  <option [value]="lga">{{ lga }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="address" class="form-label">Street / Area Address</label>
+              <div class="input-container">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </span>
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  class="form-input"
+                  placeholder="e.g. 14 Allen Avenue, Ikeja"
+                  [(ngModel)]="formData.address"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Row -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-container">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input
+                  id="password"
+                  name="password"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  class="form-input"
+                  placeholder="Min 6 characters"
+                  [(ngModel)]="formData.password"
+                  autocomplete="new-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  (click)="togglePasswordVisibility()"
+                >
+                  @if (showPassword()) {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <div class="input-container">
+                <span class="input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  [type]="showConfirmPassword() ? 'text' : 'password'"
+                  class="form-input"
+                  placeholder="Re-enter password"
+                  [(ngModel)]="formData.confirmPassword"
+                  autocomplete="new-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  (click)="toggleConfirmPasswordVisibility()"
+                >
+                  @if (showConfirmPassword()) {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password strength helper -->
+          @if (formData.password) {
+            <div class="strength-meter-wrap">
+              <div class="strength-bar-track">
+                <div class="strength-bar-fill" [ngClass]="passwordStrength().class"></div>
+              </div>
+              <span class="strength-label">Password strength: <strong>{{ passwordStrength().label }}</strong></span>
+            </div>
+          }
+
+          <!-- Terms Checkbox -->
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input
+                type="checkbox"
+                name="agreeTerms"
+                [checked]="agreeTerms()"
+                (change)="agreeTerms.set(!agreeTerms())"
+              />
+              <span class="custom-checkbox"></span>
+              <span class="checkbox-label">
+                I agree to the <a routerLink="/" class="link-inline">Terms of Service</a> and acknowledge the <a routerLink="/" class="link-inline">LGA Responsible Waste Policy</a>.
+              </span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="auth-btn-primary"
+            [disabled]="isSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span class="spinner"></span>
+              <span>Creating {{ selectedRole() | titlecase }} Account...</span>
+            } @else {
+              <span>Join as {{ selectedRole() | titlecase }}</span>
+              <span class="btn-arrow-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            }
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider">
+          <span>or sign up with</span>
+        </div>
+
+        <!-- Social SSO -->
+        <div class="social-login-grid">
+          <button type="button" class="btn-social">
+            <svg class="google-icon" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27A7.18 7.18 0 0 1 4.9 12c0-.79.14-1.57.38-2.27V6.58H1.25A11.987 11.987 0 0 0 0 12c0 1.92.45 3.74 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15C6.23 6.9 8.88 4.75 12 4.75z"/>
+            </svg>
+            <span>Continue with Google</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
