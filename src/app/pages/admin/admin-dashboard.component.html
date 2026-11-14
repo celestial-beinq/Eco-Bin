@@ -1,13 +1,18 @@
 <div class="cadre-app-container">
 
+  <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
+  @if (mobileSidebarOpen()) {
+    <div class="mobile-sidebar-backdrop" (click)="closeMobileSidebar()"></div>
+  }
+
   <!-- LEFT SIDEBAR -->
-  <aside class="cadre-sidebar" [class.collapsed]="!sidebarOpen()">
+  <aside class="cadre-sidebar" [class.collapsed]="!sidebarOpen()" [class.mobile-open]="mobileSidebarOpen()">
     <div class="sidebar-top">
       
-      <!-- Logo Header -->
+      <!-- Brand Logo Header -->
       <div class="sidebar-brand-row">
         <button type="button" class="btn-toggle-sidebar" (click)="toggleSidebar()" aria-label="Toggle navigation">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -15,66 +20,81 @@
         </button>
 
         <a routerLink="/" class="cadre-brand-link">
-          <span class="cadre-brand-text">Cadre</span>
-          <span class="cadre-pro-pill">PRO</span>
+          <div class="ecobin-logo-mark">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <path d="M12 2L15 8H9L12 2Z" fill="#16a34a" />
+              <path d="M21 15L18 21L15 15H21Z" fill="#15803d" />
+              <path d="M3 15L6 9L9 15H3Z" fill="#84cc16" />
+              <circle cx="12" cy="14" r="3" fill="#0e2a16" />
+            </svg>
+          </div>
+          <span class="cadre-brand-text">EcoBin</span>
+          <span class="cadre-pro-pill">OPS</span>
         </a>
+
+        <!-- Mobile close button -->
+        <button type="button" class="btn-mobile-close-sidebar" (click)="closeMobileSidebar()" aria-label="Close sidebar">✕</button>
       </div>
 
-      <!-- MAIN SECTION -->
+      <!-- OPERATIONS SECTION -->
       <div class="sidebar-section">
-        <span class="sidebar-section-title">Main</span>
+        <span class="sidebar-section-title">Operations</span>
         
         <ul class="sidebar-nav-list">
           
-          <!-- Dashboard item -->
+          <!-- Command Center item -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
               class="nav-link-btn" 
-              [class.is-active]="activeSidebarItem() === 'Dashboard'"
-              (click)="setSidebarItem('Dashboard')"
+              [class.is-active]="activeSidebarItem() === 'Command Center'"
+              (click)="setSidebarItem('Command Center')"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
                 </svg>
               </span>
-              <span class="nav-text">Dashboard</span>
+              <span class="nav-text">Command Center</span>
             </a>
           </li>
 
-          <!-- My Project (Tree with nested children) -->
+          <!-- Collection Routes (Tree with nested children) -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
               class="nav-link-btn tree-parent" 
-              (click)="toggleProjectTree()"
+              (click)="toggleRoutesTree()"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                  <line x1="8" y1="2" x2="8" y2="18"></line>
+                  <line x1="16" y1="6" x2="16" y2="22"></line>
                 </svg>
               </span>
-              <span class="nav-text">My Project</span>
-              <span class="tree-caret" [class.open]="projectTreeExpanded()">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <span class="nav-text">Collection Routes</span>
+              <span class="tree-caret" [class.open]="routesTreeExpanded()">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </span>
             </a>
 
             <!-- Sub Items -->
-            @if (projectTreeExpanded()) {
+            @if (routesTreeExpanded()) {
               <ul class="nav-sub-list">
                 <li>
                   <a 
                     href="javascript:void(0)" 
                     class="nav-sub-item is-highlighted"
-                    [class.is-active]="activeSidebarItem() === 'Active'"
-                    (click)="setSidebarItem('Active')"
+                    [class.is-active]="activeSidebarItem() === 'Active Routes'"
+                    (click)="setSidebarItem('Active Routes')"
                   >
-                    <span>Active</span>
+                    <span>Active Routes</span>
                   </a>
                 </li>
 
@@ -82,11 +102,11 @@
                   <a 
                     href="javascript:void(0)" 
                     class="nav-sub-item"
-                    [class.is-active]="activeSidebarItem() === 'Closed'"
-                    (click)="setSidebarItem('Closed')"
+                    [class.is-active]="activeSidebarItem() === 'Completed Pickups'"
+                    (click)="setSidebarItem('Completed Pickups')"
                   >
-                    <span>Closed</span>
-                    <span class="sub-dot"></span>
+                    <span>Completed Pickups</span>
+                    <span class="sub-dot ok"></span>
                   </a>
                 </li>
 
@@ -94,11 +114,11 @@
                   <a 
                     href="javascript:void(0)" 
                     class="nav-sub-item"
-                    [class.is-active]="activeSidebarItem() === 'Expired'"
-                    (click)="setSidebarItem('Expired')"
+                    [class.is-active]="activeSidebarItem() === 'Pending Dispatch'"
+                    (click)="setSidebarItem('Pending Dispatch')"
                   >
-                    <span>Expired</span>
-                    <span class="sub-dot"></span>
+                    <span>Pending Dispatch</span>
+                    <span class="sub-dot warning"></span>
                   </a>
                 </li>
 
@@ -106,72 +126,92 @@
                   <a 
                     href="javascript:void(0)" 
                     class="nav-sub-item"
-                    [class.is-active]="activeSidebarItem() === 'Draft'"
-                    (click)="setSidebarItem('Draft')"
+                    [class.is-active]="activeSidebarItem() === 'Draft Schedules'"
+                    (click)="setSidebarItem('Draft Schedules')"
                   >
-                    <span>Draft</span>
+                    <span>Draft Schedules</span>
                   </a>
                 </li>
               </ul>
             }
           </li>
 
-          <!-- My Team -->
+          <!-- Hauler Fleet -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
               class="nav-link-btn" 
-              [class.is-active]="activeSidebarItem() === 'My Team'"
-              (click)="setSidebarItem('My Team')"
+              [class.is-active]="activeSidebarItem() === 'Hauler Fleet'"
+              (click)="setSidebarItem('Hauler Fleet')"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              </span>
+              <span class="nav-text">Hauler Fleet</span>
+              <span class="nav-arrow">›</span>
+            </a>
+          </li>
+
+          <!-- Customers Section Item -->
+          <li class="sidebar-nav-item">
+            <a 
+              href="javascript:void(0)" 
+              class="nav-link-btn" 
+              [class.is-active]="activeSidebarItem() === 'Customers'"
+              (click)="setSidebarItem('Customers')"
+            >
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
               </span>
-              <span class="nav-text">My Team</span>
-              <span class="nav-arrow">›</span>
+              <span class="nav-text">Customers</span>
+              <span class="nav-count-pill">{{ customers().length }}</span>
             </a>
           </li>
 
-          <!-- My Payment -->
+          <!-- Material Recovery Hubs -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
               class="nav-link-btn" 
-              [class.is-active]="activeSidebarItem() === 'My Payment'"
-              (click)="setSidebarItem('My Payment')"
+              [class.is-active]="activeSidebarItem() === 'Material Recovery'"
+              (click)="setSidebarItem('Material Recovery')"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
                 </svg>
               </span>
-              <span class="nav-text">My Payment</span>
+              <span class="nav-text">Recovery Hubs</span>
               <span class="nav-arrow">›</span>
             </a>
           </li>
 
-          <!-- My Profile -->
+          <!-- Smart Bins Telemetry -->
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
               class="nav-link-btn" 
-              [class.is-active]="activeSidebarItem() === 'My Profile'"
-              (click)="setSidebarItem('My Profile')"
+              [class.is-active]="activeSidebarItem() === 'Smart Bins'"
+              (click)="setSidebarItem('Smart Bins')"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <circle cx="12" cy="10" r="3"></circle>
-                  <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
                 </svg>
               </span>
-              <span class="nav-text">My Profile</span>
+              <span class="nav-text">Smart Bins</span>
               <span class="nav-arrow">›</span>
             </a>
           </li>
@@ -179,11 +219,29 @@
         </ul>
       </div>
 
-      <!-- OTHER SECTION -->
-      <div class="sidebar-section mt-4">
-        <span class="sidebar-section-title">Other</span>
+      <!-- SYSTEM & AUDIT SECTION -->
+      <div class="sidebar-section mt-3">
+        <span class="sidebar-section-title">System &amp; Audit</span>
 
         <ul class="sidebar-nav-list">
+          <li class="sidebar-nav-item">
+            <a 
+              href="javascript:void(0)" 
+              class="nav-link-btn" 
+              [class.is-active]="activeSidebarItem() === 'Incidents'"
+              (click)="setSidebarItem('Incidents')"
+            >
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </span>
+              <span class="nav-text">Incident Reports</span>
+            </a>
+          </li>
+
           <li class="sidebar-nav-item">
             <a 
               href="javascript:void(0)" 
@@ -192,26 +250,26 @@
               (click)="setSidebarItem('Help')"
             >
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
               </span>
-              <span class="nav-text">Help</span>
+              <span class="nav-text">LGA SOP &amp; Help</span>
             </a>
           </li>
 
           <li class="sidebar-nav-item">
             <a routerLink="/" class="nav-link-btn logout-link">
               <span class="nav-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                   <polyline points="16 17 21 12 16 7"></polyline>
                   <line x1="21" y1="12" x2="9" y2="12"></line>
                 </svg>
               </span>
-              <span class="nav-text">Logout</span>
+              <span class="nav-text">Sign Out</span>
             </a>
           </li>
         </ul>
@@ -226,20 +284,28 @@
     <!-- TOP NAVBAR -->
     <header class="cadre-topbar">
       
-      <!-- Back Link Breadcrumb -->
+      <!-- Back Link Breadcrumb & Mobile Toggle -->
       <div class="topbar-left">
+        <button type="button" class="btn-mobile-nav-toggle" (click)="toggleMobileSidebar()" aria-label="Open sidebar menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
         <a routerLink="/" class="back-breadcrumb-link">
           <span class="breadcrumb-arrow">‹</span>
-          <span>Back to Projects</span>
+          <span class="breadcrumb-label">Back to Operations</span>
         </a>
       </div>
 
       <!-- Topbar Actions -->
       <div class="topbar-right">
         
-        <!-- Messages Button -->
+        <!-- Live Alert Messages Button -->
         <button type="button" class="topbar-icon-btn" aria-label="Messages">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
         </button>
@@ -247,7 +313,7 @@
         <!-- Notification Bell with Counter -->
         <div class="notif-wrapper">
           <button type="button" class="topbar-icon-btn" (click)="toggleNotifications()" aria-label="Notifications">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
@@ -257,48 +323,48 @@
           @if (notificationsOpen()) {
             <div class="notif-dropdown">
               <div class="notif-dropdown-header">
-                <strong>Notifications (2)</strong>
+                <strong>Live Fleet Notifications (2)</strong>
               </div>
               <div class="notif-item">
-                <span class="notif-dot"></span>
+                <span class="notif-dot ok"></span>
                 <div>
-                  <p class="notif-text"><strong>Newton Scamendar</strong> accepted dispatch request for Stage 1.</p>
-                  <span class="notif-time">10 mins ago</span>
+                  <p class="notif-text"><strong>EcoFleet Unit #04</strong> arrived at Oregun Material Recovery Yard with 8.0T diverted cardboard.</p>
+                  <span class="notif-time">8 mins ago</span>
                 </div>
               </div>
               <div class="notif-item">
-                <span class="notif-dot"></span>
+                <span class="notif-dot warning"></span>
                 <div>
-                  <p class="notif-text"><strong>Audit notice:</strong> 4 missing itineraries logged in Sector 23.</p>
-                  <span class="notif-time">1 hour ago</span>
+                  <p class="notif-text"><strong>Weighbridge Ticket ECB-1052:</strong> Gross weight 4,200 kg verified for Victoria Island Route.</p>
+                  <span class="notif-time">25 mins ago</span>
                 </div>
               </div>
             </div>
           }
         </div>
 
-        <!-- + Team Button -->
+        <!-- + Dispatchers Team Button -->
         <button type="button" class="btn-topbar-team" (click)="openTeamModal()">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="8.5" cy="7" r="4"></circle>
             <line x1="20" y1="8" x2="20" y2="14"></line>
             <line x1="23" y1="11" x2="17" y2="11"></line>
           </svg>
-          <span>Team</span>
+          <span class="btn-label-desktop">Dispatchers</span>
         </button>
 
-        <!-- + Project Dark Button -->
-        <button type="button" class="btn-topbar-project" (click)="openNewProjectModal()">
+        <!-- + New Route Dark Button -->
+        <button type="button" class="btn-topbar-project" (click)="openNewRouteModal()">
           <span class="plus-icon">+</span>
-          <span>Project</span>
+          <span>New Route</span>
         </button>
 
         <!-- Profile Avatar -->
         <div class="user-avatar-wrap">
           <img 
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" 
-            alt="Profile Avatar" 
+            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=72&q=80" 
+            alt="LGA Operations Officer" 
             class="user-avatar-img"
           />
         </div>
@@ -310,423 +376,992 @@
     <!-- MAIN SCROLLABLE BODY -->
     <main class="cadre-page-content">
 
-      <!-- PROJECT TITLE & HEADER BADGES -->
+      <!-- MAIN TABS (ROUTE DETAILS / WASTE STREAMS / SLA & COMPLIANCE) -->
       <section class="project-header-section">
-        <div class="project-title-row">
-          
-          <div class="title-with-tag">
-            <h1 class="project-main-title">{{ projectInfo().title }}</h1>
-            <span class="project-category-pill">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-              </svg>
-              <span>{{ projectInfo().tag }}</span>
-            </span>
-          </div>
-
-          <div class="project-header-badges">
-            
-            <!-- Active Pill -->
-            <span class="status-pill pill-active">
-              <span class="green-indicator-dot"></span>
-              <span>Active</span>
-            </span>
-
-            <!-- Hired Pill -->
-            <span class="status-pill pill-hired">
-              <svg class="hired-refresh-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="23 4 23 10 17 10"></polyline>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-              </svg>
-              <span>Hired 2 of 3</span>
-            </span>
-
-            <!-- More Options 3 Dots -->
-            <button type="button" class="btn-more-options" aria-label="More options">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1"></circle>
-                <circle cx="12" cy="5" r="1"></circle>
-                <circle cx="12" cy="19" r="1"></circle>
-              </svg>
-            </button>
-
-          </div>
-
-        </div>
-
-        <!-- MAIN TABS (PROJECT DETAILS / POSITION DETAILS / PREFERENCE) -->
         <div class="project-main-tabs" role="tablist">
           
           <button 
             type="button" 
             class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'PROJECT DETAILS'"
-            (click)="setMainTab('PROJECT DETAILS')"
+            [class.is-active]="activeMainTab() === 'ROUTE DETAILS'"
+            (click)="setMainTab('ROUTE DETAILS')"
           >
             <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
               </svg>
             </span>
-            <span>PROJECT DETAILS</span>
+            <span>ROUTE DETAILS</span>
           </button>
 
           <button 
             type="button" 
             class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'POSITION DETAILS'"
-            (click)="setMainTab('POSITION DETAILS')"
+            [class.is-active]="activeMainTab() === 'WASTE STREAMS'"
+            (click)="setMainTab('WASTE STREAMS')"
           >
             <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="6"></circle>
-                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
               </svg>
             </span>
-            <span>POSITION DETAILS</span>
+            <span>WASTE STREAMS &amp; TONNAGE</span>
           </button>
 
           <button 
             type="button" 
             class="main-tab-btn" 
-            [class.is-active]="activeMainTab() === 'PREFERENCE'"
-            (click)="setMainTab('PREFERENCE')"
+            [class.is-active]="activeMainTab() === 'SLA & COMPLIANCE'"
+            (click)="setMainTab('SLA & COMPLIANCE')"
           >
             <span class="tab-icon">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               </svg>
             </span>
-            <span>PREFERENCE</span>
+            <span>SLA &amp; COMPLIANCE</span>
           </button>
 
         </div>
       </section>
 
-      <!-- KPI & METADATA SUMMARY CARD -->
-      <section class="kpi-summary-card">
-        
-        <!-- Top Metrics Row (5 Columns) -->
-        <div class="kpi-upper-grid">
-          
-          <div class="kpi-cell">
-            <div class="kpi-value">{{ projectInfo().contracted }}</div>
-            <div class="kpi-label">CONTRACTED</div>
+      <!-- CUSTOMER OVERVIEW HERO & KPI BANNER (Shown when on CUSTOMERS tab) -->
+      @if (activeSubTab() === 'CUSTOMERS') {
+        <section class="customers-hero-section">
+          <div class="customers-hero-card">
+            <div class="customers-hero-top">
+              <div>
+                <div class="customers-badge-tag">
+                  <span class="dot-live-green"></span>
+                  <span>LGA WASTE SERVICE DIRECTORY</span>
+                </div>
+                <h2 class="customers-hero-title">Customer Accounts &amp; Service Contracts</h2>
+                <p class="customers-hero-desc">
+                  Active directory of registered commercial establishments, hotels, and residential estates with verified waste collection manifests across Lagos LGAs.
+                </p>
+              </div>
+              <div class="customers-hero-cta">
+                <button type="button" class="btn-register-customer" (click)="openNewCustomerModal()">
+                  <span class="plus-icon">+</span>
+                  <span>Register Customer</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- KPI Metric Cards Grid -->
+            <div class="customers-kpi-grid">
+              <div class="customer-kpi-card">
+                <div class="kpi-icon-wrap kpi-blue">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+                <div class="kpi-info-block">
+                  <span class="customer-kpi-label">TOTAL REGISTERED</span>
+                  <div class="customer-kpi-val">{{ customers().length }} Accounts</div>
+                  <span class="customer-kpi-sub positive">100% Verified Lagos LGAs</span>
+                </div>
+              </div>
+
+              <div class="customer-kpi-card">
+                <div class="kpi-icon-wrap kpi-green">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+                <div class="kpi-info-block">
+                  <span class="customer-kpi-label">COMMERCIAL CLIENTS</span>
+                  <div class="customer-kpi-val">412 Accounts</div>
+                  <span class="customer-kpi-sub">Hotels, Malls &amp; Corporate</span>
+                </div>
+              </div>
+
+              <div class="customer-kpi-card">
+                <div class="kpi-icon-wrap kpi-amber">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                </div>
+                <div class="kpi-info-block">
+                  <span class="customer-kpi-label">RESIDENTIAL ESTATES</span>
+                  <div class="customer-kpi-val">836 Communities</div>
+                  <span class="customer-kpi-sub">Curbside &amp; Multi-Tenant</span>
+                </div>
+              </div>
+
+              <div class="customer-kpi-card">
+                <div class="kpi-icon-wrap kpi-emerald">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                  </svg>
+                </div>
+                <div class="kpi-info-block">
+                  <span class="customer-kpi-label">MONTHLY DIVERTED</span>
+                  <div class="customer-kpi-val text-brand">186.4 Tons</div>
+                  <span class="customer-kpi-sub positive">88.7% Diversion Rate</span>
+                </div>
+              </div>
+            </div>
+
           </div>
+        </section>
+      } @else {
 
-          <div class="kpi-cell">
-            <div class="kpi-value">{{ projectInfo().averageOffer }}</div>
-            <div class="kpi-label">AVERAGE OFFER</div>
+        <!-- RESPONSIVE SUMMARY OPERATIONS TABLE FORMAT -->
+        <section class="summary-table-section">
+          <div class="summary-table-card">
+            
+            <div class="table-scroll-wrapper">
+              <table class="summary-matrix-table">
+                
+                <!-- Upper Tier: Key Performance Indicators -->
+                <thead>
+                  <tr class="matrix-head-row">
+                    <th class="matrix-cell">
+                      <span class="matrix-metric-label">TRUCKS DISPATCHED</span>
+                      <div class="matrix-metric-value brand-accent">{{ operationInfo().dispatchedCount }}</div>
+                    </th>
+                    <th class="matrix-cell">
+                      <span class="matrix-metric-label">ESTIMATED TONNAGE</span>
+                      <div class="matrix-metric-value">{{ operationInfo().estimatedTonnage }}</div>
+                    </th>
+                    <th class="matrix-cell">
+                      <span class="matrix-metric-label">OVERFLOW ALERTS</span>
+                      <div class="matrix-metric-value text-ok">{{ operationInfo().overflowAlerts }}</div>
+                    </th>
+                    <th class="matrix-cell">
+                      <span class="matrix-metric-label">RECOVERY HUBS</span>
+                      <div class="matrix-metric-value">{{ operationInfo().recoveryHubs }}</div>
+                    </th>
+                    <th class="matrix-cell">
+                      <span class="matrix-metric-label">SLA COMPLIANCE</span>
+                      <div class="matrix-metric-value brand-accent">{{ operationInfo().slaCompliance }}</div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <!-- Lower Tier: Route Operation Metadata -->
+                <tbody>
+                  <tr class="matrix-body-row">
+                    <td class="matrix-cell meta">
+                      <span class="matrix-meta-label">START DATE</span>
+                      <span class="matrix-meta-val">{{ operationInfo().startDate }}</span>
+                    </td>
+                    <td class="matrix-cell meta">
+                      <span class="matrix-meta-label">TARGET COMPLETION</span>
+                      <span class="matrix-meta-val">{{ operationInfo().targetDate }}</span>
+                    </td>
+                    <td class="matrix-cell meta">
+                      <span class="matrix-meta-label">ZONE / LOCATION</span>
+                      <span class="matrix-meta-val truncate" [title]="operationInfo().zoneLocation">{{ operationInfo().zoneLocation }}</span>
+                    </td>
+                    <td class="matrix-cell meta">
+                      <span class="matrix-meta-label">MANIFEST ID</span>
+                      <span class="matrix-meta-val font-mono">{{ operationInfo().manifestId }}</span>
+                    </td>
+                    <td class="matrix-cell meta">
+                      <span class="matrix-meta-label">OPERATIONS LEAD</span>
+                      <span class="matrix-meta-val">{{ operationInfo().operationsLead }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+
           </div>
+        </section>
 
-          <div class="kpi-cell">
-            <div class="kpi-value">{{ projectInfo().unpaidContracts }}</div>
-            <div class="kpi-label">UNPAID CONTRACTS</div>
-          </div>
-
-          <div class="kpi-cell">
-            <div class="kpi-value">{{ projectInfo().missingItineraries }}</div>
-            <div class="kpi-label">MISSING ITENARARIES</div>
-          </div>
-
-          <div class="kpi-cell">
-            <div class="kpi-value">{{ projectInfo().unreadMessages }}</div>
-            <div class="kpi-label">UNREAD MESSAGES</div>
-          </div>
-
-        </div>
-
-        <!-- Hairline Divider -->
-        <div class="kpi-card-divider"></div>
-
-        <!-- Bottom Metadata Row (5 Columns) -->
-        <div class="kpi-lower-grid">
-          
-          <div class="meta-cell">
-            <div class="meta-label">START DATE</div>
-            <div class="meta-val">{{ projectInfo().startDate }}</div>
-          </div>
-
-          <div class="meta-cell">
-            <div class="meta-label">END DATE</div>
-            <div class="meta-val">{{ projectInfo().endDate }}</div>
-          </div>
-
-          <div class="meta-cell">
-            <div class="meta-label">LOCATION</div>
-            <div class="meta-val">{{ projectInfo().location }}</div>
-          </div>
-
-          <div class="meta-cell">
-            <div class="meta-label">NUMBER</div>
-            <div class="meta-val">{{ projectInfo().number }}</div>
-          </div>
-
-          <div class="meta-cell">
-            <div class="meta-label">PROJECT MANAGER</div>
-            <div class="meta-val">{{ projectInfo().projectManager }}</div>
-          </div>
-
-        </div>
-
-      </section>
+      }
 
       <!-- SUB-NAVIGATION TABS & TOOLBAR -->
       <section class="sub-nav-toolbar-row">
         
-        <!-- Left Sub Tabs -->
-        <div class="sub-nav-tabs">
-          
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'FREELANCER'"
-            (click)="setSubTab('FREELANCER')"
-          >
-            <span>FREELANCER</span>
-            <span class="sub-tab-badge">12</span>
-          </button>
+        <!-- Left Sub Tabs (Horizontally scrollable on mobile) -->
+        <div class="sub-nav-tabs-scroll">
+          <div class="sub-nav-tabs">
+            
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'CREWS'"
+              (click)="setSubTab('CREWS')"
+            >
+              <span>HAULER CREWS</span>
+              <span class="sub-tab-badge">12</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'QUESTIONS'"
-            (click)="setSubTab('QUESTIONS')"
-          >
-            <span>QUESTIONS</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'MANIFESTS'"
+              (click)="setSubTab('MANIFESTS')"
+            >
+              <span>MANIFESTS</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'OFFERS'"
-            (click)="setSubTab('OFFERS')"
-          >
-            <span>OFFERS</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'CUSTOMERS'"
+              (click)="setSubTab('CUSTOMERS')"
+            >
+              <span>CUSTOMERS</span>
+              <span class="sub-tab-badge">{{ customers().length }}</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'INTERVIEW'"
-            (click)="setSubTab('INTERVIEW')"
-          >
-            <span>INTERVIEW</span>
-            <span class="sub-tab-badge subtle">2</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'WEIGHBRIDGE'"
+              (click)="setSubTab('WEIGHBRIDGE')"
+            >
+              <span>WEIGHBRIDGE LOGS</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'CONTRACTS'"
-            (click)="setSubTab('CONTRACTS')"
-          >
-            <span>CONTRACTS</span>
-            <span class="sub-tab-badge subtle">3</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'COMPACTORS'"
+              (click)="setSubTab('COMPACTORS')"
+            >
+              <span>COMPACTORS</span>
+              <span class="sub-tab-badge subtle">6</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'PAYMENT'"
-            (click)="setSubTab('PAYMENT')"
-          >
-            <span>PAYMENT</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'BINS'"
+              (click)="setSubTab('BINS')"
+            >
+              <span>COMMERCIAL BINS</span>
+              <span class="sub-tab-badge subtle">3</span>
+            </button>
 
-          <button 
-            type="button" 
-            class="sub-tab-item"
-            [class.is-active]="activeSubTab() === 'COMPLIANCE'"
-            (click)="setSubTab('COMPLIANCE')"
-          >
-            <span>COMPLIANCE</span>
-          </button>
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'CERTIFICATES'"
+              (click)="setSubTab('CERTIFICATES')"
+            >
+              <span>CERTIFICATES</span>
+            </button>
 
+            <button 
+              type="button" 
+              class="sub-tab-item"
+              [class.is-active]="activeSubTab() === 'ESG AUDIT'"
+              (click)="setSubTab('ESG AUDIT')"
+            >
+              <span>ESG AUDIT</span>
+            </button>
+
+          </div>
         </div>
 
-        <!-- Right Toolbar: Search, Toggle & Filter -->
+        <!-- Right Toolbar: Search, Available Toggle, View Switcher & Filter -->
         <div class="toolbar-controls">
           
           <!-- Search Input -->
           <div class="search-input-box">
             <span class="search-icon">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input 
-              type="text" 
-              class="search-field" 
-              placeholder="Search" 
-              [ngModel]="searchQuery()"
-              (ngModelChange)="searchQuery.set($event)"
-            />
+            @if (activeSubTab() === 'CUSTOMERS') {
+              <input 
+                type="text" 
+                class="search-field" 
+                placeholder="Search customers, account ID, LGA, address..." 
+                [ngModel]="customerSearchQuery()"
+                (ngModelChange)="customerSearchQuery.set($event)"
+              />
+            } @else {
+              <input 
+                type="text" 
+                class="search-field" 
+                placeholder="Search haulers, trucks, hubs..." 
+                [ngModel]="searchQuery()"
+                (ngModelChange)="searchQuery.set($event)"
+              />
+            }
           </div>
 
-          <!-- Recently Hired Toggle Switch -->
-          <label class="recently-hired-switch">
-            <input 
-              type="checkbox" 
-              [checked]="recentlyHiredOnly()"
-              (change)="toggleRecentlyHired()"
-            />
-            <span class="toggle-slider"></span>
-            <span class="toggle-label">Recently Hired</span>
-          </label>
+          <!-- Available Now Toggle Switch (Only for Crews) -->
+          @if (activeSubTab() === 'CREWS') {
+            <label class="recently-hired-switch">
+              <input 
+                type="checkbox" 
+                [checked]="availableOnly()"
+                (change)="toggleAvailableOnly()"
+              />
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Available</span>
+            </label>
+          }
 
-          <!-- Filters Pill Button -->
-          <button type="button" class="btn-filter-pill" (click)="openFilterModal()">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" y1="21" x2="4" y2="14"></line>
-              <line x1="4" y1="10" x2="4" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12" y2="3"></line>
-              <line x1="20" y1="21" x2="20" y2="16"></line>
-              <line x1="20" y1="12" x2="20" y2="3"></line>
-              <line x1="1" y1="14" x2="7" y2="14"></line>
-              <line x1="9" y1="8" x2="15" y2="8"></line>
-              <line x1="17" y1="16" x2="23" y2="16"></line>
-            </svg>
-            <span>Filters</span>
-          </button>
+          <!-- Format Switcher: Table vs Cards -->
+          <div class="format-switcher-group" role="group" aria-label="View format">
+            <button 
+              type="button" 
+              class="btn-format-switch" 
+              [class.is-active]="viewMode() === 'table'"
+              (click)="setViewMode('table')"
+              title="Table Format"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="3" y1="15" x2="21" y2="15"></line>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+              </svg>
+              <span>Table</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="btn-format-switch" 
+              [class.is-active]="viewMode() === 'grid'"
+              (click)="setViewMode('grid')"
+              title="Cards Grid Format"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Grid</span>
+            </button>
+          </div>
+
+          <!-- Filters Pill Button / Register Button -->
+          @if (activeSubTab() === 'CUSTOMERS') {
+            <button type="button" class="btn-topbar-project btn-small-add" (click)="openNewCustomerModal()">
+              <span class="plus-icon">+</span>
+              <span>New Customer</span>
+            </button>
+          } @else {
+            <button type="button" class="btn-filter-pill" (click)="openFilterModal()">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="21" x2="4" y2="14"></line>
+                <line x1="4" y1="10" x2="4" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12" y2="3"></line>
+                <line x1="20" y1="21" x2="20" y2="16"></line>
+                <line x1="20" y1="12" x2="20" y2="3"></line>
+                <line x1="1" y1="14" x2="7" y2="14"></line>
+                <line x1="9" y1="8" x2="15" y2="8"></line>
+                <line x1="17" y1="16" x2="23" y2="16"></line>
+              </svg>
+              <span>Filters</span>
+            </button>
+          }
 
         </div>
 
       </section>
 
-      <!-- RESULTS COUNT HEADER -->
-      <div class="results-count-header">
-        <span>{{ filteredContractors().length }} FREELANCERS FOUND</span>
-      </div>
-
-      <!-- CONTRACTOR CARDS GRID (3-Column Layout) -->
-      <div class="contractors-grid">
-        
-        @for (item of filteredContractors(); track item.id) {
-          
-          <div class="contractor-card">
-            
-            <!-- Card Header: Avatar & Info -->
-            <div class="card-user-row">
-              
-              <!-- Avatar or Initials -->
-              @if (item.avatar) {
-                <div class="user-photo-wrap">
-                  <img [src]="item.avatar" [alt]="item.name" class="user-photo-img" />
-                </div>
-              } @else {
-                <div class="user-initials-badge" [style.background-color]="item.initialBg || '#6366f1'">
-                  {{ item.initials }}
-                </div>
-              }
-
-              <!-- Name & Subtitle/Rating -->
-              <div class="user-meta-info">
-                
-                <div class="user-name-line">
-                  <span class="user-full-name">{{ item.name }}</span>
-                  @if (item.handle) {
-                    <span class="user-handle-txt">({{ item.handle }})</span>
-                  }
-                  @if (item.verified) {
-                    <span class="verified-check" title="Verified Professional">
-                      <svg viewBox="0 0 24 24" width="14" height="14" fill="#3b82f6">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                      </svg>
-                    </span>
-                  }
-                </div>
-
-                <div class="user-sub-line">
-                  @if (item.isNew) {
-                    <span class="sub-text-muted">{{ item.subtitle }}</span>
-                  } @else {
-                    <div class="rating-box">
-                      <span class="star-gold">★</span>
-                      <span class="rating-num">{{ item.rating }}</span>
-                      <span class="review-count-txt">({{ item.reviewCount }} Reviews)</span>
-                    </div>
-                  }
-                </div>
-
-              </div>
-
-            </div>
-
-            <!-- Card Stats Split Box -->
-            <div class="card-stats-box">
-              
-              <div class="stats-box-col">
-                <div class="stat-top-txt">{{ item.location }}</div>
-                <div class="stat-sub-label">{{ item.distance }}</div>
-              </div>
-
-              <div class="stats-box-separator"></div>
-
-              <div class="stats-box-col">
-                <div class="stat-top-txt bold">{{ item.rate }}</div>
-                <div class="stat-sub-label">{{ item.rateLabel }}</div>
-              </div>
-
-            </div>
-
-            <!-- Card Actions: Wishlist & Invite -->
-            <div class="card-actions-row">
-              
-              <!-- Wishlist / Liked Button -->
-              <button 
-                type="button" 
-                class="btn-card-wishlist"
-                [class.is-liked]="item.liked"
-                (click)="toggleLike(item)"
-              >
-                @if (item.liked) {
-                  <span class="heart-icon filled">♥</span>
-                  <span>Liked</span>
-                } @else {
-                  <span class="heart-icon">♡</span>
-                  <span>Wishlist</span>
-                }
-              </button>
-
-              <!-- Invite Button -->
-              <button 
-                type="button" 
-                class="btn-card-invite"
-                [class.is-invited]="item.invited"
-                (click)="toggleInvite(item)"
-              >
-                @if (item.invited) {
-                  <span class="check-icon">✓</span>
-                  <span>Invited</span>
-                } @else {
-                  <span class="plus-icon">+</span>
-                  <span>Invite</span>
-                }
-              </button>
-
-            </div>
-
-            <!-- Card Footer Status -->
-            <div class="card-status-footer">
-              <span 
-                class="status-footnote" 
-                [class.status-alert]="item.statusType === 'unavailable'"
-                [class.status-ok]="item.statusType === 'available'"
-              >
-                {{ item.statusText }}
-              </span>
-            </div>
-
+      <!-- CUSTOMER CATEGORY FILTER PILLS (Only shown on CUSTOMERS tab) -->
+      @if (activeSubTab() === 'CUSTOMERS') {
+        <div class="customer-filter-pills-row">
+          <div class="cat-pills-wrap">
+            <button 
+              type="button" 
+              class="cat-pill-btn" 
+              [class.is-active]="customerCategoryFilter() === 'All'"
+              (click)="setCustomerCategoryFilter('All')"
+            >
+              All Accounts ({{ customers().length }})
+            </button>
+            <button 
+              type="button" 
+              class="cat-pill-btn" 
+              [class.is-active]="customerCategoryFilter() === 'Commercial'"
+              (click)="setCustomerCategoryFilter('Commercial')"
+            >
+              Commercial
+            </button>
+            <button 
+              type="button" 
+              class="cat-pill-btn" 
+              [class.is-active]="customerCategoryFilter() === 'Residential'"
+              (click)="setCustomerCategoryFilter('Residential')"
+            >
+              Residential Estates
+            </button>
+            <button 
+              type="button" 
+              class="cat-pill-btn" 
+              [class.is-active]="customerCategoryFilter() === 'Industrial'"
+              (click)="setCustomerCategoryFilter('Industrial')"
+            >
+              Industrial
+            </button>
+            <button 
+              type="button" 
+              class="cat-pill-btn" 
+              [class.is-active]="customerCategoryFilter() === 'Recycling Partner'"
+              (click)="setCustomerCategoryFilter('Recycling Partner')"
+            >
+              Recycling Partners
+            </button>
           </div>
 
-        }
+          <!-- Status Dropdown Filter -->
+          <div class="customer-status-filter-wrap">
+            <label class="status-filter-label">Status:</label>
+            <select 
+              class="customer-status-select"
+              [ngModel]="customerStatusFilter()"
+              (ngModelChange)="setCustomerStatusFilter($event)"
+            >
+              <option value="All">All Status</option>
+              <option value="Active">Active Service</option>
+              <option value="Scheduled">Scheduled Pickup</option>
+              <option value="Pending Review">Pending Review</option>
+            </select>
+          </div>
+        </div>
+      }
 
+      <!-- RESULTS COUNT & STATUS BANNER -->
+      <div class="results-count-header">
+        @if (activeSubTab() === 'CUSTOMERS') {
+          <span>{{ filteredCustomers().length }} REGISTERED CUSTOMER ACCOUNTS FOUND</span>
+        } @else if (activeSubTab() === 'CREWS') {
+          <span>{{ filteredCrews().length }} VERIFIED HAULER CREWS FOUND</span>
+        } @else if (activeSubTab() === 'MANIFESTS') {
+          <span>{{ manifests().length }} ACTIVE ROUTE MANIFESTS RECORDED</span>
+        } @else {
+          <span>OPERATIONS DATA MATRIX • ACTIVE AUDIT STATUS</span>
+        }
       </div>
+
+      <!-- MAIN DATA VIEW (TABLE FORMAT VS CARDS GRID) -->
+
+      <!-- 0. CUSTOMERS TABLE FORMAT -->
+      @if (activeSubTab() === 'CUSTOMERS' && viewMode() === 'table') {
+        <div class="data-table-container">
+          <div class="table-responsive-wrapper">
+            <table class="ecobin-data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="min-width: 240px;">CUSTOMER ACCOUNT</th>
+                  <th scope="col" style="min-width: 200px;">LOCATION &amp; LGA</th>
+                  <th scope="col" style="min-width: 220px;">SERVICE PLAN &amp; BINS</th>
+                  <th scope="col" style="min-width: 170px;">ESG &amp; RECOVERY</th>
+                  <th scope="col" style="min-width: 140px;">STATUS</th>
+                  <th scope="col" style="min-width: 180px; text-align: right;">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cst of filteredCustomers(); track cst.id) {
+                  <tr class="data-table-row">
+                    <!-- Customer Main Info -->
+                    <td class="cell-hauler-main">
+                      <div class="table-user-cell">
+                        <div class="table-avatar-initials" [style.background-color]="cst.initialBg">
+                          {{ cst.initials }}
+                        </div>
+                        <div class="table-user-info">
+                          <div class="table-name-row">
+                            <strong class="table-hauler-name">{{ cst.name }}</strong>
+                            <span class="badge-cat-tag" [class]="'cat-' + cst.category.toLowerCase().replace(' ', '-')">
+                              {{ cst.category }}
+                            </span>
+                          </div>
+                          <span class="table-crew-lead">{{ cst.accountNumber }} • {{ cst.contactPerson }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Location & LGA -->
+                    <td>
+                      <div class="table-location-block">
+                        <span class="table-depot-title">{{ cst.address }}</span>
+                        <span class="table-distance-pill">
+                          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                          </svg>
+                          {{ cst.lga }}
+                        </span>
+                      </div>
+                    </td>
+
+                    <!-- Service Plan & Bins -->
+                    <td>
+                      <div class="table-capacity-block">
+                        <strong class="table-cap-val">{{ cst.servicePlan }}</strong>
+                        <span class="table-cap-type">{{ cst.binAllocation }} ({{ cst.pickupFrequency }})</span>
+                      </div>
+                    </td>
+
+                    <!-- ESG & Recovery -->
+                    <td>
+                      <div class="table-esg-block">
+                        <span class="badge-esg-pill">{{ cst.esgTier }}</span>
+                        <span class="table-tonnage-txt">{{ cst.monthlyTonnage }}</span>
+                      </div>
+                    </td>
+
+                    <!-- Status -->
+                    <td>
+                      <span 
+                        class="status-badge-cell"
+                        [class.ok]="cst.status === 'Active'"
+                        [class.busy]="cst.status === 'Scheduled'"
+                        [class.alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
+                      >
+                        <span class="status-cell-dot"></span>
+                        <span>{{ cst.status }}</span>
+                      </span>
+                    </td>
+
+                    <!-- Actions -->
+                    <td style="text-align: right;">
+                      <div class="table-actions-cell">
+                        <button 
+                          type="button" 
+                          class="btn-tbl-pickup" 
+                          (click)="scheduleExtraPickup(cst)"
+                          title="Dispatch on-demand pickup truck"
+                        >
+                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                          </svg>
+                          <span>Pickup</span>
+                        </button>
+
+                        <button 
+                          type="button" 
+                          class="btn-tbl-details" 
+                          (click)="viewCustomerDetails(cst)"
+                          title="View customer profile"
+                        >
+                          <span>Profile</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- 0b. CUSTOMERS CARDS GRID FORMAT -->
+      @else if (activeSubTab() === 'CUSTOMERS' && viewMode() === 'grid') {
+        <div class="contractors-grid">
+          @for (cst of filteredCustomers(); track cst.id) {
+            <div class="contractor-card customer-card-item">
+              <div class="card-user-row">
+                <div class="user-initials-badge" [style.background-color]="cst.initialBg">
+                  {{ cst.initials }}
+                </div>
+                <div class="user-meta-info">
+                  <div class="user-name-line">
+                    <span class="user-full-name">{{ cst.name }}</span>
+                  </div>
+                  <div class="user-sub-line">
+                    <span class="badge-cat-tag" [class]="'cat-' + cst.category.toLowerCase().replace(' ', '-')">
+                      {{ cst.category }}
+                    </span>
+                    <span class="text-muted-micro font-mono">{{ cst.accountNumber }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location & Plan Block -->
+              <div class="card-stats-box">
+                <div class="stats-box-col">
+                  <div class="stat-top-txt">{{ cst.address }}</div>
+                  <div class="stat-sub-label">{{ cst.lga }}</div>
+                </div>
+                <div class="stats-box-separator"></div>
+                <div class="stats-box-col">
+                  <div class="stat-top-txt bold font-brand">{{ cst.monthlyTonnage }}</div>
+                  <div class="stat-sub-label">{{ cst.esgTier }}</div>
+                </div>
+              </div>
+
+              <!-- Service Details Row -->
+              <div class="card-customer-plan-info">
+                <div class="info-row">
+                  <span class="lbl">Plan:</span>
+                  <span class="val">{{ cst.servicePlan }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="lbl">Bins:</span>
+                  <span class="val">{{ cst.binAllocation }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="lbl">Cycle:</span>
+                  <span class="val">{{ cst.pickupFrequency }}</span>
+                </div>
+              </div>
+
+              <!-- Card Actions -->
+              <div class="card-actions-row">
+                <button 
+                  type="button" 
+                  class="btn-card-extra-pickup"
+                  (click)="scheduleExtraPickup(cst)"
+                >
+                  <span>📅 Extra Pickup</span>
+                </button>
+                <button 
+                  type="button" 
+                  class="btn-card-profile"
+                  (click)="viewCustomerDetails(cst)"
+                >
+                  <span>View Details</span>
+                </button>
+              </div>
+
+              <!-- Card Footer Status -->
+              <div class="card-status-footer">
+                <span 
+                  class="status-footnote" 
+                  [class.status-ok]="cst.status === 'Active'"
+                  [class.status-busy]="cst.status === 'Scheduled'"
+                  [class.status-alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
+                >
+                  Next Pickup: {{ cst.nextPickupDate }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- 1. CREWS TABLE FORMAT -->
+      @else if (activeSubTab() === 'CREWS' && viewMode() === 'table') {
+        
+        <div class="data-table-container">
+          <div class="table-responsive-wrapper">
+            <table class="ecobin-data-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="min-width: 220px;">HAULER CREW</th>
+                  <th scope="col" style="min-width: 180px;">DEPOT &amp; PROXIMITY</th>
+                  <th scope="col" style="min-width: 170px;">TRUCK &amp; CAPACITY</th>
+                  <th scope="col" style="min-width: 140px;">PERFORMANCE</th>
+                  <th scope="col" style="min-width: 150px;">STATUS</th>
+                  <th scope="col" style="min-width: 150px; text-align: right;">DISPATCH ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of filteredCrews(); track item.id) {
+                  <tr class="data-table-row">
+                    
+                    <!-- Hauler Crew Name & Lead -->
+                    <td class="cell-hauler-main">
+                      <div class="table-user-cell">
+                        @if (item.avatar) {
+                          <div class="table-avatar-img-wrap">
+                            <img [src]="item.avatar" [alt]="item.name" class="table-avatar-img" />
+                          </div>
+                        } @else {
+                          <div class="table-avatar-initials" [style.background-color]="item.initialBg || '#16a34a'">
+                            {{ item.initials }}
+                          </div>
+                        }
+                        
+                        <div class="table-user-info">
+                          <div class="table-name-row">
+                            <strong class="table-hauler-name">{{ item.name }}</strong>
+                            @if (item.verified) {
+                              <span class="verified-check-inline" title="Verified LGA Hauler">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="#16a34a">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                              </span>
+                            }
+                          </div>
+                          <span class="table-crew-lead">{{ item.crewLead }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Depot & Proximity -->
+                    <td>
+                      <div class="table-location-block">
+                        <span class="table-depot-title">{{ item.depotLocation }}</span>
+                        <span class="table-distance-pill">{{ item.distance }}</span>
+                      </div>
+                    </td>
+
+                    <!-- Truck Type & Capacity -->
+                    <td>
+                      <div class="table-capacity-block">
+                        <strong class="table-cap-val">{{ item.capacity }}</strong>
+                        <span class="table-cap-type">{{ item.capacityLabel }} ({{ item.truckId }})</span>
+                      </div>
+                    </td>
+
+                    <!-- Rating & Pickups -->
+                    <td>
+                      @if (item.isNew) {
+                        <span class="badge-pill-micro">{{ item.badgeLabel }}</span>
+                      } @else {
+                        <div class="table-rating-block">
+                          <span class="star-gold">★</span>
+                          <strong>{{ item.rating }}</strong>
+                          <span class="rating-trips-txt">({{ item.tripsCount }} trips)</span>
+                        </div>
+                      }
+                    </td>
+
+                    <!-- Status -->
+                    <td>
+                      <span 
+                        class="status-badge-cell"
+                        [class.ok]="item.statusType === 'available'"
+                        [class.busy]="item.statusType === 'busy'"
+                        [class.alert]="item.statusType === 'maintenance'"
+                      >
+                        <span class="status-cell-dot"></span>
+                        <span>{{ item.statusText }}</span>
+                      </span>
+                    </td>
+
+                    <!-- Action Buttons -->
+                    <td style="text-align: right;">
+                      <div class="table-actions-cell">
+                        
+                        <!-- Save Button -->
+                        <button 
+                          type="button" 
+                          class="btn-tbl-save"
+                          [class.is-saved]="item.saved"
+                          (click)="toggleSave(item)"
+                          [title]="item.saved ? 'Saved to Roster' : 'Save Hauler'"
+                        >
+                          <span>{{ item.saved ? '♥' : '♡' }}</span>
+                        </button>
+
+                        <!-- Dispatch Button -->
+                        <button 
+                          type="button" 
+                          class="btn-tbl-dispatch"
+                          [class.is-dispatched]="item.dispatched"
+                          (click)="toggleDispatch(item)"
+                        >
+                          @if (item.dispatched) {
+                            <span>✓ Dispatched</span>
+                          } @else {
+                            <span>+ Dispatch</span>
+                          }
+                        </button>
+
+                      </div>
+                    </td>
+
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      }
+
+      <!-- 2. CREWS CARDS GRID FORMAT -->
+      @else if (activeSubTab() === 'CREWS' && viewMode() === 'grid') {
+        
+        <div class="contractors-grid">
+          
+          @for (item of filteredCrews(); track item.id) {
+            
+            <div class="contractor-card">
+              
+              <!-- Card Header: Avatar & Info -->
+              <div class="card-user-row">
+                
+                @if (item.avatar) {
+                  <div class="user-photo-wrap">
+                    <img [src]="item.avatar" [alt]="item.name" class="user-photo-img" />
+                  </div>
+                } @else {
+                  <div class="user-initials-badge" [style.background-color]="item.initialBg || '#16a34a'">
+                    {{ item.initials }}
+                  </div>
+                }
+
+                <div class="user-meta-info">
+                  
+                  <div class="user-name-line">
+                    <span class="user-full-name">{{ item.name }}</span>
+                    @if (item.verified) {
+                      <span class="verified-check" title="Verified LGA Hauler">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#16a34a">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </span>
+                    }
+                  </div>
+
+                  <div class="user-sub-line">
+                    @if (item.isNew) {
+                      <span class="badge-pill-micro">{{ item.badgeLabel }}</span>
+                    } @else {
+                      <div class="rating-box">
+                        <span class="star-gold">★</span>
+                        <span class="rating-num">{{ item.rating }}</span>
+                        <span class="review-count-txt">({{ item.tripsCount }} Pickups)</span>
+                      </div>
+                    }
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Card Stats Split Box -->
+              <div class="card-stats-box">
+                
+                <div class="stats-box-col">
+                  <div class="stat-top-txt">{{ item.depotLocation }}</div>
+                  <div class="stat-sub-label">{{ item.distance }}</div>
+                </div>
+
+                <div class="stats-box-separator"></div>
+
+                <div class="stats-box-col">
+                  <div class="stat-top-txt bold font-brand">{{ item.capacity }}</div>
+                  <div class="stat-sub-label">{{ item.capacityLabel }}</div>
+                </div>
+
+              </div>
+
+              <!-- Card Actions: Save & Dispatch -->
+              <div class="card-actions-row">
+                
+                <button 
+                  type="button" 
+                  class="btn-card-wishlist"
+                  [class.is-liked]="item.saved"
+                  (click)="toggleSave(item)"
+                >
+                  <span class="heart-icon" [class.filled]="item.saved">{{ item.saved ? '♥' : '♡' }}</span>
+                  <span>{{ item.saved ? 'Saved' : 'Save' }}</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  class="btn-card-invite"
+                  [class.is-invited]="item.dispatched"
+                  (click)="toggleDispatch(item)"
+                >
+                  <span class="action-symbol">{{ item.dispatched ? '✓' : '+' }}</span>
+                  <span>{{ item.dispatched ? 'Dispatched' : 'Dispatch' }}</span>
+                </button>
+
+              </div>
+
+              <!-- Card Footer Status -->
+              <div class="card-status-footer">
+                <span 
+                  class="status-footnote" 
+                  [class.status-alert]="item.statusType === 'maintenance'"
+                  [class.status-busy]="item.statusType === 'busy'"
+                  [class.status-ok]="item.statusType === 'available'"
+                >
+                  {{ item.statusText }}
+                </span>
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      }
+
+      <!-- 3. MANIFESTS TABLE FORMAT -->
+      @else if (activeSubTab() === 'MANIFESTS') {
+        
+        <div class="data-table-container">
+          <div class="table-responsive-wrapper">
+            <table class="ecobin-data-table">
+              <thead>
+                <tr>
+                  <th scope="col">MANIFEST ID</th>
+                  <th scope="col">ZONE &amp; COLLECTION SECTOR</th>
+                  <th scope="col">WASTE STREAM</th>
+                  <th scope="col">TONNAGE</th>
+                  <th scope="col">ASSIGNED CREW &amp; TRUCK</th>
+                  <th scope="col">DISPATCH TIME</th>
+                  <th scope="col">STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (mnf of manifests(); track mnf.id) {
+                  <tr class="data-table-row">
+                    <td><strong class="font-mono text-brand">{{ mnf.id }}</strong></td>
+                    <td>{{ mnf.zone }}</td>
+                    <td><span class="waste-tag">{{ mnf.wasteType }}</span></td>
+                    <td><strong>{{ mnf.tonnage }}</strong></td>
+                    <td>
+                      <div>
+                        <strong>{{ mnf.assignedCrew }}</strong>
+                        <div class="text-muted-micro">{{ mnf.truckNumber }}</div>
+                      </div>
+                    </td>
+                    <td>{{ mnf.time }}</td>
+                    <td>
+                      <span 
+                        class="status-badge-cell"
+                        [class.ok]="mnf.status === 'Completed'"
+                        [class.busy]="mnf.status === 'In Progress' || mnf.status === 'Dispatched'"
+                        [class.alert]="mnf.status === 'Pending'"
+                      >
+                        <span class="status-cell-dot"></span>
+                        <span>{{ mnf.status }}</span>
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      }
+
+      <!-- 4. OTHER SUB-TABS PLACEHOLDER TABLE -->
+      @else {
+        <div class="data-table-container">
+          <div class="empty-tab-state">
+            <div class="empty-icon-wrap">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#15803d" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              </svg>
+            </div>
+            <h4>{{ activeSubTab() | titlecase }} Active Telemetry</h4>
+            <p>Real-time records for {{ activeSubTab() | lowercase }} are synchronizing with Lagos LGA Central Weighbridge nodes.</p>
+            <button type="button" class="btn-topbar-team" (click)="setSubTab('CREWS')">Return to Hauler Crews</button>
+          </div>
+        </div>
+      }
 
     </main>
 
@@ -740,65 +1375,71 @@
     </div>
   }
 
-  <!-- NEW PROJECT / DISPATCH MODAL -->
-  @if (newProjectModalOpen()) {
-    <div class="modal-backdrop" (click)="closeNewProjectModal()">
+  <!-- NEW ROUTE / DISPATCH MODAL -->
+  @if (newRouteModalOpen()) {
+    <div class="modal-backdrop" (click)="closeNewRouteModal()">
       <div class="modal-card" (click)="$event.stopPropagation()">
         <div class="modal-head">
-          <h3>Create New Project / Operation</h3>
-          <button type="button" class="btn-close-modal" (click)="closeNewProjectModal()">✕</button>
+          <h3>Create New Waste Collection Route</h3>
+          <button type="button" class="btn-close-modal" (click)="closeNewRouteModal()">✕</button>
         </div>
         <div class="modal-body">
           <div class="form-group-modal">
-            <label>Project Title</label>
-            <input type="text" class="modal-input" placeholder="e.g. Central Zone Waste Logistics" />
+            <label>Route Operation Title</label>
+            <input type="text" class="modal-input" placeholder="e.g. Lekki Phase 1 Residential Sweep" />
           </div>
           <div class="form-group-modal">
-            <label>Location / Sector</label>
-            <input type="text" class="modal-input" placeholder="Sector 23, Los Angeles, CA" />
-          </div>
-          <div class="form-group-modal">
-            <label>Category</label>
+            <label>Target LGA / Zone</label>
             <select class="modal-select">
-              <option>Event Planning</option>
-              <option>Commercial Waste Logistics</option>
-              <option>Material Recovery & Recycling</option>
-              <option>Municipal Sweeping Dispatch</option>
+              <option>Eti-Osa (Victoria Island / Lekki)</option>
+              <option>Ikeja Industrial Zone</option>
+              <option>Lagos Island Commercial District</option>
+              <option>Surulere Municipal Area</option>
+              <option>Yaba Tech Corridor</option>
+            </select>
+          </div>
+          <div class="form-group-modal">
+            <label>Primary Waste Stream</label>
+            <select class="modal-select">
+              <option>Commercial Cardboard &amp; Packaging</option>
+              <option>Mixed Municipal Solid Waste</option>
+              <option>PET &amp; Rigid Plastics Recovery</option>
+              <option>Organic &amp; Market Produce Bio</option>
             </select>
           </div>
         </div>
         <div class="modal-foot">
-          <button type="button" class="btn-modal-cancel" (click)="closeNewProjectModal()">Cancel</button>
-          <button type="button" class="btn-modal-submit" (click)="triggerToast('New project created successfully!'); closeNewProjectModal()">Save Project</button>
+          <button type="button" class="btn-modal-cancel" (click)="closeNewRouteModal()">Cancel</button>
+          <button type="button" class="btn-modal-submit" (click)="triggerToast('Route logged and dispatched to LGA Fleet.'); closeNewRouteModal()">Assign &amp; Launch Route</button>
         </div>
       </div>
     </div>
   }
 
-  <!-- TEAM MODAL -->
+  <!-- DISPATCH TEAM MODAL -->
   @if (teamModalOpen()) {
     <div class="modal-backdrop" (click)="closeTeamModal()">
       <div class="modal-card" (click)="$event.stopPropagation()">
         <div class="modal-head">
-          <h3>Project Team & Dispatchers</h3>
+          <h3>LGA Operations &amp; Dispatch Team</h3>
           <button type="button" class="btn-close-modal" (click)="closeTeamModal()">✕</button>
         </div>
         <div class="modal-body">
           <div class="team-member-item">
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" class="team-thumb" alt="Jaison Alexander Jr" />
-            <div>
-              <strong>Jaison Alexander Jr</strong>
-              <p>Project Manager & Dispatch Lead</p>
-            </div>
-            <span class="role-pill">Admin</span>
-          </div>
-          <div class="team-member-item">
-            <div class="team-thumb-initials">BA</div>
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=72&q=80" class="team-thumb" alt="Officer" />
             <div>
               <strong>Engr. Babatunde Alabi</strong>
-              <p>Operations Specialist</p>
+              <p>LGA Waste Logistics Director</p>
             </div>
-            <span class="role-pill">Supervisor</span>
+            <span class="role-pill">Lead</span>
+          </div>
+          <div class="team-member-item">
+            <div class="team-thumb-initials">SB</div>
+            <div>
+              <strong>Sulaimon Balogun</strong>
+              <p>Fleet Operations Supervisor</p>
+            </div>
+            <span class="role-pill">Dispatcher</span>
           </div>
         </div>
         <div class="modal-foot">
@@ -813,31 +1454,216 @@
     <div class="modal-backdrop" (click)="closeFilterModal()">
       <div class="modal-card" (click)="$event.stopPropagation()">
         <div class="modal-head">
-          <h3>Filter Freelancers</h3>
+          <h3>Filter Available Hauler Fleets</h3>
           <button type="button" class="btn-close-modal" (click)="closeFilterModal()">✕</button>
         </div>
         <div class="modal-body">
           <div class="form-group-modal">
-            <label>Minimum Rating</label>
+            <label>Minimum Fleet Capacity</label>
             <select class="modal-select">
-              <option>All Ratings</option>
-              <option>4.0+ Stars</option>
-              <option>4.5+ Stars</option>
+              <option>All Capacities</option>
+              <option>8.0+ Tons (Compactor)</option>
+              <option>12.0+ Tons (Heavy Hauler)</option>
             </select>
           </div>
           <div class="form-group-modal">
-            <label>Max Distance</label>
+            <label>Proximity to Zone</label>
             <select class="modal-select">
-              <option>Any Distance</option>
-              <option>Within 50 Miles</option>
-              <option>Within 250 Miles</option>
-              <option>Within 1500 Miles</option>
+              <option>Any Proximity</option>
+              <option>Within 3.0 KM</option>
+              <option>Within 5.0 KM</option>
+              <option>Within 10.0 KM</option>
             </select>
           </div>
         </div>
         <div class="modal-foot">
           <button type="button" class="btn-modal-cancel" (click)="closeFilterModal()">Reset</button>
           <button type="button" class="btn-modal-submit" (click)="closeFilterModal()">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- REGISTER NEW CUSTOMER MODAL -->
+  @if (newCustomerModalOpen()) {
+    <div class="modal-backdrop" (click)="closeNewCustomerModal()">
+      <div class="modal-card modal-card-lg" (click)="$event.stopPropagation()">
+        <div class="modal-head">
+          <div>
+            <h3>Register New Waste Customer</h3>
+            <p class="modal-subhead">Enroll a commercial establishment or residential community into EcoBin LGA collections.</p>
+          </div>
+          <button type="button" class="btn-close-modal" (click)="closeNewCustomerModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Organization / Customer Name <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="modal-input" 
+                placeholder="e.g. Federal Palace Hotel & Casino" 
+                [(ngModel)]="newCustomerForm.name"
+              />
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Account Category</label>
+              <select class="modal-select" [(ngModel)]="newCustomerForm.category">
+                <option value="Commercial">Commercial (Hotels, Retail, Towers)</option>
+                <option value="Residential">Residential Estate / Community</option>
+                <option value="Industrial">Industrial & Manufacturing</option>
+                <option value="Recycling Partner">Recycling & Recovery Partner</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Contact Person</label>
+              <input 
+                type="text" 
+                class="modal-input" 
+                placeholder="e.g. Mr. Ayodele Adeleke (Admin Manager)" 
+                [(ngModel)]="newCustomerForm.contactPerson"
+              />
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Phone Number</label>
+              <input 
+                type="text" 
+                class="modal-input" 
+                placeholder="e.g. +234 803 123 4567" 
+                [(ngModel)]="newCustomerForm.phone"
+              />
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Email Address</label>
+              <input 
+                type="email" 
+                class="modal-input" 
+                placeholder="e.g. waste-admin@facility.ng" 
+                [(ngModel)]="newCustomerForm.email"
+              />
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Target LGA</label>
+              <select class="modal-select" [(ngModel)]="newCustomerForm.lga">
+                <option value="Eti-Osa (Victoria Island / Lekki)">Eti-Osa (Victoria Island / Lekki)</option>
+                <option value="Ikeja">Ikeja</option>
+                <option value="Lagos Island">Lagos Island</option>
+                <option value="Surulere">Surulere</option>
+                <option value="Yaba / Lagos Mainland">Yaba / Lagos Mainland</option>
+                <option value="Alimosho">Alimosho</option>
+                <option value="Kosofe">Kosofe</option>
+              </select>
+            </div>
+            <div class="col-12 form-group-modal">
+              <label>Street Address</label>
+              <input 
+                type="text" 
+                class="modal-input" 
+                placeholder="e.g. 6-8 Ahmadu Bello Way, Victoria Island, Lagos" 
+                [(ngModel)]="newCustomerForm.address"
+              />
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Service Plan &amp; Streams</label>
+              <select class="modal-select" [(ngModel)]="newCustomerForm.servicePlan">
+                <option value="Commercial Waste & Food Scraps">Commercial Waste &amp; Food Scraps</option>
+                <option value="Multi-Tenant Residential Stream">Multi-Tenant Residential Stream</option>
+                <option value="Event & Hospitality Waste Recovery">Event &amp; Hospitality Recovery</option>
+                <option value="Industrial PET & Packaging Recovery">Industrial PET &amp; Packaging</option>
+                <option value="Zero-Plastic Composting Program">Zero-Plastic Composting</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6 form-group-modal">
+              <label>Bin / Equipment Allocation</label>
+              <select class="modal-select" [(ngModel)]="newCustomerForm.binAllocation">
+                <option value="4x 1,100L Heavy-duty Bins">4x 1,100L Heavy-duty Bins</option>
+                <option value="6x 1,100L Heavy-duty Bins">6x 1,100L Heavy-duty Bins</option>
+                <option value="12x 660L Curbside Bins">12x 660L Curbside Bins</option>
+                <option value="2x 15-Ton Roll-off Skips">2x 15-Ton Roll-off Skips</option>
+                <option value="8x Solar Smart Bins">8x Solar Smart Bins</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button type="button" class="btn-modal-cancel" (click)="closeNewCustomerModal()">Cancel</button>
+          <button type="button" class="btn-modal-submit" (click)="submitNewCustomer()">Register &amp; Create Account</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- CUSTOMER DETAILS PROFILE MODAL -->
+  @if (customerDetailsModalOpen() && selectedCustomer(); as cst) {
+    <div class="modal-backdrop" (click)="closeCustomerDetailsModal()">
+      <div class="modal-card modal-card-lg" (click)="$event.stopPropagation()">
+        <div class="modal-head">
+          <div class="modal-user-profile-header">
+            <div class="table-avatar-initials lg" [style.background-color]="cst.initialBg">
+              {{ cst.initials }}
+            </div>
+            <div>
+              <h3>{{ cst.name }}</h3>
+              <p class="modal-subhead font-mono">{{ cst.accountNumber }} • {{ cst.category }}</p>
+            </div>
+          </div>
+          <button type="button" class="btn-close-modal" (click)="closeCustomerDetailsModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="customer-profile-grid">
+            <div class="profile-meta-card">
+              <span class="profile-label">ACCOUNT STATUS</span>
+              <span 
+                class="status-badge-cell"
+                [class.ok]="cst.status === 'Active'"
+                [class.busy]="cst.status === 'Scheduled'"
+                [class.alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
+              >
+                <span class="status-cell-dot"></span>
+                <span>{{ cst.status }}</span>
+              </span>
+            </div>
+
+            <div class="profile-meta-card">
+              <span class="profile-label">ESG RATING</span>
+              <span class="badge-esg-pill">{{ cst.esgTier }}</span>
+            </div>
+
+            <div class="profile-meta-card">
+              <span class="profile-label">MONTHLY DIVERSION</span>
+              <strong class="font-brand text-brand">{{ cst.monthlyTonnage }}</strong>
+            </div>
+
+            <div class="profile-meta-card">
+              <span class="profile-label">LGA JURISDICTION</span>
+              <strong>{{ cst.lga }}</strong>
+            </div>
+          </div>
+
+          <div class="profile-detail-sections">
+            <div class="profile-section-box">
+              <h5 class="profile-box-title">Contact &amp; Location Information</h5>
+              <div class="detail-row"><span class="dt-lbl">Primary Contact:</span> <strong>{{ cst.contactPerson }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Phone Line:</span> <strong>{{ cst.phone }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Email Address:</span> <strong>{{ cst.email }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Physical Address:</span> <strong>{{ cst.address }}</strong></div>
+            </div>
+
+            <div class="profile-section-box">
+              <h5 class="profile-box-title">Waste Service Agreement</h5>
+              <div class="detail-row"><span class="dt-lbl">Service Stream:</span> <strong>{{ cst.servicePlan }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Pickup Cycle:</span> <strong>{{ cst.pickupFrequency }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Bin Allocation:</span> <strong>{{ cst.binAllocation }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Last Verified Pickup:</span> <strong>{{ cst.lastPickupDate }}</strong></div>
+              <div class="detail-row"><span class="dt-lbl">Next Scheduled Sweep:</span> <strong class="text-brand">{{ cst.nextPickupDate }}</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot justify-content-between">
+          <button type="button" class="btn-topbar-project" (click)="scheduleExtraPickup(cst); closeCustomerDetailsModal()">
+            📅 Dispatch Extra Pickup
+          </button>
+          <button type="button" class="btn-modal-cancel" (click)="closeCustomerDetailsModal()">Close Profile</button>
         </div>
       </div>
     </div>

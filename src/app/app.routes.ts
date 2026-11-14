@@ -8,7 +8,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Cleanbin | Professional Waste Management' },
   { path: 'sign-in', component: SignInComponent, title: 'Sign In | EcoBin LGA Waste Network' },
   { path: 'sign-up', component: SignUpComponent, title: 'Create Account | EcoBin LGA Waste Network' },
-  { path: 'admin', component: AdminDashboardComponent, title: 'Dashboard | Northlight Workspace' },
+  { path: 'admin', component: AdminDashboardComponent, title: 'Operations Console | EcoBin Municipal Waste Network' },
   { path: 'dashboard', redirectTo: 'admin', pathMatch: 'full' },
   { path: 'login', redirectTo: 'sign-in', pathMatch: 'full' },
   { path: 'register', redirectTo: 'sign-up', pathMatch: 'full' },
