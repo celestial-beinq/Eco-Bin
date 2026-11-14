@@ -89,7 +89,7 @@ export class AdminDashboardComponent {
   // Sidebar state
   sidebarOpen = signal<boolean>(true);
   mobileSidebarOpen = signal<boolean>(false);
-  activeSidebarItem = signal<string>('Active Routes');
+  activeSidebarItem = signal<string>('Customers');
   routesTreeExpanded = signal<boolean>(true);
 
   // View format toggle: 'table' or 'grid' (defaults to 'table')
@@ -516,8 +516,12 @@ export class AdminDashboardComponent {
     this.activeSidebarItem.set(item);
     if (item === 'Customers') {
       this.activeSubTab.set('CUSTOMERS');
-    } else if (this.activeSubTab() === 'CUSTOMERS') {
+    } else if (item === 'Fleet Management') {
       this.activeSubTab.set('CREWS');
+    } else if (item === 'Collection Requests') {
+      this.activeSubTab.set('MANIFESTS');
+    } else if (item === 'Collection Schedule') {
+      this.activeSubTab.set('WEIGHBRIDGE');
     }
     this.closeMobileSidebar();
   }
@@ -538,8 +542,12 @@ export class AdminDashboardComponent {
     this.activeSubTab.set(tab);
     if (tab === 'CUSTOMERS') {
       this.activeSidebarItem.set('Customers');
-    } else if (this.activeSidebarItem() === 'Customers') {
-      this.activeSidebarItem.set('Active Routes');
+    } else if (tab === 'CREWS') {
+      this.activeSidebarItem.set('Fleet Management');
+    } else if (tab === 'MANIFESTS') {
+      this.activeSidebarItem.set('Collection Requests');
+    } else if (tab === 'WEIGHBRIDGE') {
+      this.activeSidebarItem.set('Collection Schedule');
     }
   }
 
