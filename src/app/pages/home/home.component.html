@@ -2,4 +2,218 @@
   <!-- Hero Section -->
   <app-hero-section></app-hero-section>
 
+  <!-- SECTION 1: About Cleanbin (Image 1) -->
+  <section class="about-cleanbin-section" id="about">
+    <div class="container">
+      
+      <!-- Top Header Row -->
+      <div class="about-header-row">
+        <div class="badge-pill-lime">About Cleanbin</div>
+        <div class="about-header-text">
+          <h2 class="about-heading-text">
+            Cleanbin is a community-focused waste management company offering scheduled pickup, recycling support, and dumpster rental.
+            <span class="text-sub">We make it easy for households, businesses, and contractors to dispose of waste the right way.</span>
+          </h2>
+        </div>
+      </div>
+
+      <!-- Main Visual & Content Grid -->
+      <div class="about-content-grid">
+        <!-- Left Column: Large Truck Photo -->
+        <div class="about-image-wrapper">
+          <img
+            src="/images/about-truck.jpg"
+            alt="Cleanbin waste management truck and operator"
+            class="about-truck-image"
+          />
+        </div>
+
+        <!-- Right Column: Vision, Mission & Button -->
+        <div class="about-cards-wrapper">
+          <div class="about-card">
+            <h3 class="card-heading">Vision</h3>
+            <p class="card-paragraph">
+              To be the trusted local choice for junk removal, waste pickup, and cleanup support by making the process easier, cleaner, and more dependable for every customer.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3 class="card-heading">Mission</h3>
+            <p class="card-paragraph">
+              To be the trusted local choice for junk removal, waste pickup, and cleanup support by making the process easier, cleaner, and more dependable for every customer.
+            </p>
+          </div>
+
+          <div class="about-btn-wrap">
+            <a routerLink="/about" class="btn-learn-more-lime">
+              <span>Learn More</span>
+              <span class="btn-arrow-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Stats Row -->
+      <div class="about-stats-grid">
+        @for (stat of stats; track stat.number) {
+          <div class="about-stat-item">
+            <div class="stat-number-val">{{ stat.number }}</div>
+            <div class="stat-label-wrap">
+              <span>{{ stat.labelTop }}</span>
+              <span>{{ stat.labelBottom }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: What We Do / Services for Every Property Type (Image 2) -->
+  <section class="services-property-section" id="services">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="services-property-header">
+        <div class="badge-pill-lime">What We Do</div>
+        <h2 class="services-property-title">Services for Every Property Type</h2>
+        <p class="services-property-sub">
+          From a single weekly trash route to a 30-yard construction dumpster, we have the right service plan for you.
+        </p>
+      </div>
+
+      <!-- 6 Cards Grid -->
+      <div class="services-six-grid">
+        @for (item of propertyServices; track item.title) {
+          <div class="service-box-card" [class.is-featured]="item.featured">
+            
+            <div class="service-icon-box" [class.featured-icon-box]="item.featured">
+              @if (item.icon === 'residential') {
+                <!-- Truck Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="4" width="14" height="12" rx="2"></rect>
+                  <path d="M15 8h4l3 4v4h-7"></path>
+                  <circle cx="6" cy="18" r="2.5"></circle>
+                  <circle cx="18" cy="18" r="2.5"></circle>
+                </svg>
+              } @else if (item.icon === 'commercial') {
+                <!-- Commercial Waste Vehicle Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 6H2v10h12V6z"></path>
+                  <path d="M14 10h4l3 3v3h-7"></path>
+                  <circle cx="5" cy="18" r="2"></circle>
+                  <circle cx="17" cy="18" r="2"></circle>
+                </svg>
+              } @else if (item.icon === 'dumpster') {
+                <!-- Dumpster Rental Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 7h18l-2 11H5L3 7z"></path>
+                  <path d="M7 7V4h10v3"></path>
+                  <line x1="10" y1="11" x2="10" y2="15"></line>
+                  <line x1="14" y1="11" x2="14" y2="15"></line>
+                </svg>
+              } @else if (item.icon === 'recycling') {
+                <!-- Recycling Triangle Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"></path>
+                  <path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.91 1.777 1.777 0 0 0 .005-1.77L16.8 9.5"></path>
+                  <path d="M12 3a1.8 1.8 0 0 0-1.565.91L6.5 10.5"></path>
+                  <polyline points="10 19 7 19 8.5 16"></polyline>
+                  <polyline points="14 19 11 19 12.5 22"></polyline>
+                  <polyline points="17 9.5 16.8 9.5 15.3 12"></polyline>
+                </svg>
+              } @else if (item.icon === 'construction') {
+                <!-- Crane / Excavator Debris Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 20h20"></path>
+                  <path d="M5 20V8l7-5 7 5v12"></path>
+                  <path d="M9 12h6"></path>
+                  <path d="M12 9v6"></path>
+                </svg>
+              } @else {
+                <!-- Bulk Item Removal Icon -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path>
+                  <path d="M3 13v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"></path>
+                  <path d="M3 11a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2H3v-2z"></path>
+                  <line x1="6" y1="20" x2="6" y2="22"></line>
+                  <line x1="18" y1="20" x2="18" y2="22"></line>
+                </svg>
+              }
+            </div>
+
+            <h3 class="service-box-title">{{ item.title }}</h3>
+            <p class="service-box-desc">{{ item.desc }}</p>
+
+            <a [routerLink]="item.link" class="service-box-link">
+              <span>Learn More</span>
+              <span class="link-arrow">→</span>
+            </a>
+
+          </div>
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: One crew, every property (Image 3) -->
+  <section class="hauling-property-section" id="hauling">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="hauling-header">
+        <div class="badge-pill-light">One crew, every property</div>
+        <h2 class="hauling-title">
+          Whether it's your home, business,<br>
+          or job site — we'll haul it.
+        </h2>
+        <p class="hauling-subtitle">
+          From single-item pickups to full-property cleanouts, one licensed crew handles it all.
+        </p>
+      </div>
+
+      <!-- 3 Property Cards Grid -->
+      <div class="hauling-three-grid">
+        @for (card of haulingCards; track card.title) {
+          <div class="hauling-card-item">
+            
+            <div class="hauling-thumb-wrap">
+              <img [src]="card.image" [alt]="card.title" class="hauling-thumb-img" />
+            </div>
+
+            <div class="hauling-card-content">
+              <span class="hauling-tag">{{ card.category }}</span>
+              <h3 class="hauling-card-heading">{{ card.title }}</h3>
+
+              <ul class="hauling-check-list">
+                @for (check of card.checklist; track check) {
+                  <li class="hauling-check-item">
+                    <span class="check-circle-icon">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                    <span class="check-item-text">{{ check }}</span>
+                  </li>
+                }
+              </ul>
+
+              <a routerLink="/services" class="hauling-card-action">
+                <span>{{ card.linkText }}</span>
+                <span class="action-arrow">→</span>
+              </a>
+            </div>
+
+          </div>
+        }
+      </div>
+
+    </div>
+  </section>
 </div>

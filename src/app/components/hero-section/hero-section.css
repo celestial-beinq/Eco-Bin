@@ -1,29 +1,25 @@
 .hero {
   position: relative;
-  min-height: max(92vh, 720px);
+  min-height: max(90vh, 680px);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 152px 0 42px;
+  justify-content: center;
+  align-items: center;
+  padding: 130px 1.5rem 50px;
   background-color: #08090b;
   color: #ffffff;
   overflow: hidden;
+  text-align: center;
 }
 
 .hero-backdrop {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(
-      95deg,
-      rgba(7, 8, 10, 0.94) 0%,
-      rgba(7, 8, 10, 0.74) 44%,
-      rgba(7, 8, 10, 0.22) 100%
-    ),
-    linear-gradient(180deg, rgba(7, 8, 10, 0.55) 0%, transparent 28%, rgba(7, 8, 10, 0.72) 100%),
-    url('/images/hero-cargo-port.jpg');
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/images/hero-bg.jpg');
   background-size: cover;
-  background-position: center 55%;
+  background-position: center 40%;
   pointer-events: none;
 }
 
@@ -32,97 +28,239 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 56px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: clamp(36px, 6vh, 64px);
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .hero-main {
-  max-width: 620px;
-}
-
-.hero-kicker {
-  color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 20px;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .hero-title {
-  margin: 0 0 20px;
-  font-size: clamp(40px, 5.4vw, 66px);
-  font-weight: 600;
-  line-height: 1.03;
-  letter-spacing: -0.035em;
+  margin: 0 auto 20px;
+  font-size: clamp(30px, 5.2vw, 56px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   color: #ffffff;
+  text-align: center;
+  max-width: 820px;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
-  margin: 0 0 28px;
-  max-width: 440px;
-  font-size: 15.5px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.8);
+  margin: 0 auto 32px;
+  max-width: 660px;
+  font-size: clamp(15px, 2vw, 17.5px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  text-wrap: pretty;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.45);
 }
 
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
+  gap: 16px;
   flex-wrap: wrap;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 7px 7px 7px 18px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-btn-text {
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.hero-btn-arrow-box {
+  width: 28px;
+  height: 28px;
+  background-color: #11361c;
+  color: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-btn-arrow-box svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  stroke: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+/* Primary Button (Get a Quote) */
+.hero-btn-primary {
+  background-color: #a4eb34;
+  color: #0e2a16;
+  border: 1.5px solid #a4eb34;
+}
+
+.hero-btn-primary:hover {
+  background-color: #b6f545;
+  border-color: #b6f545;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(164, 235, 52, 0.35);
+}
+
+.hero-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Outline Button (Schedule Pickup) */
+.hero-btn-outline {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
+}
+
+.hero-btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Arrow nudge on hover */
+.hero-btn:hover .hero-btn-arrow-box svg {
+  transform: translateX(2px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 28px;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.btn-light {
+  background-color: var(--primary, #9fe826);
+  color: #0b120a;
+  border: 1px solid var(--primary, #9fe826);
+}
+
+.btn-light:hover {
+  background-color: #b4f53c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(159, 232, 38, 0.35);
 }
 
 .hero-secondary-link {
   color: #ffffff;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-secondary-link:hover {
+  color: var(--primary, #9fe826);
+  transform: translateX(3px);
 }
 
 .hero-bottom {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: 28px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .case-card {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   gap: 16px;
-  max-width: 420px;
-  padding: 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  max-width: 440px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(20, 26, 18, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  text-align: left;
+  text-decoration: none;
 }
 
 .case-card:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.36);
+  background: rgba(26, 36, 23, 0.85);
+  border-color: rgba(159, 232, 38, 0.4);
+  transform: translateY(-3px);
 }
 
 .case-thumb {
-  width: 104px;
-  height: 104px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
 .case-body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   min-width: 0;
 }
 
 .case-client {
   font-size: 11.5px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.78);
+  font-weight: 700;
+  color: var(--primary, #9fe826);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .case-desc {
-  margin: 4px 0 8px;
+  margin: 4px 0 6px;
   font-size: 13.5px;
   line-height: 1.4;
   color: #ffffff;
@@ -131,35 +269,103 @@
 .case-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 13px;
-  font-weight: 500;
-  color: #ffffff;
+  font-weight: 600;
+  color: var(--primary, #9fe826);
 }
 
 .case-cta-text {
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 3px;
 }
 
 .hero-watermark {
-  margin-left: auto;
   padding-bottom: 4px;
 }
 
-@media (max-width: 768px) {
+.watermark-text {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgb(255, 255, 255);
+  text-transform: uppercase;
+}
+
+/* Responsive adjustments across mobile & tablet */
+@media (max-width: 820px) {
   .hero {
-    padding: 128px 0 36px;
+    padding: 110px 1.25rem 40px;
     min-height: auto;
   }
 
   .hero-bottom {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .case-card {
+    max-width: 100%;
+    width: 100%;
+    justify-content: center;
   }
 
   .hero-watermark {
-    margin-left: 0;
+    margin: 0 auto;
+    text-align: center;
   }
 }
 
+@media (max-width: 540px) {
+  .hero {
+    padding: 100px 1rem 36px;
+  }
+
+  .hero-title {
+    font-size: clamp(26px, 7.8vw, 36px);
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .hero-actions .hero-btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: space-between;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero-secondary-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .case-card {
+    padding: 12px;
+  }
+
+  .case-thumb {
+    width: 68px;
+    height: 68px;
+  }
+
+  .case-desc {
+    font-size: 12.5px;
+  }
+}

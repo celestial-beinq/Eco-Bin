@@ -11,38 +11,94 @@ import { HeroSection } from '../../components/hero-section/hero-section';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  services = [
+  stats = [
+    { number: '10+', labelTop: 'Years of', labelBottom: 'Service' },
+    { number: '5k+', labelTop: 'Pickups', labelBottom: 'Completed' },
+    { number: '24/7', labelTop: 'Full Service', labelBottom: 'Support' },
+    { number: '100%', labelTop: 'Responsible', labelBottom: 'Disposal' }
+  ];
+
+  propertyServices = [
     {
-      icon: 'truck',
-      title: 'Residential Collection',
-      desc: 'Dependable weekly or bi-weekly curbside trash and yard waste pickup with durable roll-out carts provided.',
-      tag: 'Weekly Route'
+      featured: true,
+      icon: 'residential',
+      title: 'Residential Pickup',
+      desc: 'Weekly garbage and recycling collection for homes. Flexible scheduling, convenient service, always on time.',
+      link: '/services'
     },
     {
-      icon: 'archive',
-      title: 'Commercial Dumpsters',
-      desc: 'Flexible dumpster sizes ranging from 2 to 8 cubic yards, customized for restaurants, retail, and offices.',
-      tag: 'Custom Schedule'
+      featured: false,
+      icon: 'commercial',
+      title: 'Commercial Waste',
+      desc: 'Scheduled collection for offices, retail, and restaurants. Custom frequency, dedicated service, reliable timing.',
+      link: '/services'
     },
     {
-      icon: 'refresh-cw',
-      title: 'Eco-Sorting & Recycling',
-      desc: 'Single-stream recycling programs keeping valuable paper, plastics, and metals away from regional landfills.',
-      tag: 'Zero-Waste'
+      featured: false,
+      icon: 'dumpster',
+      title: 'Dumpster Rental',
+      desc: '10 to 30-yard dumpsters for renovations and projects. Quick delivery, flexible terms, competitive pricing.',
+      link: '/services'
     },
     {
-      icon: 'tool',
-      title: 'Roll-Off Construction Bins',
-      desc: 'Heavy-duty 10 to 40 yard roll-off containers for renovation debris, roofing materials, and demolition.',
-      tag: 'On-Demand'
+      featured: false,
+      icon: 'recycling',
+      title: 'Recycling Services',
+      desc: 'Comprehensive recycling programs for homes and businesses. We handle sorting and proper disposal.',
+      link: '/services'
+    },
+    {
+      featured: false,
+      icon: 'construction',
+      title: 'Construction Debris',
+      desc: 'Specialized handling of construction waste and demolition materials. Licensed and certified disposal.',
+      link: '/services'
+    },
+    {
+      featured: false,
+      icon: 'bulk',
+      title: 'Bulk Item Removal',
+      desc: 'One-time pickup for large furniture and appliances. Quick service, reasonable rates, hassle-free.',
+      link: '/services'
     }
   ];
 
-  stats = [
-    { number: '98%', label: 'On-Time Scheduled Pickups' },
-    { number: '24/7', label: 'Local Dispatch Support' },
-    { number: '45k+', label: 'Tons Recycled Annually' },
-    { number: '12+', label: 'Years Serving Communities' }
+  haulingCards = [
+    {
+      image: '/images/service-residential.jpg',
+      category: 'For Homes',
+      title: 'Same-day Residential Hauling',
+      checklist: [
+        'Furniture, mattresses, appliances',
+        'Garage, attic & basement cleanouts',
+        'Estate & downsizing cleanouts',
+        'Yard debris & shed contents'
+      ],
+      linkText: 'Residential services'
+    },
+    {
+      image: '/images/service-commercial.jpg',
+      category: 'For Businesses',
+      title: 'Commercial Cleanouts',
+      checklist: [
+        'Office, retail & warehouse cleanouts',
+        'E-waste & furniture removal',
+        'After-hours & weekend service',
+        'COI & Net-30 billing available'
+      ],
+      linkText: 'Residential services'
+    },
+    {
+      image: '/images/service-construction.jpg',
+      category: 'For Job Sites',
+      title: 'Construction Hauling',
+      checklist: [
+        'Drywall, lumber, flooring & tile',
+        'Post-renovation debris removal',
+        'Roofing tear-off & site cleanups',
+        'Recurring contractor accounts'
+      ],
+      linkText: 'Residential services'
+    }
   ];
 }
-

@@ -12,20 +12,15 @@
           Home
         </a>
 
-        <a routerLink="/case-studies" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
-          Operations
-        </a>
-
-        <a routerLink="/about" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+        <a routerLink="/" fragment="about" class="nav-link" (click)="closeMenus()">
           About
         </a>
-        <a routerLink="/services" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+
+        <a routerLink="/" fragment="services" class="nav-link" (click)="closeMenus()">
           Service
         </a>
-        <a routerLink="/tracking" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
-          Tracking
-        </a>
-        <a routerLink="/contact" routerLinkActive="is-active" class="nav-link" (click)="closeMenus()">
+
+        <a routerLink="/" fragment="cta" class="nav-link" (click)="closeMenus()">
           Contact
         </a>
       </div>
@@ -35,18 +30,8 @@
       </a>
 
       <div class="nav-actions">
-        @if (auth.isAuthenticated()) {
-          <a routerLink="/dashboard" class="nav-link nav-portal-link" (click)="closeMenus()">
-            Dashboard
-          </a>
-        } @else {
-          <a routerLink="/login" class="nav-link nav-portal-link" (click)="closeMenus()">
-            Login
-          </a>
-        }
-
-        <a routerLink="/contact" class="btn btn-dark nav-cta" (click)="closeMenus()">
-          Work With Us
+        <a routerLink="/" fragment="booking" class="btn btn-dark nav-cta" (click)="closeMenus()">
+          Book Now
         </a>
 
         <button
@@ -65,21 +50,13 @@
     @if (mobileMenuOpen()) {
       <div class="mobile-drawer">
         <a routerLink="/" class="mobile-link" (click)="closeMenus()">Home</a>
-        <a routerLink="/case-studies" class="mobile-link" (click)="closeMenus()">Operations</a>
-        <a routerLink="/about" class="mobile-link" (click)="closeMenus()">About</a>
-        <a routerLink="/services" class="mobile-link" (click)="closeMenus()">Service</a>
-        <a routerLink="/tracking" class="mobile-link" (click)="closeMenus()">Tracking</a>
-        <a routerLink="/contact" class="mobile-link" (click)="closeMenus()">Contact</a>
-        <a
-          [routerLink]="auth.isAuthenticated() ? '/dashboard' : '/login'"
-          class="mobile-link"
-          (click)="closeMenus()"
-        >
-          {{ auth.isAuthenticated() ? 'Dashboard' : 'Portal Login' }}
+        <a routerLink="/" fragment="about" class="mobile-link" (click)="closeMenus()">About</a>
+        <a routerLink="/" fragment="services" class="mobile-link" (click)="closeMenus()">Service</a>
+        <a routerLink="/" fragment="cta" class="mobile-link" (click)="closeMenus()">Contact</a>
+        <a routerLink="/" fragment="booking" class="btn btn-dark mobile-cta" (click)="closeMenus()">
+          Book Now
         </a>
-        <a routerLink="/contact" class="btn btn-dark mobile-cta" (click)="closeMenus()">Work With Us</a>
       </div>
     }
   </div>
 </header>
-
