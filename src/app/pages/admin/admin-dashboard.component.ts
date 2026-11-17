@@ -55,11 +55,14 @@ export interface OperationHeaderInfo {
   operationsLead: string;
 }
 
+export type CustomerCategoryType = 'HOUSEHOLD' | 'BUSINESS' | 'OCCASIONAL' | 'GENERAL' | 'Commercial' | 'Residential' | 'Industrial' | 'Recycling Partner';
+
 export interface CustomerAccount {
   id: string;
   accountNumber: string;
   name: string;
-  category: 'Commercial' | 'Residential' | 'Industrial' | 'Recycling Partner';
+  category: CustomerCategoryType;
+  subType?: string;
   contactPerson: string;
   phone: string;
   email: string;
@@ -76,6 +79,114 @@ export interface CustomerAccount {
   initialBg: string;
   lastPickupDate: string;
   nextPickupDate: string;
+  availableServices?: string[];
+  activeService?: string;
+}
+
+export interface CleaningStaffMember {
+  id: string;
+  staffCode: string;
+  name: string;
+  gender: 'Male' | 'Female';
+  role: 'Cleaning Staff' | 'Supervisor' | 'Senior Specialist';
+  isSupervisor: boolean;
+  assignedLocation: string;
+  assignedSupervisorName?: string;
+  assignedTeamMembersCount?: number;
+  phone: string;
+  status: 'On Duty' | 'At Location' | 'Available' | 'On Leave';
+  shiftsCompleted: number;
+  rating: number;
+  avatar?: string;
+  initials: string;
+  initialBg: string;
+}
+
+export interface DriverRecord {
+  id: string;
+  driverCode: string;
+  name: string;
+  phone: string;
+  licenseNumber: string;
+  assignedTruckId: string;
+  assignedTruckPlate: string;
+  truckType: string;
+  assignedStaffTeam: string[];
+  assignedSupervisor: string;
+  assignedLocation: string;
+  missionType: 'Household Cleaning' | 'Business Site Clearing' | 'Event Clean up' | 'Road side clean up' | 'Waste Collection';
+  status: 'En Route to Location' | 'On Site with Staff' | 'Returning to Depot' | 'Available / Idle';
+  tripsToday: number;
+  initials: string;
+  initialBg: string;
+}
+
+export interface OneOffCustomerRequest {
+  id: string;
+  requestCode: string;
+  customerName: string;
+  customerCategory: 'Household' | 'Business' | 'Occasional' | 'General';
+  isNewCustomer: boolean;
+  requestType: 'Once / New Customer' | 'On-Demand';
+  serviceRequested: 
+    | 'Weekly or Daily Cleaning'
+    | 'Waste Disposal Request'
+    | 'Site Clearing'
+    | 'Event Clean up & Waste Disposal'
+    | 'Road side clean up & Waste Disposal';
+  specificNeeds: string;
+  contactPhone: string;
+  locationAddress: string;
+  zoneLga: string;
+  requestedDate: string;
+  preferredTime: string;
+  urgency: 'Urgent' | 'High' | 'Normal';
+  status: 'Pending' | 'Staff & Driver Assigned' | 'Dispatched' | 'In Progress' | 'Completed';
+  assignedDriver?: string;
+  assignedSupervisor?: string;
+  assignedStaffCrew?: string;
+  assignedTruckPlate?: string;
+  estimatedFee: string;
+}
+
+export interface CollectionScheduleRecord {
+  id: string;
+  scheduleCode: string;
+  clientName: string;
+  category: 'Household' | 'Business' | 'Events & Occasions' | 'Construction Site';
+  serviceType: 'Cleaning' | 'Waste Disposal' | 'Site Clearing' | 'Event Clean up & Sanitation' | 'Combined Cleaning & Disposal';
+  frequency: 'Every day' | 'Every 2 days' | 'Weekly' | 'Monthly';
+  timeSlot: string;
+  recurrenceDays: string;
+  location: string;
+  lga: string;
+  assignedSupervisor: string;
+  assignedDriver: string;
+  assignedTruck: string;
+  staffCount: number;
+  nextRunDate: string;
+  status: 'Active' | 'In Progress Today' | 'Upcoming' | 'Paused';
+}
+
+export interface WasteTruckFleetRecord {
+  id: string;
+  truckCode: string;
+  plateNumber: string;
+  vehicleModel: string;
+  vehicleType: 'Compactor Truck' | 'Roll-off Skip Loader' | 'Mini Tipper Van' | 'Mechanical Road Sweeper' | 'Heavy Waste Hauler';
+  capacityTons: string;
+  currentFuel: number;
+  assignedDriver: string;
+  assignedDriverPhone: string;
+  assignedSupervisor: string;
+  assignedStaffTeam: string[];
+  assignmentMission: 'Cleaning' | 'Waste Collection' | 'Site Clearing' | 'Event Clean up' | 'Road side clean up';
+  assignedCustomerOrSite: string;
+  customerCategory: 'Household' | 'Business' | 'Occasions' | 'General';
+  destinationLocation: string;
+  lga: string;
+  status: 'Dispatched & On Route' | 'On Site Collecting' | 'Disposal at Landfill' | 'In Depot / Available' | 'In Maintenance';
+  statusType: 'active' | 'busy' | 'available' | 'maintenance';
 }
 
 export interface TransactionRecord {
@@ -158,7 +269,8 @@ export class AdminDashboardComponent {
       id: 'cst-1',
       accountNumber: 'ECB-CST-1011',
       name: 'Eko Hotels & Suites',
-      category: 'Commercial',
+      category: 'BUSINESS',
+      subType: 'Industrial, Company, Service',
       contactPerson: 'Femi Adeleke (Facilities Director)',
       phone: '+234 803 456 7890',
       email: 'facilities@ekohotels.com',
@@ -173,13 +285,16 @@ export class AdminDashboardComponent {
       initials: 'EH',
       initialBg: '#059669',
       lastPickupDate: 'Today, 06:30 AM',
-      nextPickupDate: 'Tomorrow, 06:00 AM'
+      nextPickupDate: 'Tomorrow, 06:00 AM',
+      availableServices: ['Daily Cleaning', 'Weekly Cleaning', 'Waste Disposal Request', 'Site Clearing'],
+      activeService: 'Daily Cleaning'
     },
     {
       id: 'cst-2',
       accountNumber: 'ECB-CST-1012',
       name: 'Landmark Centre & Beach Village',
-      category: 'Commercial',
+      category: 'OCCASIONAL',
+      subType: 'Events & Parties',
       contactPerson: 'Chioma Nwosu (Operations Manager)',
       phone: '+234 812 345 6789',
       email: 'operations@landmarklagos.com',
@@ -194,13 +309,16 @@ export class AdminDashboardComponent {
       initials: 'LM',
       initialBg: '#2563eb',
       lastPickupDate: 'Yesterday, 18:00',
-      nextPickupDate: 'Today, 21:00'
+      nextPickupDate: 'Today, 21:00',
+      availableServices: ['Event Clean up & Waste Disposal'],
+      activeService: 'Event Clean up & Waste Disposal'
     },
     {
       id: 'cst-3',
       accountNumber: 'ECB-CST-1013',
       name: '1004 Housing Estate Community',
-      category: 'Residential',
+      category: 'HOUSEHOLD',
+      subType: 'Neighborhood & Apartments',
       contactPerson: 'Engr. Rasheed Bakare (Residents Association)',
       phone: '+234 802 987 6543',
       email: 'association@1004estate.ng',
@@ -215,13 +333,16 @@ export class AdminDashboardComponent {
       initials: '10',
       initialBg: '#15803d',
       lastPickupDate: 'Nov 13, 08:00 AM',
-      nextPickupDate: 'Nov 16, 07:30 AM'
+      nextPickupDate: 'Nov 16, 07:30 AM',
+      availableServices: ['Weekly Cleaning', 'Daily Cleaning', 'Waste Disposal Request'],
+      activeService: 'Weekly Cleaning'
     },
     {
       id: 'cst-4',
       accountNumber: 'ECB-CST-1014',
       name: 'Ikeja City Mall (Shoprite / Food Court)',
-      category: 'Commercial',
+      category: 'BUSINESS',
+      subType: 'Industrial, Company, Service',
       contactPerson: 'Tunde Olawale (Site Admin)',
       phone: '+234 805 112 2334',
       email: 'admin@ikejacitymall.com',
@@ -236,13 +357,16 @@ export class AdminDashboardComponent {
       initials: 'IC',
       initialBg: '#d97706',
       lastPickupDate: 'Today, 05:00 AM',
-      nextPickupDate: 'Tomorrow, 04:30 AM'
+      nextPickupDate: 'Tomorrow, 04:30 AM',
+      availableServices: ['Daily Cleaning', 'Weekly Cleaning', 'Waste Disposal Request', 'Site Clearing'],
+      activeService: 'Daily Cleaning'
     },
     {
       id: 'cst-5',
       accountNumber: 'ECB-CST-1015',
       name: 'Parkview Estate Residents Management',
-      category: 'Residential',
+      category: 'HOUSEHOLD',
+      subType: 'Neighborhood & Apartments',
       contactPerson: 'Mrs. Funke Solanke (Estate Secretary)',
       phone: '+234 809 887 7665',
       email: 'office@parkview-ikoyi.org',
@@ -257,13 +381,16 @@ export class AdminDashboardComponent {
       initials: 'PV',
       initialBg: '#0d9488',
       lastPickupDate: 'Nov 12, 10:00 AM',
-      nextPickupDate: 'Nov 15, 09:00 AM'
+      nextPickupDate: 'Nov 15, 09:00 AM',
+      availableServices: ['Weekly Cleaning', 'Daily Cleaning', 'Waste Disposal Request'],
+      activeService: 'Weekly Cleaning'
     },
     {
       id: 'cst-6',
       accountNumber: 'ECB-CST-1016',
       name: 'Seven-Up Bottling Co. Industrial Facility',
-      category: 'Industrial',
+      category: 'BUSINESS',
+      subType: 'Industrial, Company, Service',
       contactPerson: 'Alhaji Musa Danjuma (Safety Manager)',
       phone: '+234 818 776 5544',
       email: 'safety@7uplagos.com',
@@ -278,55 +405,64 @@ export class AdminDashboardComponent {
       initials: '7U',
       initialBg: '#b91c1c',
       lastPickupDate: 'Nov 10, 14:00',
-      nextPickupDate: 'Nov 17, 11:00 AM'
+      nextPickupDate: 'Nov 17, 11:00 AM',
+      availableServices: ['Site Clearing', 'Waste Disposal Request', 'Weekly Cleaning', 'Daily Cleaning'],
+      activeService: 'Site Clearing'
     },
     {
       id: 'cst-7',
       accountNumber: 'ECB-CST-1017',
-      name: 'Lekki Conservation Centre Visitor Complex',
-      category: 'Recycling Partner',
-      contactPerson: 'David Okonkwo (Park Warden)',
+      name: 'Lekki-Epe Expressway Sanitation Corridor',
+      category: 'GENERAL',
+      subType: 'Road side clean up & Waste Disposal',
+      contactPerson: 'Engr. David Okonkwo (Corridor Lead)',
       phone: '+234 806 332 2110',
-      email: 'greenteam@lekkiconservation.org',
-      address: 'Km 19 Lekki-Epe Expressway',
+      email: 'highways@ecobin.lagos.ng',
+      address: 'Km 12 - 25 Lekki-Epe Expressway',
       lga: 'Eti-Osa (Victoria Island / Lekki)',
-      servicePlan: 'Zero-Plastic Education & Composting',
-      pickupFrequency: 'Bi-weekly Green Stream',
-      binAllocation: '10x Solar Smart Compacting Bins',
-      monthlyTonnage: '6.4 T / mo',
+      servicePlan: 'Municipal Highway Sweep & Litter Intercept',
+      pickupFrequency: 'Daily Mechanical Sweep',
+      binAllocation: '10x Highway Compacting Skips',
+      monthlyTonnage: '28.4 T / mo',
       esgTier: 'Platinum ESG',
       status: 'Active',
-      initials: 'LC',
+      initials: 'LK',
       initialBg: '#16a34a',
-      lastPickupDate: 'Nov 11, 09:15 AM',
-      nextPickupDate: 'Nov 18, 09:15 AM'
+      lastPickupDate: 'Today, 04:30 AM',
+      nextPickupDate: 'Tomorrow, 04:30 AM',
+      availableServices: ['Road side clean up & Waste Disposal'],
+      activeService: 'Road side clean up & Waste Disposal'
     },
     {
       id: 'cst-8',
       accountNumber: 'ECB-CST-1018',
-      name: 'Radisson Blu Anchorage Hotel',
-      category: 'Commercial',
-      contactPerson: 'Kareem Olatunji (Procurement Lead)',
+      name: 'The Monarch Lagos Grand Wedding Pavilion',
+      category: 'OCCASIONAL',
+      subType: 'Events & Parties',
+      contactPerson: 'Kareem Olatunji (Events Coordinator)',
       phone: '+234 813 555 4433',
-      email: 'procurement@radissonblu-vi.com',
-      address: '1A Ozumba Mbadiwe Ave, Victoria Island',
+      email: 'events@themonarchlagos.com',
+      address: 'Lekki-Epe Expressway, Marwa, Lekki',
       lga: 'Eti-Osa (Victoria Island)',
-      servicePlan: 'Commercial Glass & Organic Waste',
-      pickupFrequency: 'Daily Routine',
-      binAllocation: '5x 1,100L Waste Enclosures',
+      servicePlan: 'Event Clean up & Waste Disposal Stream',
+      pickupFrequency: 'On-Demand Event Sweeps',
+      binAllocation: '12x 660L Event Bins',
       monthlyTonnage: '16.2 T / mo',
       esgTier: 'Gold Partner',
       status: 'Pending Review',
-      initials: 'RB',
+      initials: 'MO',
       initialBg: '#4f46e5',
       lastPickupDate: 'Nov 13, 07:00 AM',
-      nextPickupDate: 'Today, 22:00'
+      nextPickupDate: 'Today, 22:00',
+      availableServices: ['Event Clean up & Waste Disposal'],
+      activeService: 'Event Clean up & Waste Disposal'
     },
     {
       id: 'cst-9',
       accountNumber: 'ECB-CST-1019',
       name: 'Victoria Garden City Residents Association',
-      category: 'Residential',
+      category: 'HOUSEHOLD',
+      subType: 'Neighborhood & Apartments',
       contactPerson: 'Chief Olatunbosun (Estate Admin)',
       phone: '+234 802 111 2233',
       email: 'admin@vgc-lagos.org',
@@ -341,34 +477,40 @@ export class AdminDashboardComponent {
       initials: 'VG',
       initialBg: '#047857',
       lastPickupDate: 'Nov 14, 06:00 AM',
-      nextPickupDate: 'Nov 16, 06:00 AM'
+      nextPickupDate: 'Nov 16, 06:00 AM',
+      availableServices: ['Daily Cleaning', 'Weekly Cleaning', 'Waste Disposal Request'],
+      activeService: 'Daily Cleaning'
     },
     {
       id: 'cst-10',
       accountNumber: 'ECB-CST-1020',
-      name: 'Maryland Mall Commercial Hub',
-      category: 'Commercial',
-      contactPerson: 'Bimpe Adebayo (Facilities Lead)',
+      name: 'Falomo Roundabout & Marina Waterfront',
+      category: 'GENERAL',
+      subType: 'Road side clean up & Waste Disposal',
+      contactPerson: 'Sulaimon Balogun (Public Sector Supervisor)',
       phone: '+234 811 444 7788',
-      email: 'facilities@marylandmall.ng',
-      address: '350 Ikorodu Road, Anthony Village',
-      lga: 'Ikeja',
-      servicePlan: 'Retail Packaging & Food Court Waste',
-      pickupFrequency: 'Daily (Night Shift)',
-      binAllocation: '6x 1,100L Heavy-duty Bins',
+      email: 'publicworks@lagosstate.gov.ng',
+      address: 'Falomo Bridge Underpass & Marina Promenade',
+      lga: 'Lagos Island / Eti-Osa',
+      servicePlan: 'Public Space Cleanliness & Storm Drain Sweep',
+      pickupFrequency: 'Daily (Morning Sweep)',
+      binAllocation: '14x 240L Public Bins',
       monthlyTonnage: '19.5 T / mo',
       esgTier: 'Gold Partner',
       status: 'Active',
-      initials: 'MM',
+      initials: 'FL',
       initialBg: '#7c3aed',
-      lastPickupDate: 'Today, 04:00 AM',
-      nextPickupDate: 'Tomorrow, 04:00 AM'
+      lastPickupDate: 'Today, 06:00 AM',
+      nextPickupDate: 'Tomorrow, 06:00 AM',
+      availableServices: ['Road side clean up & Waste Disposal'],
+      activeService: 'Road side clean up & Waste Disposal'
     },
     {
       id: 'cst-11',
       accountNumber: 'ECB-CST-1021',
       name: 'Dangote Industrial Logistics Hub',
-      category: 'Industrial',
+      category: 'BUSINESS',
+      subType: 'Industrial, Company, Service',
       contactPerson: 'Engr. Haruna Bello (Site Safety)',
       phone: '+234 815 666 9900',
       email: 'safety.lekki@dangotegroup.com',
@@ -383,30 +525,748 @@ export class AdminDashboardComponent {
       initials: 'DG',
       initialBg: '#1e3a8a',
       lastPickupDate: 'Nov 10, 15:30',
-      nextPickupDate: 'Nov 17, 10:00 AM'
+      nextPickupDate: 'Nov 17, 10:00 AM',
+      availableServices: ['Site Clearing', 'Waste Disposal Request', 'Weekly Cleaning'],
+      activeService: 'Site Clearing'
     },
     {
       id: 'cst-12',
       accountNumber: 'ECB-CST-1022',
-      name: 'Federal Medical Centre Ebute Metta',
-      category: 'Commercial',
-      contactPerson: 'Dr. (Mrs) Kemi Davies (Waste Safety)',
+      name: 'Victoria Crest 4 Neighborhood Court',
+      category: 'HOUSEHOLD',
+      subType: 'Neighborhood & Apartments',
+      contactPerson: 'Mrs. Cynthia Cole (Residents Rep)',
       phone: '+234 803 777 8899',
-      email: 'safety@fmc-eb.gov.ng',
-      address: 'Railway Compound, Ebute Metta',
-      lga: 'Surulere / Mainland',
-      servicePlan: 'Regulated Medical & Bio-Waste Stream',
-      pickupFrequency: 'Daily Specialized Transfer',
-      binAllocation: '8x Biohazard Lockable Enclosures',
-      monthlyTonnage: '14.5 T / mo',
+      email: 'court4@victoriacrest.ng',
+      address: 'Orchid Road, Lekki',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      servicePlan: 'Residential Apartments Weekly Sweep',
+      pickupFrequency: 'Weekly Curbside',
+      binAllocation: '12x 660L Bins',
+      monthlyTonnage: '11.8 T / mo',
       esgTier: 'Green Verified',
       status: 'Active',
-      initials: 'FM',
+      initials: 'VC',
       initialBg: '#dc2626',
       lastPickupDate: 'Today, 08:00 AM',
-      nextPickupDate: 'Tomorrow, 08:00 AM'
+      nextPickupDate: 'Tomorrow, 08:00 AM',
+      availableServices: ['Weekly Cleaning', 'Daily Cleaning', 'Waste Disposal Request'],
+      activeService: 'Waste Disposal Request'
     }
   ]);
+
+  // ==========================================
+  // STAFF & DRIVERS DATASET
+  // 1. Cleaning Staff (Male & Female, Supervisors follow staff to locations)
+  // 2. Drivers (Drivers assigned with staffs to locations)
+  // ==========================================
+  staffSubTab = signal<'staff' | 'drivers'>('staff');
+  staffGenderFilter = signal<string>('All');
+  staffRoleFilter = signal<string>('All');
+  staffLocationFilter = signal<string>('All');
+  assignStaffModalOpen = signal<boolean>(false);
+  selectedStaff = signal<CleaningStaffMember | null>(null);
+  assignDriverModalOpen = signal<boolean>(false);
+  selectedDriver = signal<DriverRecord | null>(null);
+
+  cleaningStaff = signal<CleaningStaffMember[]>([
+    {
+      id: 'st-1',
+      staffCode: 'STF-01',
+      name: 'Sarah Oladipo',
+      gender: 'Female',
+      role: 'Supervisor',
+      isSupervisor: true,
+      assignedLocation: 'Victoria Island Central Zone',
+      assignedTeamMembersCount: 5,
+      phone: '+234 803 111 2233',
+      status: 'At Location',
+      shiftsCompleted: 88,
+      rating: 4.9,
+      initials: 'SO',
+      initialBg: '#7c3aed'
+    },
+    {
+      id: 'st-2',
+      staffCode: 'STF-02',
+      name: 'Chinedu Eze',
+      gender: 'Male',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Victoria Island Central Zone',
+      assignedSupervisorName: 'Sarah Oladipo',
+      phone: '+234 802 222 3344',
+      status: 'At Location',
+      shiftsCompleted: 64,
+      rating: 4.8,
+      initials: 'CE',
+      initialBg: '#2563eb'
+    },
+    {
+      id: 'st-3',
+      staffCode: 'STF-03',
+      name: 'Amina Bello',
+      gender: 'Female',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: '1004 Housing Estate (Apartments)',
+      assignedSupervisorName: 'Sarah Oladipo',
+      phone: '+234 805 333 4455',
+      status: 'On Duty',
+      shiftsCompleted: 72,
+      rating: 4.9,
+      initials: 'AB',
+      initialBg: '#db2777'
+    },
+    {
+      id: 'st-4',
+      staffCode: 'STF-04',
+      name: 'Emmanuel Adebayo',
+      gender: 'Male',
+      role: 'Supervisor',
+      isSupervisor: true,
+      assignedLocation: 'Ikeja Industrial Hub & Sites',
+      assignedTeamMembersCount: 6,
+      phone: '+234 808 444 5566',
+      status: 'At Location',
+      shiftsCompleted: 110,
+      rating: 4.95,
+      initials: 'EA',
+      initialBg: '#059669'
+    },
+    {
+      id: 'st-5',
+      staffCode: 'STF-05',
+      name: 'Blessing Okafor',
+      gender: 'Female',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Ikeja Industrial Hub & Sites',
+      assignedSupervisorName: 'Emmanuel Adebayo',
+      phone: '+234 812 555 6677',
+      status: 'At Location',
+      shiftsCompleted: 58,
+      rating: 4.7,
+      initials: 'BO',
+      initialBg: '#0891b2'
+    },
+    {
+      id: 'st-6',
+      staffCode: 'STF-06',
+      name: 'Tunde Bakare',
+      gender: 'Male',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Ikeja Industrial Hub & Sites',
+      assignedSupervisorName: 'Emmanuel Adebayo',
+      phone: '+234 813 666 7788',
+      status: 'On Duty',
+      shiftsCompleted: 49,
+      rating: 4.8,
+      initials: 'TB',
+      initialBg: '#d97706'
+    },
+    {
+      id: 'st-7',
+      staffCode: 'STF-07',
+      name: 'Grace Danjuma',
+      gender: 'Female',
+      role: 'Supervisor',
+      isSupervisor: true,
+      assignedLocation: 'Lekki Coastal & Landmark Beach Events',
+      assignedTeamMembersCount: 4,
+      phone: '+234 816 777 8899',
+      status: 'At Location',
+      shiftsCompleted: 95,
+      rating: 5.0,
+      initials: 'GD',
+      initialBg: '#7c3aed'
+    },
+    {
+      id: 'st-8',
+      staffCode: 'STF-08',
+      name: 'Ibrahim Sani',
+      gender: 'Male',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Lekki Coastal & Landmark Beach Events',
+      assignedSupervisorName: 'Grace Danjuma',
+      phone: '+234 817 888 9900',
+      status: 'At Location',
+      shiftsCompleted: 42,
+      rating: 4.6,
+      initials: 'IS',
+      initialBg: '#2563eb'
+    },
+    {
+      id: 'st-9',
+      staffCode: 'STF-09',
+      name: 'Ngozi Nwankwo',
+      gender: 'Female',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Parkview Estate & Ikoyi Neighborhood',
+      assignedSupervisorName: 'Sarah Oladipo',
+      phone: '+234 809 999 0011',
+      status: 'Available',
+      shiftsCompleted: 61,
+      rating: 4.85,
+      initials: 'NN',
+      initialBg: '#db2777'
+    },
+    {
+      id: 'st-10',
+      staffCode: 'STF-10',
+      name: 'Kayode Alimi',
+      gender: 'Male',
+      role: 'Cleaning Staff',
+      isSupervisor: false,
+      assignedLocation: 'Lekki-Epe Expressway Roadside Corridor',
+      assignedSupervisorName: 'Emmanuel Adebayo',
+      phone: '+234 803 234 5678',
+      status: 'On Duty',
+      shiftsCompleted: 53,
+      rating: 4.75,
+      initials: 'KA',
+      initialBg: '#15803d'
+    }
+  ]);
+
+  drivers = signal<DriverRecord[]>([
+    {
+      id: 'drv-1',
+      driverCode: 'DRV-01',
+      name: 'Babatunde Fashola (Lead Driver)',
+      phone: '+234 803 987 1122',
+      licenseNumber: 'LAG-DRV-98214',
+      assignedTruckId: 'TRK-01',
+      assignedTruckPlate: 'LKK-401-VI',
+      truckType: 'Compactor Truck (12.5 T)',
+      assignedStaffTeam: ['Chinedu Eze (Male)', 'Amina Bello (Female)'],
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedLocation: '1004 Estate & Adetokunbo Ademola, Victoria Island',
+      missionType: 'Household Cleaning',
+      status: 'On Site with Staff',
+      tripsToday: 2,
+      initials: 'BF',
+      initialBg: '#059669'
+    },
+    {
+      id: 'drv-2',
+      driverCode: 'DRV-02',
+      name: 'Alhaji Musa Danjuma',
+      phone: '+234 818 654 3321',
+      licenseNumber: 'IKJ-DRV-77312',
+      assignedTruckId: 'TRK-02',
+      assignedTruckPlate: 'IKJ-892-LG',
+      truckType: 'Heavy Roll-Off Skip (18.0 T)',
+      assignedStaffTeam: ['Blessing Okafor (Female)', 'Tunde Bakare (Male)'],
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedLocation: 'Seven-Up Industrial Facility & Site Clearing, Ikeja',
+      missionType: 'Business Site Clearing',
+      status: 'On Site with Staff',
+      tripsToday: 3,
+      initials: 'MD',
+      initialBg: '#b91c1c'
+    },
+    {
+      id: 'drv-3',
+      driverCode: 'DRV-03',
+      name: 'Sunday Okafor',
+      phone: '+234 812 777 6655',
+      licenseNumber: 'LKK-DRV-55109',
+      assignedTruckId: 'TRK-03',
+      assignedTruckPlate: 'ETI-330-LK',
+      truckType: 'Special Events Mini-Carrier (8.0 T)',
+      assignedStaffTeam: ['Ibrahim Sani (Male)'],
+      assignedSupervisor: 'Grace Danjuma',
+      assignedLocation: 'Landmark Beach Festival & Event Grounds',
+      missionType: 'Event Clean up',
+      status: 'En Route to Location',
+      tripsToday: 1,
+      initials: 'SO',
+      initialBg: '#2563eb'
+    },
+    {
+      id: 'drv-4',
+      driverCode: 'DRV-04',
+      name: 'Kazeem Olatunji',
+      phone: '+234 809 332 1100',
+      licenseNumber: 'YAB-DRV-44201',
+      assignedTruckId: 'TRK-04',
+      assignedTruckPlate: 'YAB-552-MN',
+      truckType: 'Mechanical Road Sweeper & Compactor',
+      assignedStaffTeam: ['Kayode Alimi (Male)', 'Ngozi Nwankwo (Female)'],
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedLocation: 'Lekki-Epe Expressway & Ozumba Mbadiwe Way',
+      missionType: 'Road side clean up',
+      status: 'On Site with Staff',
+      tripsToday: 2,
+      initials: 'KO',
+      initialBg: '#d97706'
+    },
+    {
+      id: 'drv-5',
+      driverCode: 'DRV-05',
+      name: 'Samuel Adekunle',
+      phone: '+234 802 444 8899',
+      licenseNumber: 'SRL-DRV-11890',
+      assignedTruckId: 'TRK-05',
+      assignedTruckPlate: 'SRL-119-CO',
+      truckType: 'Curbside Tipper Truck (6.5 T)',
+      assignedStaffTeam: [],
+      assignedSupervisor: 'Standby / Unassigned',
+      assignedLocation: 'EcoBin Central Depot - Ikeja',
+      missionType: 'Waste Collection',
+      status: 'Available / Idle',
+      tripsToday: 0,
+      initials: 'SA',
+      initialBg: '#64748b'
+    }
+  ]);
+
+  // ==========================================
+  // REQUEST PAGE DATASET
+  // Shows all requests from all customers, businesses, occasions.
+  // Note: Request comes as once, new customers
+  // ==========================================
+  requestCategoryFilter = signal<string>('All');
+  requestStatusFilter = signal<string>('All');
+  newOneOffRequestModalOpen = signal<boolean>(false);
+  assignRequestModalOpen = signal<boolean>(false);
+  selectedOneOffRequest = signal<OneOffCustomerRequest | null>(null);
+
+  newOneOffRequestForm = {
+    customerName: '',
+    customerCategory: 'Household' as 'Household' | 'Business' | 'Occasional' | 'General',
+    serviceRequested: 'Weekly or Daily Cleaning' as OneOffCustomerRequest['serviceRequested'],
+    specificNeeds: '',
+    contactPhone: '',
+    locationAddress: '',
+    zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+    urgency: 'Normal' as 'Urgent' | 'High' | 'Normal',
+    estimatedFee: '₦75,000'
+  };
+
+  oneOffRequests = signal<OneOffCustomerRequest[]>([
+    {
+      id: 'req-once-1',
+      requestCode: 'REQ-ONCE-2041',
+      customerName: 'Victoria Crest 4 Neighborhood Court',
+      customerCategory: 'Household',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Weekly or Daily Cleaning',
+      specificNeeds: 'Move-in compound sanitization and daily apartment cleaning trial',
+      contactPhone: '+234 803 991 8822',
+      locationAddress: 'Orchid Road, Lekki',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: 'Today, Nov 17',
+      preferredTime: '08:00 AM',
+      urgency: 'High',
+      status: 'Pending',
+      estimatedFee: '₦75,000'
+    },
+    {
+      id: 'req-once-2',
+      requestCode: 'REQ-ONCE-2042',
+      customerName: 'Dangote Refinery Subcontractor Yard',
+      customerCategory: 'Business',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Site Clearing',
+      specificNeeds: 'Heavy construction debris, scrap steel & bulk ground clearing',
+      contactPhone: '+234 818 770 1200',
+      locationAddress: 'Lekki Free Trade Zone Gate 3',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: 'Tomorrow, Nov 18',
+      preferredTime: '07:30 AM',
+      urgency: 'Urgent',
+      status: 'Staff & Driver Assigned',
+      assignedDriver: 'Alhaji Musa Danjuma',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedStaffCrew: 'Blessing Okafor & Tunde Bakare',
+      assignedTruckPlate: 'IKJ-892-LG',
+      estimatedFee: '₦650,000'
+    },
+    {
+      id: 'req-once-3',
+      requestCode: 'REQ-ONCE-2043',
+      customerName: 'The Monarch Lagos Wedding Marquee',
+      customerCategory: 'Occasional',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Event Clean up & Waste Disposal',
+      specificNeeds: 'Overnight party cleanup for 1,200 guests, banquet food waste and packaging',
+      contactPhone: '+234 802 555 9911',
+      locationAddress: 'Lekki-Epe Expressway, Marwa',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: 'Tonight, Nov 17',
+      preferredTime: '23:00',
+      urgency: 'Urgent',
+      status: 'Dispatched',
+      assignedDriver: 'Sunday Okafor',
+      assignedSupervisor: 'Grace Danjuma',
+      assignedStaffCrew: 'Ibrahim Sani & Grace Crew',
+      assignedTruckPlate: 'ETI-330-LK',
+      estimatedFee: '₦280,000'
+    },
+    {
+      id: 'req-once-4',
+      requestCode: 'REQ-ONCE-2044',
+      customerName: 'Falomo Bridge Underpass Municipal Sanitation',
+      customerCategory: 'General',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Road side clean up & Waste Disposal',
+      specificNeeds: 'Public roadway clearance, illegal dump sweep and storm drain clearing',
+      contactPhone: '+234 805 119 4433',
+      locationAddress: 'Falomo Roundabout / Ikoyi Bridge',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: 'Today, Nov 17',
+      preferredTime: '06:00 AM',
+      urgency: 'High',
+      status: 'In Progress',
+      assignedDriver: 'Kazeem Olatunji',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedStaffCrew: 'Kayode Alimi & Ngozi Nwankwo',
+      assignedTruckPlate: 'YAB-552-MN',
+      estimatedFee: '₦180,000'
+    },
+    {
+      id: 'req-once-5',
+      requestCode: 'REQ-ONCE-2045',
+      customerName: 'Silverbird Galleria Media Towers',
+      customerCategory: 'Business',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Waste Disposal Request',
+      specificNeeds: 'Post-renovation packaging and electronic cardboard waste collection',
+      contactPhone: '+234 812 444 0099',
+      locationAddress: '133 Ahmadu Bello Way, Victoria Island',
+      zoneLga: 'Eti-Osa (Victoria Island)',
+      requestedDate: 'Nov 19',
+      preferredTime: '10:00 AM',
+      urgency: 'Normal',
+      status: 'Pending',
+      estimatedFee: '₦120,000'
+    },
+    {
+      id: 'req-once-6',
+      requestCode: 'REQ-ONCE-2046',
+      customerName: 'Bourdillon Luxury Court Apartments',
+      customerCategory: 'Household',
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: 'Waste Disposal Request',
+      specificNeeds: 'Bulk residential green waste, tree trimmings and compound clearing',
+      contactPhone: '+234 809 881 2233',
+      locationAddress: '24 Bourdillon Road, Ikoyi',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: 'Nov 18',
+      preferredTime: '14:00',
+      urgency: 'Normal',
+      status: 'Pending',
+      estimatedFee: '₦95,000'
+    }
+  ]);
+
+  // ==========================================
+  // COLLECTION SCHEDULE DATASET
+  // Shows all schedules of cleaning, waste disposal.
+  // Household, business, events, construction site for Every day, 2 days, weekly, monthly
+  // ==========================================
+  scheduleFrequencyFilter = signal<string>('All');
+  scheduleCategoryFilter = signal<string>('All');
+  newScheduleModalOpen = signal<boolean>(false);
+
+  newScheduleForm = {
+    clientName: '',
+    category: 'Household' as CollectionScheduleRecord['category'],
+    serviceType: 'Cleaning' as CollectionScheduleRecord['serviceType'],
+    frequency: 'Every day' as CollectionScheduleRecord['frequency'],
+    timeSlot: '07:00 AM',
+    recurrenceDays: 'Daily',
+    location: '',
+    lga: 'Eti-Osa (Victoria Island / Lekki)',
+    assignedSupervisor: 'Sarah Oladipo',
+    assignedDriver: 'Babatunde Fashola',
+    assignedTruck: 'LKK-401-VI',
+    staffCount: 4
+  };
+
+  schedules = signal<CollectionScheduleRecord[]>([
+    {
+      id: 'sch-1',
+      scheduleCode: 'SCH-ED-101',
+      clientName: 'Eko Hotels & Suites Commercial Facility',
+      category: 'Business',
+      serviceType: 'Cleaning',
+      frequency: 'Every day',
+      timeSlot: '06:00 AM & 18:00 (Twice Daily)',
+      recurrenceDays: 'Daily (Mon - Sun)',
+      location: 'Plot 1415 Adetokunbo Ademola St, VI',
+      lga: 'Eti-Osa (Victoria Island)',
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedDriver: 'Babatunde Fashola',
+      assignedTruck: 'LKK-401-VI',
+      staffCount: 4,
+      nextRunDate: 'Today, 18:00',
+      status: 'In Progress Today'
+    },
+    {
+      id: 'sch-2',
+      scheduleCode: 'SCH-ED-102',
+      clientName: 'Victoria Garden City (VGC) Duplex Court',
+      category: 'Household',
+      serviceType: 'Waste Disposal',
+      frequency: 'Every day',
+      timeSlot: '07:00 AM',
+      recurrenceDays: 'Daily (Mon - Sun)',
+      location: 'Km 22 Lekki-Epe Expressway, VGC',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedDriver: 'Babatunde Fashola',
+      assignedTruck: 'LKK-401-VI',
+      staffCount: 3,
+      nextRunDate: 'Tomorrow, 07:00 AM',
+      status: 'Active'
+    },
+    {
+      id: 'sch-3',
+      scheduleCode: 'SCH-2D-201',
+      clientName: '1004 Housing Estate Community (Apartments)',
+      category: 'Household',
+      serviceType: 'Cleaning',
+      frequency: 'Every 2 days',
+      timeSlot: '08:00 AM',
+      recurrenceDays: 'Every 2 Days (Mon, Wed, Fri, Sun)',
+      location: 'High-Rise Blocks A-E, Victoria Island',
+      lga: 'Eti-Osa (Victoria Island)',
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedDriver: 'Babatunde Fashola',
+      assignedTruck: 'LKK-401-VI',
+      staffCount: 5,
+      nextRunDate: 'Tomorrow, 08:00 AM',
+      status: 'Active'
+    },
+    {
+      id: 'sch-4',
+      scheduleCode: 'SCH-2D-202',
+      clientName: 'Ikeja City Mall & Retail Court',
+      category: 'Business',
+      serviceType: 'Waste Disposal',
+      frequency: 'Every 2 days',
+      timeSlot: 'Night Shift 22:30',
+      recurrenceDays: 'Every 2 Days (Tue, Thu, Sat)',
+      location: 'Obafemi Awolowo Way, Alausa',
+      lga: 'Ikeja',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedDriver: 'Alhaji Musa Danjuma',
+      assignedTruck: 'IKJ-892-LG',
+      staffCount: 4,
+      nextRunDate: 'Tonight, 22:30',
+      status: 'Upcoming'
+    },
+    {
+      id: 'sch-5',
+      scheduleCode: 'SCH-WK-301',
+      clientName: 'Parkview Estate Residents Management',
+      category: 'Household',
+      serviceType: 'Cleaning',
+      frequency: 'Weekly',
+      timeSlot: 'Saturday 08:00 AM',
+      recurrenceDays: 'Every Saturday',
+      location: 'Parkview Avenue, Ikoyi',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedDriver: 'Babatunde Fashola',
+      assignedTruck: 'LKK-401-VI',
+      staffCount: 6,
+      nextRunDate: 'Saturday, Nov 22',
+      status: 'Active'
+    },
+    {
+      id: 'sch-6',
+      scheduleCode: 'SCH-WK-302',
+      clientName: 'Dangote Lekki Construction Site Zone B',
+      category: 'Construction Site',
+      serviceType: 'Site Clearing',
+      frequency: 'Weekly',
+      timeSlot: 'Wednesday 10:00 AM',
+      recurrenceDays: 'Every Wednesday',
+      location: 'Lekki Free Trade Zone',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedDriver: 'Alhaji Musa Danjuma',
+      assignedTruck: 'IKJ-892-LG',
+      staffCount: 8,
+      nextRunDate: 'Wednesday, Nov 19',
+      status: 'Active'
+    },
+    {
+      id: 'sch-7',
+      scheduleCode: 'SCH-MO-401',
+      clientName: 'Seven-Up Bottling Co. Industrial Facility',
+      category: 'Business',
+      serviceType: 'Site Clearing',
+      frequency: 'Monthly',
+      timeSlot: '1st & 15th of month, 11:00 AM',
+      recurrenceDays: 'Bi-Monthly (1st & 15th)',
+      location: 'Mobolaji Johnson Ave, Oregun Industrial',
+      lga: 'Ikeja',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedDriver: 'Alhaji Musa Danjuma',
+      assignedTruck: 'IKJ-892-LG',
+      staffCount: 6,
+      nextRunDate: 'Dec 01, 11:00 AM',
+      status: 'Active'
+    },
+    {
+      id: 'sch-8',
+      scheduleCode: 'SCH-WK-303',
+      clientName: 'Landmark Centre Beach & Event Pavilion',
+      category: 'Events & Occasions',
+      serviceType: 'Event Clean up & Sanitation',
+      frequency: 'Weekly',
+      timeSlot: 'Sunday 04:00 AM (Post-Event)',
+      recurrenceDays: 'Every Sunday Morning',
+      location: 'Water Corporation Drive, VI',
+      lga: 'Eti-Osa (Victoria Island)',
+      assignedSupervisor: 'Grace Danjuma',
+      assignedDriver: 'Sunday Okafor',
+      assignedTruck: 'ETI-330-LK',
+      staffCount: 5,
+      nextRunDate: 'Sunday, Nov 23',
+      status: 'Active'
+    }
+  ]);
+
+  // ==========================================
+  // FLEET MANAGEMENT DATASET
+  // Shows waste trucks and who they are assigned to for cleaning or waste collection
+  // from all customers, businesses, occasions.
+  // ==========================================
+  fleetMissionFilter = signal<string>('All');
+  fleetStatusFilter = signal<string>('All');
+  assignFleetModalOpen = signal<boolean>(false);
+  selectedFleetTruck = signal<WasteTruckFleetRecord | null>(null);
+
+  fleetTrucks = signal<WasteTruckFleetRecord[]>([
+    {
+      id: 'flt-1',
+      truckCode: 'TRK-CMP-01',
+      plateNumber: 'LKK-401-VI',
+      vehicleModel: 'Mercedes-Benz Actros 2632 Compactor',
+      vehicleType: 'Compactor Truck',
+      capacityTons: '12.5 Tons',
+      currentFuel: 82,
+      assignedDriver: 'Babatunde Fashola',
+      assignedDriverPhone: '+234 803 987 1122',
+      assignedSupervisor: 'Sarah Oladipo',
+      assignedStaffTeam: ['Chinedu Eze (Male)', 'Amina Bello (Female)'],
+      assignmentMission: 'Cleaning',
+      assignedCustomerOrSite: '1004 Housing Estate (Neighborhood & Apartments)',
+      customerCategory: 'Household',
+      destinationLocation: 'Adetokunbo Ademola St / 1004 Estate, VI',
+      lga: 'Eti-Osa (Victoria Island)',
+      status: 'On Site Collecting',
+      statusType: 'busy'
+    },
+    {
+      id: 'flt-2',
+      truckCode: 'TRK-ROL-02',
+      plateNumber: 'IKJ-892-LG',
+      vehicleModel: 'MAN TGS 33.360 6x4 Heavy Roll-off',
+      vehicleType: 'Roll-off Skip Loader',
+      capacityTons: '18.0 Tons',
+      currentFuel: 68,
+      assignedDriver: 'Alhaji Musa Danjuma',
+      assignedDriverPhone: '+234 818 654 3321',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedStaffTeam: ['Blessing Okafor (Female)', 'Tunde Bakare (Male)'],
+      assignmentMission: 'Site Clearing',
+      assignedCustomerOrSite: 'Seven-Up Industrial Facility & Manufacturing Yard',
+      customerCategory: 'Business',
+      destinationLocation: 'Mobolaji Johnson Ave, Oregun Industrial Estate',
+      lga: 'Ikeja',
+      status: 'On Site Collecting',
+      statusType: 'busy'
+    },
+    {
+      id: 'flt-3',
+      truckCode: 'TRK-EVT-03',
+      plateNumber: 'ETI-330-LK',
+      vehicleModel: 'Isuzu Forward FTR 850 Rapid Hauler',
+      vehicleType: 'Mini Tipper Van',
+      capacityTons: '8.0 Tons',
+      currentFuel: 90,
+      assignedDriver: 'Sunday Okafor',
+      assignedDriverPhone: '+234 812 777 6655',
+      assignedSupervisor: 'Grace Danjuma',
+      assignedStaffTeam: ['Ibrahim Sani (Male)'],
+      assignmentMission: 'Event Clean up',
+      assignedCustomerOrSite: 'Landmark Beach Festival & Concert Pavilion',
+      customerCategory: 'Occasions',
+      destinationLocation: 'Water Corporation Drive, Victoria Island',
+      lga: 'Eti-Osa (Victoria Island)',
+      status: 'Dispatched & On Route',
+      statusType: 'active'
+    },
+    {
+      id: 'flt-4',
+      truckCode: 'TRK-SWP-04',
+      plateNumber: 'YAB-552-MN',
+      vehicleModel: 'Bucher CityCat V20 Dual Sweeper',
+      vehicleType: 'Mechanical Road Sweeper',
+      capacityTons: '5.5 Tons',
+      currentFuel: 74,
+      assignedDriver: 'Kazeem Olatunji',
+      assignedDriverPhone: '+234 809 332 1100',
+      assignedSupervisor: 'Emmanuel Adebayo',
+      assignedStaffTeam: ['Kayode Alimi (Male)', 'Ngozi Nwankwo (Female)'],
+      assignmentMission: 'Road side clean up',
+      assignedCustomerOrSite: 'Lekki-Epe Expressway & Public Highway Corridor',
+      customerCategory: 'General',
+      destinationLocation: 'Lekki Toll Plaza to Chevron Roundabout',
+      lga: 'Eti-Osa (Victoria Island / Lekki)',
+      status: 'On Site Collecting',
+      statusType: 'busy'
+    },
+    {
+      id: 'flt-5',
+      truckCode: 'TRK-WST-05',
+      plateNumber: 'SRL-119-CO',
+      vehicleModel: 'Scania P360 Heavy Multi-loader',
+      vehicleType: 'Heavy Waste Hauler',
+      capacityTons: '15.0 Tons',
+      currentFuel: 95,
+      assignedDriver: 'Samuel Adekunle',
+      assignedDriverPhone: '+234 802 444 8899',
+      assignedSupervisor: 'Standby / Unassigned',
+      assignedStaffTeam: [],
+      assignmentMission: 'Waste Collection',
+      assignedCustomerOrSite: 'Central Waste Depository Hub',
+      customerCategory: 'Business',
+      destinationLocation: 'Ikeja Central Logistics Depot',
+      lga: 'Ikeja',
+      status: 'In Depot / Available',
+      statusType: 'available'
+    }
+  ]);
+
+  // Request Service Modal state (triggered from Customer Page)
+  requestServiceModalOpen = signal<boolean>(false);
+  selectedCustomerForService = signal<CustomerAccount | null>(null);
+  serviceRequestForm = {
+    customerId: '',
+    customerName: '',
+    category: 'HOUSEHOLD' as CustomerCategoryType,
+    serviceType: 'Weekly Cleaning',
+    cleaningFrequency: 'Weekly' as 'Weekly' | 'Daily',
+    preferredDate: '',
+    notes: ''
+  };
 
   // Search & Filters
   searchQuery = signal<string>('');
@@ -1027,6 +1887,7 @@ export class AdminDashboardComponent {
   });
 
   // Computed filtered list for Customers
+  // Computed filtered list for Customers (Support 4 Dashboard Categories)
   filteredCustomers = computed(() => {
     let list = this.customers();
     const query = this.customerSearchQuery().toLowerCase().trim();
@@ -1034,7 +1895,17 @@ export class AdminDashboardComponent {
     const status = this.customerStatusFilter();
 
     if (category !== 'All') {
-      list = list.filter(c => c.category === category);
+      if (category === 'HOUSEHOLD' || category === 'Household') {
+        list = list.filter(c => c.category === 'HOUSEHOLD' || c.category === 'Residential');
+      } else if (category === 'BUSINESS' || category === 'Business') {
+        list = list.filter(c => c.category === 'BUSINESS' || c.category === 'Commercial' || c.category === 'Industrial');
+      } else if (category === 'OCCASIONAL' || category === 'Occasional') {
+        list = list.filter(c => c.category === 'OCCASIONAL');
+      } else if (category === 'GENERAL' || category === 'General') {
+        list = list.filter(c => c.category === 'GENERAL' || c.category === 'Recycling Partner');
+      } else {
+        list = list.filter(c => c.category === category);
+      }
     }
 
     if (status !== 'All') {
@@ -1050,12 +1921,191 @@ export class AdminDashboardComponent {
         c.lga.toLowerCase().includes(query) ||
         c.phone.toLowerCase().includes(query) ||
         c.email.toLowerCase().includes(query) ||
-        c.servicePlan.toLowerCase().includes(query)
+        c.servicePlan.toLowerCase().includes(query) ||
+        (c.subType && c.subType.toLowerCase().includes(query))
       );
     }
 
     return list;
   });
+
+  // Category counts for Customer Page
+  householdCount = computed(() => this.customers().filter(c => c.category === 'HOUSEHOLD' || c.category === 'Residential').length);
+  businessCount = computed(() => this.customers().filter(c => c.category === 'BUSINESS' || c.category === 'Commercial' || c.category === 'Industrial').length);
+  occasionalCount = computed(() => this.customers().filter(c => c.category === 'OCCASIONAL').length);
+  generalCount = computed(() => this.customers().filter(c => c.category === 'GENERAL' || c.category === 'Recycling Partner').length);
+
+  // ==========================================
+  // STAFF & DRIVERS COMPUTED
+  // ==========================================
+  filteredCleaningStaff = computed(() => {
+    let list = this.cleaningStaff();
+    const gender = this.staffGenderFilter();
+    const role = this.staffRoleFilter();
+    const location = this.staffLocationFilter();
+    const query = this.searchQuery().toLowerCase().trim();
+
+    if (gender !== 'All') {
+      list = list.filter(s => s.gender === gender);
+    }
+
+    if (role === 'Supervisor') {
+      list = list.filter(s => s.isSupervisor);
+    } else if (role === 'Cleaning Staff') {
+      list = list.filter(s => !s.isSupervisor);
+    }
+
+    if (location !== 'All') {
+      list = list.filter(s => s.assignedLocation.toLowerCase().includes(location.toLowerCase()));
+    }
+
+    if (query) {
+      list = list.filter(s =>
+        s.name.toLowerCase().includes(query) ||
+        s.staffCode.toLowerCase().includes(query) ||
+        s.assignedLocation.toLowerCase().includes(query) ||
+        (s.assignedSupervisorName && s.assignedSupervisorName.toLowerCase().includes(query))
+      );
+    }
+
+    return list;
+  });
+
+  filteredDrivers = computed(() => {
+    let list = this.drivers();
+    const query = this.searchQuery().toLowerCase().trim();
+
+    if (query) {
+      list = list.filter(d =>
+        d.name.toLowerCase().includes(query) ||
+        d.driverCode.toLowerCase().includes(query) ||
+        d.licenseNumber.toLowerCase().includes(query) ||
+        d.assignedTruckPlate.toLowerCase().includes(query) ||
+        d.assignedLocation.toLowerCase().includes(query) ||
+        d.assignedSupervisor.toLowerCase().includes(query) ||
+        d.assignedStaffTeam.some(st => st.toLowerCase().includes(query))
+      );
+    }
+
+    return list;
+  });
+
+  maleStaffCount = computed(() => this.cleaningStaff().filter(s => s.gender === 'Male').length);
+  femaleStaffCount = computed(() => this.cleaningStaff().filter(s => s.gender === 'Female').length);
+  supervisorsCount = computed(() => this.cleaningStaff().filter(s => s.isSupervisor).length);
+  staffAtLocationsCount = computed(() => this.cleaningStaff().filter(s => s.status === 'At Location' || s.status === 'On Duty').length);
+  activeDriversCount = computed(() => this.drivers().filter(d => d.status.includes('On Site') || d.status.includes('En Route')).length);
+
+  // ==========================================
+  // REQUEST PAGE COMPUTED (One-Off / New Customer)
+  // ==========================================
+  filteredOneOffRequests = computed(() => {
+    let list = this.oneOffRequests();
+    const category = this.requestCategoryFilter();
+    const status = this.requestStatusFilter();
+    const query = this.tableSearchQuery().toLowerCase().trim();
+
+    if (category !== 'All') {
+      list = list.filter(r => r.customerCategory.toLowerCase() === category.toLowerCase());
+    }
+
+    if (status !== 'All') {
+      list = list.filter(r => r.status === status);
+    }
+
+    if (query) {
+      list = list.filter(r =>
+        r.requestCode.toLowerCase().includes(query) ||
+        r.customerName.toLowerCase().includes(query) ||
+        r.serviceRequested.toLowerCase().includes(query) ||
+        r.locationAddress.toLowerCase().includes(query) ||
+        r.zoneLga.toLowerCase().includes(query) ||
+        r.specificNeeds.toLowerCase().includes(query) ||
+        (r.assignedDriver && r.assignedDriver.toLowerCase().includes(query))
+      );
+    }
+
+    return list;
+  });
+
+  pendingOneOffRequestsCount = computed(() => this.oneOffRequests().filter(r => r.status === 'Pending').length);
+
+  // ==========================================
+  // COLLECTION SCHEDULE COMPUTED
+  // ==========================================
+  filteredSchedules = computed(() => {
+    let list = this.schedules();
+    const freq = this.scheduleFrequencyFilter();
+    const cat = this.scheduleCategoryFilter();
+    const query = this.tableSearchQuery().toLowerCase().trim();
+
+    if (freq !== 'All') {
+      list = list.filter(s => s.frequency === freq);
+    }
+
+    if (cat !== 'All') {
+      list = list.filter(s => s.category.toLowerCase().includes(cat.toLowerCase()));
+    }
+
+    if (query) {
+      list = list.filter(s =>
+        s.scheduleCode.toLowerCase().includes(query) ||
+        s.clientName.toLowerCase().includes(query) ||
+        s.serviceType.toLowerCase().includes(query) ||
+        s.location.toLowerCase().includes(query) ||
+        s.assignedDriver.toLowerCase().includes(query) ||
+        s.assignedSupervisor.toLowerCase().includes(query)
+      );
+    }
+
+    return list;
+  });
+
+  dailySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Every day').length);
+  twoDaySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Every 2 days').length);
+  weeklySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Weekly').length);
+  monthlySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Monthly').length);
+
+  // ==========================================
+  // FLEET MANAGEMENT COMPUTED
+  // ==========================================
+  filteredFleetTrucks = computed(() => {
+    let list = this.fleetTrucks();
+    const mission = this.fleetMissionFilter();
+    const status = this.fleetStatusFilter();
+    const query = this.searchQuery().toLowerCase().trim();
+
+    if (mission !== 'All') {
+      list = list.filter(t => t.customerCategory.toLowerCase() === mission.toLowerCase() || t.assignmentMission.toLowerCase().includes(mission.toLowerCase()));
+    }
+
+    if (status !== 'All') {
+      if (status === 'Dispatched') {
+        list = list.filter(t => t.statusType === 'busy' || t.statusType === 'active');
+      } else if (status === 'Available') {
+        list = list.filter(t => t.statusType === 'available');
+      } else if (status === 'Maintenance') {
+        list = list.filter(t => t.statusType === 'maintenance');
+      }
+    }
+
+    if (query) {
+      list = list.filter(t =>
+        t.truckCode.toLowerCase().includes(query) ||
+        t.plateNumber.toLowerCase().includes(query) ||
+        t.vehicleModel.toLowerCase().includes(query) ||
+        t.assignedDriver.toLowerCase().includes(query) ||
+        t.assignedSupervisor.toLowerCase().includes(query) ||
+        t.assignedCustomerOrSite.toLowerCase().includes(query) ||
+        t.destinationLocation.toLowerCase().includes(query)
+      );
+    }
+
+    return list;
+  });
+
+  dispatchedTrucksCount = computed(() => this.fleetTrucks().filter(t => t.statusType === 'busy' || t.statusType === 'active').length);
+  availableTrucksCount = computed(() => this.fleetTrucks().filter(t => t.statusType === 'available').length);
 
   // Computed filtered list for Transactions
   filteredTransactions = computed(() => {
@@ -1331,6 +2381,360 @@ export class AdminDashboardComponent {
 
   scheduleExtraPickup(customer: CustomerAccount): void {
     this.triggerToast(`On-demand pickup dispatched for ${customer.name}. Hauler notified.`);
+  }
+
+  // ==========================================
+  // CUSTOMER PAGE SERVICE REQUEST HANDLERS
+  // ==========================================
+  openRequestServiceModal(customer?: CustomerAccount, presetService?: string): void {
+    if (customer) {
+      this.selectedCustomerForService.set(customer);
+      this.serviceRequestForm.customerId = customer.id;
+      this.serviceRequestForm.customerName = customer.name;
+      this.serviceRequestForm.category = customer.category;
+      this.serviceRequestForm.serviceType = (presetService || customer.activeService || 'Weekly Cleaning') as any;
+      this.serviceRequestForm.cleaningFrequency = presetService === 'Daily Cleaning' ? 'Daily' : 'Weekly';
+    } else {
+      this.selectedCustomerForService.set(null);
+      this.serviceRequestForm.customerId = '';
+      this.serviceRequestForm.customerName = '';
+      this.serviceRequestForm.category = 'HOUSEHOLD';
+      this.serviceRequestForm.serviceType = 'Weekly Cleaning';
+      this.serviceRequestForm.cleaningFrequency = 'Weekly';
+    }
+    this.serviceRequestForm.preferredDate = 'Today, Immediate';
+    this.serviceRequestForm.notes = '';
+    this.requestServiceModalOpen.set(true);
+  }
+
+  closeRequestServiceModal(): void {
+    this.requestServiceModalOpen.set(false);
+    this.selectedCustomerForService.set(null);
+  }
+
+  submitCustomerServiceRequest(): void {
+    if (!this.serviceRequestForm.customerName.trim()) {
+      this.triggerToast('Please provide customer name.');
+      return;
+    }
+
+    const newReq: OneOffCustomerRequest = {
+      id: `req-once-${Date.now()}`,
+      requestCode: `REQ-ONCE-${Math.floor(2000 + Math.random() * 8000)}`,
+      customerName: this.serviceRequestForm.customerName,
+      customerCategory: (this.serviceRequestForm.category === 'HOUSEHOLD' || this.serviceRequestForm.category === 'Residential' ? 'Household' :
+        this.serviceRequestForm.category === 'BUSINESS' || this.serviceRequestForm.category === 'Commercial' || this.serviceRequestForm.category === 'Industrial' ? 'Business' :
+        this.serviceRequestForm.category === 'OCCASIONAL' ? 'Occasional' : 'General'),
+      isNewCustomer: false,
+      requestType: 'On-Demand',
+      serviceRequested: (this.serviceRequestForm.serviceType as any) || 'Weekly or Daily Cleaning',
+      specificNeeds: this.serviceRequestForm.notes || `${this.serviceRequestForm.serviceType} booked from Customer console`,
+      contactPhone: '+234 800 123 4567',
+      locationAddress: 'Lagos Zone',
+      zoneLga: 'Eti-Osa (Victoria Island / Lekki)',
+      requestedDate: this.serviceRequestForm.preferredDate || 'Scheduled next cycle',
+      preferredTime: 'Morning Shift',
+      urgency: 'Normal',
+      status: 'Pending',
+      estimatedFee: '₦65,000'
+    };
+
+    this.oneOffRequests.update(prev => [newReq, ...prev]);
+    this.triggerToast(`Request "${newReq.serviceRequested}" submitted for ${newReq.customerName}.`);
+    this.closeRequestServiceModal();
+  }
+
+  // ==========================================
+  // STAFF & DRIVERS HANDLERS
+  // ==========================================
+  setStaffSubTab(tab: 'staff' | 'drivers'): void {
+    this.staffSubTab.set(tab);
+  }
+
+  setStaffGenderFilter(gender: string): void {
+    this.staffGenderFilter.set(gender);
+  }
+
+  setStaffRoleFilter(role: string): void {
+    this.staffRoleFilter.set(role);
+  }
+
+  setStaffLocationFilter(location: string): void {
+    this.staffLocationFilter.set(location);
+  }
+
+  openAssignStaffModal(staff: CleaningStaffMember): void {
+    this.selectedStaff.set(staff);
+    this.assignStaffModalOpen.set(true);
+  }
+
+  closeAssignStaffModal(): void {
+    this.assignStaffModalOpen.set(false);
+    this.selectedStaff.set(null);
+  }
+
+  saveStaffAssignment(newLocation: string, supervisor?: string): void {
+    const current = this.selectedStaff();
+    if (!current) return;
+
+    this.cleaningStaff.update(prev =>
+      prev.map(s => s.id === current.id ? {
+        ...s,
+        assignedLocation: newLocation,
+        assignedSupervisorName: supervisor || s.assignedSupervisorName,
+        status: 'At Location'
+      } : s)
+    );
+
+    this.triggerToast(`${current.name} reassigned to ${newLocation}. Supervisor notified.`);
+    this.closeAssignStaffModal();
+  }
+
+  openAssignDriverModal(driver: DriverRecord): void {
+    this.selectedDriver.set(driver);
+    this.assignDriverModalOpen.set(true);
+  }
+
+  closeAssignDriverModal(): void {
+    this.assignDriverModalOpen.set(false);
+    this.selectedDriver.set(null);
+  }
+
+  saveDriverAssignment(location: string, supervisor: string): void {
+    const current = this.selectedDriver();
+    if (!current) return;
+
+    this.drivers.update(prev =>
+      prev.map(d => d.id === current.id ? {
+        ...d,
+        assignedLocation: location,
+        assignedSupervisor: supervisor,
+        status: 'On Site with Staff'
+      } : d)
+    );
+
+    this.triggerToast(`Driver ${current.name} dispatched with cleaning crew to ${location}.`);
+    this.closeAssignDriverModal();
+  }
+
+  // ==========================================
+  // REQUEST (ONE-OFF / NEW CUSTOMERS) HANDLERS
+  // ==========================================
+  setRequestCategoryFilter(category: string): void {
+    this.requestCategoryFilter.set(category);
+  }
+
+  setRequestStatusFilter(status: string): void {
+    this.requestStatusFilter.set(status);
+  }
+
+  openNewOneOffRequestModal(): void {
+    this.newOneOffRequestModalOpen.set(true);
+  }
+
+  closeNewOneOffRequestModal(): void {
+    this.newOneOffRequestModalOpen.set(false);
+  }
+
+  submitOneOffRequest(): void {
+    if (!this.newOneOffRequestForm.customerName.trim()) {
+      this.triggerToast('Please enter customer name.');
+      return;
+    }
+
+    const newReq: OneOffCustomerRequest = {
+      id: `req-once-${Date.now()}`,
+      requestCode: `REQ-ONCE-${Math.floor(2000 + Math.random() * 8000)}`,
+      customerName: this.newOneOffRequestForm.customerName.trim(),
+      customerCategory: this.newOneOffRequestForm.customerCategory,
+      isNewCustomer: true,
+      requestType: 'Once / New Customer',
+      serviceRequested: this.newOneOffRequestForm.serviceRequested,
+      specificNeeds: this.newOneOffRequestForm.specificNeeds || 'One-time on-demand service requested',
+      contactPhone: this.newOneOffRequestForm.contactPhone || '+234 800 000 0000',
+      locationAddress: this.newOneOffRequestForm.locationAddress || 'Lagos Address',
+      zoneLga: this.newOneOffRequestForm.zoneLga,
+      requestedDate: 'Today',
+      preferredTime: 'Immediate',
+      urgency: this.newOneOffRequestForm.urgency,
+      status: 'Pending',
+      estimatedFee: this.newOneOffRequestForm.estimatedFee
+    };
+
+    this.oneOffRequests.update(prev => [newReq, ...prev]);
+    this.triggerToast(`New customer request ${newReq.requestCode} created successfully.`);
+    this.closeNewOneOffRequestModal();
+
+    // Reset form
+    this.newOneOffRequestForm.customerName = '';
+    this.newOneOffRequestForm.specificNeeds = '';
+    this.newOneOffRequestForm.locationAddress = '';
+    this.newOneOffRequestForm.contactPhone = '';
+  }
+
+  openAssignRequestModal(req: OneOffCustomerRequest): void {
+    this.selectedOneOffRequest.set(req);
+    this.assignRequestModalOpen.set(true);
+  }
+
+  closeAssignRequestModal(): void {
+    this.assignRequestModalOpen.set(false);
+    this.selectedOneOffRequest.set(null);
+  }
+
+  assignRequestPersonnel(driver: string, supervisor: string, truckPlate: string): void {
+    const current = this.selectedOneOffRequest();
+    if (!current) return;
+
+    this.oneOffRequests.update(prev =>
+      prev.map(r => r.id === current.id ? {
+        ...r,
+        assignedDriver: driver,
+        assignedSupervisor: supervisor,
+        assignedTruckPlate: truckPlate,
+        assignedStaffCrew: 'LGA Field Crew',
+        status: 'Staff & Driver Assigned'
+      } : r)
+    );
+
+    this.triggerToast(`Staff & Driver assigned to ${current.requestCode}.`);
+    this.closeAssignRequestModal();
+  }
+
+  dispatchOneOffRequest(req: OneOffCustomerRequest): void {
+    this.oneOffRequests.update(prev =>
+      prev.map(r => r.id === req.id ? { ...r, status: 'Dispatched' } : r)
+    );
+    this.triggerToast(`Dispatched crew and driver for ${req.requestCode} (${req.customerName}).`);
+  }
+
+  completeOneOffRequest(req: OneOffCustomerRequest): void {
+    this.oneOffRequests.update(prev =>
+      prev.map(r => r.id === req.id ? { ...r, status: 'Completed' } : r)
+    );
+    this.triggerToast(`Request ${req.requestCode} marked as completed!`);
+  }
+
+  // ==========================================
+  // COLLECTION SCHEDULE HANDLERS
+  // ==========================================
+  setScheduleFrequencyFilter(freq: string): void {
+    this.scheduleFrequencyFilter.set(freq);
+  }
+
+  setScheduleCategoryFilter(cat: string): void {
+    this.scheduleCategoryFilter.set(cat);
+  }
+
+  openNewScheduleModal(): void {
+    this.newScheduleModalOpen.set(true);
+  }
+
+  closeNewScheduleModal(): void {
+    this.newScheduleModalOpen.set(false);
+  }
+
+  submitNewSchedule(): void {
+    if (!this.newScheduleForm.clientName.trim()) {
+      this.triggerToast('Please provide client name for schedule.');
+      return;
+    }
+
+    const codePrefix = this.newScheduleForm.frequency === 'Every day' ? 'SCH-ED' :
+      this.newScheduleForm.frequency === 'Every 2 days' ? 'SCH-2D' :
+      this.newScheduleForm.frequency === 'Weekly' ? 'SCH-WK' : 'SCH-MO';
+
+    const newSch: CollectionScheduleRecord = {
+      id: `sch-${Date.now()}`,
+      scheduleCode: `${codePrefix}-${Math.floor(100 + Math.random() * 900)}`,
+      clientName: this.newScheduleForm.clientName.trim(),
+      category: this.newScheduleForm.category,
+      serviceType: this.newScheduleForm.serviceType,
+      frequency: this.newScheduleForm.frequency,
+      timeSlot: this.newScheduleForm.timeSlot,
+      recurrenceDays: this.newScheduleForm.recurrenceDays,
+      location: this.newScheduleForm.location || 'Lagos Address',
+      lga: this.newScheduleForm.lga,
+      assignedSupervisor: this.newScheduleForm.assignedSupervisor,
+      assignedDriver: this.newScheduleForm.assignedDriver,
+      assignedTruck: this.newScheduleForm.assignedTruck,
+      staffCount: this.newScheduleForm.staffCount,
+      nextRunDate: 'Tomorrow, Scheduled Cycle',
+      status: 'Active'
+    };
+
+    this.schedules.update(prev => [newSch, ...prev]);
+    this.triggerToast(`Recurring schedule "${newSch.scheduleCode}" registered successfully.`);
+    this.closeNewScheduleModal();
+
+    this.newScheduleForm.clientName = '';
+    this.newScheduleForm.location = '';
+  }
+
+  toggleScheduleStatus(sch: CollectionScheduleRecord): void {
+    const nextStatus = sch.status === 'Paused' ? 'Active' : 'Paused';
+    this.schedules.update(prev =>
+      prev.map(s => s.id === sch.id ? { ...s, status: nextStatus } : s)
+    );
+    this.triggerToast(`Schedule ${sch.scheduleCode} is now ${nextStatus}.`);
+  }
+
+  triggerAdHocRun(sch: CollectionScheduleRecord): void {
+    this.triggerToast(`Ad-hoc sweep dispatched for ${sch.clientName} (${sch.scheduleCode}).`);
+  }
+
+  // ==========================================
+  // FLEET MANAGEMENT HANDLERS
+  // ==========================================
+  setFleetMissionFilter(filter: string): void {
+    this.fleetMissionFilter.set(filter);
+  }
+
+  setFleetStatusFilter(status: string): void {
+    this.fleetStatusFilter.set(status);
+  }
+
+  openAssignFleetModal(truck: WasteTruckFleetRecord): void {
+    this.selectedFleetTruck.set(truck);
+    this.assignFleetModalOpen.set(true);
+  }
+
+  closeAssignFleetModal(): void {
+    this.assignFleetModalOpen.set(false);
+    this.selectedFleetTruck.set(null);
+  }
+
+  saveFleetAssignment(driver: string, supervisor: string, mission: any, customer: string, location: string): void {
+    const current = this.selectedFleetTruck();
+    if (!current) return;
+
+    this.fleetTrucks.update(prev =>
+      prev.map(t => t.id === current.id ? {
+        ...t,
+        assignedDriver: driver,
+        assignedSupervisor: supervisor,
+        assignmentMission: mission,
+        assignedCustomerOrSite: customer,
+        destinationLocation: location,
+        status: 'Dispatched & On Route',
+        statusType: 'active'
+      } : t)
+    );
+
+    this.triggerToast(`Truck ${current.plateNumber} assigned to ${driver} for ${mission} at ${customer}.`);
+    this.closeAssignFleetModal();
+  }
+
+  recallFleetTruck(truck: WasteTruckFleetRecord): void {
+    this.fleetTrucks.update(prev =>
+      prev.map(t => t.id === truck.id ? {
+        ...t,
+        status: 'In Depot / Available',
+        statusType: 'available',
+        destinationLocation: 'Central Depot - Ikeja'
+      } : t)
+    );
+    this.triggerToast(`Truck ${truck.plateNumber} recalled to central depot.`);
   }
 
   toggleAvailableOnly(): void {
