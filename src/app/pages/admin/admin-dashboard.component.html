@@ -2106,59 +2106,25 @@
             </div>
           </div>
 
-          <!-- Schedule Frequency Quick Stats -->
-          <div class="schedule-frequency-grid">
-            <div 
-              class="freq-stat-card"
-              [class.is-active]="scheduleFrequencyFilter() === 'Every day'"
-              (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Every day' ? 'All' : 'Every day')"
-            >
-              <div class="freq-icon-pill green"><app-icon name="calendar-check" [size]="20" /></div>
-              <div class="freq-info">
-                <span class="freq-label">EVERY DAY (DAILY)</span>
-                <strong class="freq-val">{{ dailySchedulesCount() }} Schedules</strong>
-                <span class="freq-sub">Morning &amp; Night Sweeps</span>
-              </div>
-            </div>
-
-            <div 
-              class="freq-stat-card"
-              [class.is-active]="scheduleFrequencyFilter() === 'Every 2 days'"
-              (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Every 2 days' ? 'All' : 'Every 2 days')"
-            >
-              <div class="freq-icon-pill cyan"><app-icon name="repeat" [size]="20" /></div>
-              <div class="freq-info">
-                <span class="freq-label">EVERY 2 DAYS</span>
-                <strong class="freq-val">{{ twoDaySchedulesCount() }} Schedules</strong>
-                <span class="freq-sub">Alternating Cycle (Mon/Wed/Fri)</span>
-              </div>
-            </div>
-
-            <div 
-              class="freq-stat-card"
-              [class.is-active]="scheduleFrequencyFilter() === 'Weekly'"
-              (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Weekly' ? 'All' : 'Weekly')"
-            >
-              <div class="freq-icon-pill blue"><app-icon name="calendar-range" [size]="20" /></div>
-              <div class="freq-info">
-                <span class="freq-label">WEEKLY</span>
-                <strong class="freq-val">{{ weeklySchedulesCount() }} Schedules</strong>
-                <span class="freq-sub">Designated Day Sweeps</span>
-              </div>
-            </div>
-
-            <div 
-              class="freq-stat-card"
-              [class.is-active]="scheduleFrequencyFilter() === 'Monthly'"
-              (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Monthly' ? 'All' : 'Monthly')"
-            >
-              <div class="freq-icon-pill amber"><app-icon name="calendar-days" [size]="20" /></div>
-              <div class="freq-info">
-                <span class="freq-label">MONTHLY</span>
-                <strong class="freq-val">{{ monthlySchedulesCount() }} Schedules</strong>
-                <span class="freq-sub">Industrial &amp; Bulk Clearings</span>
-              </div>
-            </div>
+          <!-- Schedule frequencies: one panel, each column filters the table -->
+          <div class="segment-strip" role="group" aria-label="Filter schedules by frequency">
+            @for (f of scheduleFrequencyStats(); track f.key) {
+              <button
+                type="button"
+                class="segment-cell"
+                [class]="'tone-' + f.tone"
+                [class.is-active]="scheduleFrequencyFilter() === f.key"
+                [attr.aria-pressed]="scheduleFrequencyFilter() === f.key"
+                (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === f.key ? 'All' : f.key)"
+              >
+                <span class="segment-label">
+                  <span class="segment-icon" aria-hidden="true"><app-icon [name]="f.icon" [size]="15" /></span>
+                  {{ f.label }}
+                </span>
+                <span class="segment-count">{{ f.count }}</span>
+                <span class="segment-meta">{{ f.count === 1 ? 'schedule' : 'schedules' }} · {{ f.hint }}</span>
+              </button>
+            }
           </div>
 
           <!-- Schedules Table Card -->

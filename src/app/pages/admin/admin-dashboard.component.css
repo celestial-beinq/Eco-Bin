@@ -5332,3 +5332,9 @@
   align-items: center;
   gap: 3px;
 }
+
+/* Collection Schedule: frequency colours for the segment panel */
+.segment-cell.tone-daily     { --tone: #16a34a; --tone-soft: #dcfce7; --tone-ink: #166534; --tone-wash: #f6fdf8; }
+.segment-cell.tone-alternate { --tone: #0891b2; --tone-soft: #cffafe; --tone-ink: #155e75; --tone-wash: #f3fcfe; }
+.segment-cell.tone-weekly    { --tone: #2563eb; --tone-soft: #dbeafe; --tone-ink: #1e40af; --tone-wash: #f5f8ff; }
+.segment-cell.tone-monthly   { --tone: #d97706; --tone-soft: #fef3c7; --tone-ink: #92400e; --tone-wash: #fffbf2; }

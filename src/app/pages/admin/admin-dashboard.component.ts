@@ -2204,6 +2204,14 @@ export class AdminDashboardComponent {
   weeklySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Weekly').length);
   monthlySchedulesCount = computed(() => this.schedules().filter(s => s.frequency === 'Monthly').length);
 
+  /** Frequency columns on the Collection Schedule page (each one filters the table). */
+  scheduleFrequencyStats = computed(() => [
+    { key: 'Every day', label: 'Daily', icon: 'calendar-check', tone: 'daily', count: this.dailySchedulesCount(), hint: 'Morning & night sweeps' },
+    { key: 'Every 2 days', label: 'Every 2 days', icon: 'repeat', tone: 'alternate', count: this.twoDaySchedulesCount(), hint: 'Mon / Wed / Fri cycle' },
+    { key: 'Weekly', label: 'Weekly', icon: 'calendar-range', tone: 'weekly', count: this.weeklySchedulesCount(), hint: 'Set day each week' },
+    { key: 'Monthly', label: 'Monthly', icon: 'calendar-days', tone: 'monthly', count: this.monthlySchedulesCount(), hint: 'Industrial & bulk' },
+  ]);
+
   // ==========================================
   // FLEET MANAGEMENT COMPUTED
   // ==========================================
