@@ -2518,6 +2518,35 @@ export class AdminDashboardComponent {
     this.invoicesPager.reset();
   }
 
+  invoiceCategoryCounts = computed(() => {
+    const list = this.invoices();
+    return {
+      All: list.length,
+      HOUSEHOLD: list.filter(i => i.category === 'HOUSEHOLD').length,
+      BUSINESS: list.filter(i => i.category === 'BUSINESS').length,
+      OCCASIONAL: list.filter(i => i.category === 'OCCASIONAL').length,
+      GENERAL: list.filter(i => i.category === 'GENERAL').length,
+    };
+  });
+
+  invoiceStatusCounts = computed(() => {
+    const list = this.invoices();
+    return {
+      All: list.length,
+      Paid: list.filter(i => i.status === 'Paid').length,
+      'Part-paid': list.filter(i => i.status === 'Part-paid').length,
+      Pending: list.filter(i => i.status === 'Pending').length,
+      Overdue: list.filter(i => i.status === 'Overdue').length,
+    };
+  });
+
+  resetInvoiceFilters(): void {
+    this.invoiceCategoryFilter.set('All');
+    this.invoiceStatusFilter.set('All');
+    this.invoiceSearchQuery.set('');
+    this.invoicesPager.reset();
+  }
+
   downloadInvoiceReceipt(inv: BillingInvoice): void {
     this.triggerToast(`Receipt for ${inv.invoiceNo} (${inv.customerName}) is ready to download.`);
   }

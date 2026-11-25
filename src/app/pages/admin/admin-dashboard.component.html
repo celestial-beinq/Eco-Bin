@@ -2878,37 +2878,127 @@
 
           <!-- 3. Invoices -->
           <div class="dedicated-table-card">
-            <div class="dedicated-toolbar">
-              <div class="billing-filters">
-                <div class="billing-filter-row">
-                  <span class="toolbar-label">Category:</span>
-                  <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === 'All'" (click)="setInvoiceCategoryFilter('All')">All</button>
-                  @for (t of billingTariffs(); track t.key) {
-                    <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === t.key" (click)="setInvoiceCategoryFilter(t.key)">{{ t.name }}</button>
-                  }
+            <!-- Redesigned Modern Filter Console Toolbar -->
+            <div class="invoices-filter-console">
+              
+              <!-- Filter Top Row: Live stats summary, active badge, reset action, search box -->
+              <div class="filter-console-top">
+                <div class="filter-console-heading">
+                  <span class="filter-console-icon"><app-icon name="receipt" [size]="16" /></span>
+                  <div class="filter-console-title-group">
+                    <h4 class="filter-console-title">Customer Invoices &amp; Settlements</h4>
+                    <span class="filter-console-sub">
+                      Showing <strong>{{ filteredInvoices().length }}</strong> of {{ invoices().length }} total records
+                      @if (invoiceCategoryFilter() !== 'All' || invoiceStatusFilter() !== 'All' || invoiceSearchQuery()) {
+                        <span class="filter-active-pill">Active filters applied</span>
+                      }
+                    </span>
+                  </div>
                 </div>
-                <div class="billing-filter-row">
-                  <span class="toolbar-label">Status:</span>
-                  <button type="button" class="btn-filter-pill" [class.is-active]="invoiceStatusFilter() === 'All'" (click)="setInvoiceStatusFilter('All')">All</button>
-                  @for (st of invoiceStatuses; track st) {
-                    <button type="button" class="btn-filter-pill" [class.is-active]="invoiceStatusFilter() === st" (click)="setInvoiceStatusFilter(st)">{{ st }}</button>
+
+                <div class="filter-console-actions">
+                  @if (invoiceCategoryFilter() !== 'All' || invoiceStatusFilter() !== 'All' || invoiceSearchQuery()) {
+                    <button type="button" class="btn-reset-filters-clean" (click)="resetInvoiceFilters()">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                      <span>Reset Filters</span>
+                    </button>
                   }
+
+                  <div class="filter-search-field">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input
+                      type="text"
+                      class="filter-search-input"
+                      placeholder="Search invoice, customer, plan..."
+                      [ngModel]="invoiceSearchQuery()"
+                      (ngModelChange)="invoiceSearchQuery.set($event); invoicesPager.reset()"
+                    />
+                    @if (invoiceSearchQuery()) {
+                      <button type="button" class="btn-search-clear" (click)="invoiceSearchQuery.set(''); invoicesPager.reset()">✕</button>
+                    }
+                  </div>
                 </div>
               </div>
 
-              <div class="toolbar-search-box">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input
-                  type="text"
-                  class="dedicated-search-input"
-                  placeholder="Search invoice, customer, service..."
-                  [ngModel]="invoiceSearchQuery()"
-                  (ngModelChange)="invoiceSearchQuery.set($event); invoicesPager.reset()"
-                />
+              <!-- Filter Selector Rows -->
+              <div class="filter-selectors-wrap">
+                
+                <!-- Category Filter Row -->
+                <div class="filter-segment-row">
+                  <div class="filter-row-label-col">
+                    <span class="filter-label-chip">Category</span>
+                  </div>
+                  <div class="filter-chips-cluster">
+                    <button 
+                      type="button" 
+                      class="filter-control-chip"
+                      [class.is-active]="invoiceCategoryFilter() === 'All'"
+                      (click)="setInvoiceCategoryFilter('All')"
+                    >
+                      <span class="chip-label">All</span>
+                      <span class="chip-count-badge">{{ invoiceCategoryCounts().All }}</span>
+                    </button>
+                    @for (t of billingTariffs(); track t.key) {
+                      <button 
+                        type="button" 
+                        class="filter-control-chip category-chip"
+                        [class.is-active]="invoiceCategoryFilter() === t.key"
+                        [class.is-household]="t.key === 'HOUSEHOLD'"
+                        [class.is-business]="t.key === 'BUSINESS'"
+                        [class.is-occasional]="t.key === 'OCCASIONAL'"
+                        [class.is-general]="t.key === 'GENERAL'"
+                        (click)="setInvoiceCategoryFilter(t.key)"
+                      >
+                        <app-icon [name]="t.icon" [size]="13" />
+                        <span class="chip-label">{{ t.name }}</span>
+                        <span class="chip-count-badge">{{ invoiceCategoryCounts()[t.key] }}</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <!-- Status Filter Row -->
+                <div class="filter-segment-row">
+                  <div class="filter-row-label-col">
+                    <span class="filter-label-chip">Status</span>
+                  </div>
+                  <div class="filter-chips-cluster">
+                    <button 
+                      type="button" 
+                      class="filter-control-chip status-all-chip"
+                      [class.is-active]="invoiceStatusFilter() === 'All'"
+                      (click)="setInvoiceStatusFilter('All')"
+                    >
+                      <span class="chip-label">All</span>
+                      <span class="chip-count-badge">{{ invoiceStatusCounts().All }}</span>
+                    </button>
+                    @for (st of invoiceStatuses; track st) {
+                      <button 
+                        type="button" 
+                        class="filter-control-chip status-pill-chip"
+                        [class.is-active]="invoiceStatusFilter() === st"
+                        [class.chip-paid]="st === 'Paid'"
+                        [class.chip-part-paid]="st === 'Part-paid'"
+                        [class.chip-pending]="st === 'Pending'"
+                        [class.chip-overdue]="st === 'Overdue'"
+                        (click)="setInvoiceStatusFilter(st)"
+                      >
+                        <span class="status-live-dot" [class]="'dot-' + st.toLowerCase().replace(' ', '-')"></span>
+                        <span class="chip-label">{{ st }}</span>
+                        <span class="chip-count-badge">{{ invoiceStatusCounts()[st] }}</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+
               </div>
+
             </div>
 
             <div class="table-responsive-wrapper">
