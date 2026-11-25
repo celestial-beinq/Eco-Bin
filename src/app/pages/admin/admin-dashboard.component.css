@@ -4175,6 +4175,52 @@
 
 .crew-line { white-space: nowrap; }
 
+/* Compact one-off requests table */
+.compact-row td {
+  padding: 9px 14px;
+}
+
+.compact-row .request-code-cell,
+.compact-row .req-customer-block,
+.compact-row .service-requested-cell,
+.compact-row .needs-location-cell,
+.compact-row .assigned-crew-cell {
+  gap: 3px;
+  align-items: flex-start;
+}
+
+.cell-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.truncate-cell {
+  display: block;
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compact-row .loc-txt {
+  font-size: 12px;
+  color: #0f172a;
+}
+
+.compact-row .needs-desc.truncate-cell {
+  max-width: 230px;
+}
+
+.crew-role {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.crew-sub {
+  color: #64748b;
+}
+
 .unassigned-badge {
   display: inline-block;
   background: #fef2f2;

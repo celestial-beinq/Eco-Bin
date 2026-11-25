@@ -2360,60 +2360,63 @@
               <table class="ecobin-data-table">
                 <thead>
                   <tr>
-                    <th scope="col" style="min-width: 150px;">REQUEST CODE</th>
-                    <th scope="col" style="min-width: 220px;">CUSTOMER &amp; CATEGORY</th>
-                    <th scope="col" style="min-width: 200px;">REQUESTED SERVICE</th>
-                    <th scope="col" style="min-width: 220px;">LOCATION &amp; SPECIFICS</th>
-                    <th scope="col" style="min-width: 220px;">ASSIGNED CREW &amp; FLEET</th>
-                    <th scope="col" style="min-width: 140px;">STATUS</th>
-                    <th scope="col" style="min-width: 200px; text-align: right;">DISPATCH ACTIONS</th>
+                    <th scope="col">REQUEST</th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">SERVICE</th>
+                    <th scope="col">LOCATION</th>
+                    <th scope="col">CREW &amp; FLEET</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col" style="text-align: right;">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (req of filteredOneOffRequests(); track req.id) {
-                    <tr class="data-table-row">
-                      <!-- Request Code & Type -->
+                    <tr class="data-table-row compact-row">
+                      <!-- Request Code & Date -->
                       <td>
                         <div class="request-code-cell">
                           <strong class="font-mono text-brand">{{ req.requestCode }}</strong>
-                          <span class="tag-once-customer">Once / New Client</span>
                           <span class="date-sub">{{ req.requestedDate }}</span>
                         </div>
                       </td>
 
-                      <!-- Customer Name & Category -->
+                      <!-- Customer Name, Phone & Category -->
                       <td>
                         <div class="req-customer-block">
-                          <strong class="customer-title">{{ req.customerName }}</strong>
-                          <span class="contact-sub">{{ req.contactPhone }}</span>
-                          <span 
-                            class="category-tag-pill"
-                            [class.cat-household]="req.customerCategory === 'Household'"
-                            [class.cat-business]="req.customerCategory === 'Business'"
-                            [class.cat-occasional]="req.customerCategory === 'Occasional'"
-                            [class.cat-general]="req.customerCategory === 'General'"
-                          >
-                            {{ req.customerCategory }}
-                          </span>
+                          <strong class="customer-title truncate-cell" [title]="req.customerName">{{ req.customerName }}</strong>
+                          <div class="cell-meta-line">
+                            <span class="contact-sub">{{ req.contactPhone }}</span>
+                            <span
+                              class="category-tag-pill micro"
+                              [class.cat-household]="req.customerCategory === 'Household'"
+                              [class.cat-business]="req.customerCategory === 'Business'"
+                              [class.cat-occasional]="req.customerCategory === 'Occasional'"
+                              [class.cat-general]="req.customerCategory === 'General'"
+                            >
+                              {{ req.customerCategory }}
+                            </span>
+                          </div>
                         </div>
                       </td>
 
-                      <!-- Service Requested -->
+                      <!-- Service, Priority & Fee -->
                       <td>
                         <div class="service-requested-cell">
-                          <strong class="service-main-name">{{ req.serviceRequested }}</strong>
-                          <span class="urgency-pill" [class.urgent]="req.urgency === 'Urgent'" [class.high]="req.urgency === 'High'">
-                            {{ req.urgency }} Priority
-                          </span>
-                          <span class="fee-badge">{{ req.estimatedFee }}</span>
+                          <strong class="service-main-name truncate-cell" [title]="req.serviceRequested">{{ req.serviceRequested }}</strong>
+                          <div class="cell-meta-line">
+                            <span class="urgency-pill" [class.urgent]="req.urgency === 'Urgent'" [class.high]="req.urgency === 'High'">
+                              {{ req.urgency }}
+                            </span>
+                            <span class="fee-badge">{{ req.estimatedFee }}</span>
+                          </div>
                         </div>
                       </td>
 
                       <!-- Location & Needs -->
                       <td>
                         <div class="needs-location-cell">
-                          <span class="loc-txt">📍 {{ req.locationAddress }} ({{ req.zoneLga }})</span>
-                          <p class="needs-desc">{{ req.specificNeeds }}</p>
+                          <span class="loc-txt truncate-cell" [title]="req.locationAddress + ' — ' + req.zoneLga">📍 {{ req.locationAddress }}</span>
+                          <p class="needs-desc truncate-cell" [title]="req.specificNeeds">{{ req.specificNeeds }}</p>
                         </div>
                       </td>
 
@@ -2421,11 +2424,12 @@
                       <td>
                         <div class="assigned-crew-cell">
                           @if (req.assignedDriver) {
-                            <div class="crew-line"><strong>Driver:</strong> {{ req.assignedDriver }}</div>
-                            <div class="crew-line"><strong>Supervisor:</strong> {{ req.assignedSupervisor }}</div>
-                            <div class="crew-line"><strong>Truck:</strong> <span class="font-mono text-brand">{{ req.assignedTruckPlate }}</span></div>
+                            <div class="crew-line"><strong>{{ req.assignedDriver }}</strong> <span class="crew-role">· Driver</span></div>
+                            <div class="crew-line crew-sub" [title]="'Supervisor: ' + req.assignedSupervisor">
+                              <span class="font-mono text-brand">{{ req.assignedTruckPlate }}</span> · {{ req.assignedSupervisor }}
+                            </div>
                           } @else {
-                            <span class="unassigned-badge">⚠️ Needs Staff &amp; Driver</span>
+                            <span class="unassigned-badge">⚠️ Unassigned</span>
                           }
                         </div>
                       </td>
