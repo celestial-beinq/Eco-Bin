@@ -783,7 +783,7 @@
                 class="search-field" 
                 [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : activeTableTab() === 'customers' ? 'Search customers, LGA, plan...' : activeTableTab() === 'requests' ? 'Search request code, waste stream...' : 'Search haulers, trucks, hubs...'"
                 [ngModel]="tableSearchQuery()"
-                (ngModelChange)="tableSearchQuery.set($event)"
+                (ngModelChange)="tableSearchQuery.set($event); currentPage.set(1)"
               />
             </div>
 
@@ -1649,7 +1649,7 @@
                   class="dedicated-search-input"
                   placeholder="Search customer, location, plan..."
                   [ngModel]="customerSearchQuery()"
-                  (ngModelChange)="customerSearchQuery.set($event)"
+                  (ngModelChange)="customerSearchQuery.set($event); customersPager.reset()"
                 />
               </div>
             </div>
@@ -1668,7 +1668,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (cst of filteredCustomers(); track cst.id) {
+                  @for (cst of customersPager.rows(); track cst.id) {
                     <tr class="data-table-row">
                       <!-- Customer Name & Account Number -->
                       <td>
@@ -1811,10 +1811,15 @@
                         </div>
                       </td>
                     </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="table-empty-cell">No customers match your search or filters.</td>
+                    </tr>
                   }
                 </tbody>
               </table>
             </div>
+            <app-table-pager [pager]="customersPager" label="customers" />
 
           </div>
 
@@ -1972,8 +1977,8 @@
                     type="text" 
                     class="dedicated-search-input"
                     placeholder="Search staff, location, supervisor..."
-                    [ngModel]="searchQuery()"
-                    (ngModelChange)="searchQuery.set($event)"
+                    [ngModel]="staffSearchQuery()"
+                    (ngModelChange)="staffSearchQuery.set($event); staffPager.reset()"
                   />
                 </div>
               </div>
@@ -1993,7 +1998,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @for (st of filteredCleaningStaff(); track st.id) {
+                    @for (st of staffPager.rows(); track st.id) {
                       <tr class="data-table-row">
                         <!-- Staff Name -->
                         <td>
@@ -2075,10 +2080,15 @@
                           </button>
                         </td>
                       </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="8" class="table-empty-cell">No staff match your search or filters.</td>
+                      </tr>
                     }
                   </tbody>
                 </table>
               </div>
+              <app-table-pager [pager]="staffPager" label="staff" />
 
             </div>
           }
@@ -2092,6 +2102,23 @@
                 <div>
                   <strong>Driver &amp; Crew Pairing Policy:</strong>
                   <span>Every driver is assigned with dedicated cleaning staff members and followed by a field supervisor to designated customer locations.</span>
+                </div>
+              </div>
+
+              <div class="dedicated-toolbar">
+                <span class="toolbar-label">{{ filteredDrivers().length }} of {{ drivers().length }} drivers</span>
+                <div class="toolbar-search-box">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input 
+                    type="text" 
+                    class="dedicated-search-input"
+                    placeholder="Search driver, truck, crew, location..."
+                    [ngModel]="driverSearchQuery()"
+                    (ngModelChange)="driverSearchQuery.set($event); driversPager.reset()"
+                  />
                 </div>
               </div>
 
@@ -2110,7 +2137,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @for (drv of filteredDrivers(); track drv.id) {
+                    @for (drv of driversPager.rows(); track drv.id) {
                       <tr class="data-table-row">
                         <!-- Driver Info -->
                         <td>
@@ -2191,10 +2218,15 @@
                           </div>
                         </td>
                       </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="8" class="table-empty-cell">No drivers match your search or filters.</td>
+                      </tr>
                     }
                   </tbody>
                 </table>
               </div>
+              <app-table-pager [pager]="driversPager" label="drivers" />
 
             </div>
           }
@@ -2299,8 +2331,8 @@
                   type="text" 
                   class="dedicated-search-input"
                   placeholder="Search request code, client, service..."
-                  [ngModel]="tableSearchQuery()"
-                  (ngModelChange)="tableSearchQuery.set($event)"
+                  [ngModel]="requestSearchQuery()"
+                  (ngModelChange)="requestSearchQuery.set($event); oneOffRequestsPager.reset()"
                 />
               </div>
             </div>
@@ -2320,7 +2352,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (req of filteredOneOffRequests(); track req.id) {
+                  @for (req of oneOffRequestsPager.rows(); track req.id) {
                     <tr class="data-table-row compact-row">
                       <!-- Request Code & Date -->
                       <td>
@@ -2430,10 +2462,15 @@
                         </div>
                       </td>
                     </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="8" class="table-empty-cell">No requests match your search or filters.</td>
+                    </tr>
                   }
                 </tbody>
               </table>
             </div>
+            <app-table-pager [pager]="oneOffRequestsPager" label="requests" />
 
           </div>
 
@@ -2582,8 +2619,8 @@
                   type="text" 
                   class="dedicated-search-input"
                   placeholder="Search client, location, team..."
-                  [ngModel]="tableSearchQuery()"
-                  (ngModelChange)="tableSearchQuery.set($event)"
+                  [ngModel]="scheduleSearchQuery()"
+                  (ngModelChange)="scheduleSearchQuery.set($event); schedulesPager.reset()"
                 />
               </div>
             </div>
@@ -2603,7 +2640,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (sch of filteredSchedules(); track sch.id) {
+                  @for (sch of schedulesPager.rows(); track sch.id) {
                     <tr class="data-table-row">
                       <!-- Schedule Code & Category -->
                       <td>
@@ -2689,10 +2726,15 @@
                         </div>
                       </td>
                     </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="8" class="table-empty-cell">No schedules match your search or filters.</td>
+                    </tr>
                   }
                 </tbody>
               </table>
             </div>
+            <app-table-pager [pager]="schedulesPager" label="schedules" />
 
           </div>
 
@@ -2834,8 +2876,8 @@
                   type="text" 
                   class="dedicated-search-input"
                   placeholder="Search truck plate, driver, client..."
-                  [ngModel]="searchQuery()"
-                  (ngModelChange)="searchQuery.set($event)"
+                  [ngModel]="fleetSearchQuery()"
+                  (ngModelChange)="fleetSearchQuery.set($event); fleetPager.reset()"
                 />
               </div>
             </div>
@@ -2854,7 +2896,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (truck of filteredFleetTrucks(); track truck.id) {
+                  @for (truck of fleetPager.rows(); track truck.id) {
                     <tr class="data-table-row">
                       <!-- Truck & Specs -->
                       <td>
@@ -2960,10 +3002,15 @@
                         </div>
                       </td>
                     </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="table-empty-cell">No trucks match your search or filters.</td>
+                    </tr>
                   }
                 </tbody>
               </table>
             </div>
+            <app-table-pager [pager]="fleetPager" label="trucks" />
 
           </div>
 
@@ -3141,7 +3188,7 @@
                 class="search-field" 
                 [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : activeTableTab() === 'customers' ? 'Search customers, LGA, plan...' : activeTableTab() === 'requests' ? 'Search request code, waste stream...' : 'Search haulers, trucks, hubs...'"
                 [ngModel]="tableSearchQuery()"
-                (ngModelChange)="tableSearchQuery.set($event)"
+                (ngModelChange)="tableSearchQuery.set($event); currentPage.set(1)"
               />
             </div>
 

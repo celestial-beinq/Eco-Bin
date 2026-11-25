@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IconComponent } from '../../components/icon/icon.component';
+import { TablePagerComponent } from '../../components/table-pager/table-pager.component';
+import { TablePager } from '../../shared/table-pager';
 
 export interface HaulerCrewCard {
   id: string;
@@ -224,7 +226,7 @@ export interface CollectionRequestRecord {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, IconComponent],
+  imports: [CommonModule, RouterModule, FormsModule, IconComponent, TablePagerComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -1283,6 +1285,13 @@ export class AdminDashboardComponent {
   currentPage = signal<number>(1);
   pageSize = signal<number>(5);
   tableSearchQuery = signal<string>('');
+
+  // Per-table search text for the dedicated pages (kept separate so typing on one page doesn't filter another)
+  staffSearchQuery = signal<string>('');
+  driverSearchQuery = signal<string>('');
+  requestSearchQuery = signal<string>('');
+  scheduleSearchQuery = signal<string>('');
+  fleetSearchQuery = signal<string>('');
   tableStatusFilter = signal<string>('All');
 
   // Transactions Dataset (Recent Waste Operations Billing & Payments)
@@ -1867,7 +1876,7 @@ export class AdminDashboardComponent {
   // Computed filtered list for Crews
   filteredCrews = computed(() => {
     let list = this.crews();
-    const query = this.searchQuery().toLowerCase().trim();
+    const query = this.tableSearchQuery().toLowerCase().trim();
     const availableOnly = this.availableOnly();
 
     if (availableOnly) {
@@ -1992,7 +2001,7 @@ export class AdminDashboardComponent {
     const gender = this.staffGenderFilter();
     const role = this.staffRoleFilter();
     const location = this.staffLocationFilter();
-    const query = this.searchQuery().toLowerCase().trim();
+    const query = this.staffSearchQuery().toLowerCase().trim();
 
     if (gender !== 'All') {
       list = list.filter(s => s.gender === gender);
@@ -2022,7 +2031,7 @@ export class AdminDashboardComponent {
 
   filteredDrivers = computed(() => {
     let list = this.drivers();
-    const query = this.searchQuery().toLowerCase().trim();
+    const query = this.driverSearchQuery().toLowerCase().trim();
 
     if (query) {
       list = list.filter(d =>
@@ -2052,7 +2061,7 @@ export class AdminDashboardComponent {
     let list = this.oneOffRequests();
     const category = this.requestCategoryFilter();
     const status = this.requestStatusFilter();
-    const query = this.tableSearchQuery().toLowerCase().trim();
+    const query = this.requestSearchQuery().toLowerCase().trim();
 
     if (category !== 'All') {
       list = list.filter(r => r.customerCategory.toLowerCase() === category.toLowerCase());
@@ -2086,7 +2095,7 @@ export class AdminDashboardComponent {
     let list = this.schedules();
     const freq = this.scheduleFrequencyFilter();
     const cat = this.scheduleCategoryFilter();
-    const query = this.tableSearchQuery().toLowerCase().trim();
+    const query = this.scheduleSearchQuery().toLowerCase().trim();
 
     if (freq !== 'All') {
       list = list.filter(s => s.frequency === freq);
@@ -2122,7 +2131,7 @@ export class AdminDashboardComponent {
     let list = this.fleetTrucks();
     const mission = this.fleetMissionFilter();
     const status = this.fleetStatusFilter();
-    const query = this.searchQuery().toLowerCase().trim();
+    const query = this.fleetSearchQuery().toLowerCase().trim();
 
     if (mission !== 'All') {
       list = list.filter(t => t.customerCategory.toLowerCase() === mission.toLowerCase() || t.assignmentMission.toLowerCase().includes(mission.toLowerCase()));
@@ -2155,6 +2164,16 @@ export class AdminDashboardComponent {
 
   dispatchedTrucksCount = computed(() => this.fleetTrucks().filter(t => t.statusType === 'busy' || t.statusType === 'active').length);
   availableTrucksCount = computed(() => this.fleetTrucks().filter(t => t.statusType === 'available').length);
+
+  // ==========================================
+  // PAGINATION FOR DEDICATED PAGE TABLES
+  // ==========================================
+  customersPager = new TablePager(this.filteredCustomers);
+  staffPager = new TablePager(this.filteredCleaningStaff);
+  driversPager = new TablePager(this.filteredDrivers);
+  oneOffRequestsPager = new TablePager(this.filteredOneOffRequests);
+  schedulesPager = new TablePager(this.filteredSchedules);
+  fleetPager = new TablePager(this.filteredFleetTrucks);
 
   // Computed filtered list for Transactions
   filteredTransactions = computed(() => {
@@ -2204,11 +2223,22 @@ export class AdminDashboardComponent {
     return list;
   });
 
+  // Dashboard "Customers" tab: same list, narrowed by the dashboard table's search box
+  dashboardCustomers = computed(() => {
+    const query = this.tableSearchQuery().toLowerCase().trim();
+    const list = this.filteredCustomers();
+    if (!query) return list;
+    return list.filter(c =>
+      [c.name, c.accountNumber, c.contactPerson, c.address, c.lga, c.phone, c.email, c.servicePlan, c.subType ?? '']
+        .some(v => v.toLowerCase().includes(query))
+    );
+  });
+
   // Active items total count
   currentTotal = computed(() => {
     const tab = this.activeTableTab();
     if (tab === 'transactions') return this.filteredTransactions().length;
-    if (tab === 'customers') return this.filteredCustomers().length;
+    if (tab === 'customers') return this.dashboardCustomers().length;
     if (tab === 'requests') return this.filteredRequests().length;
     return this.filteredCrews().length;
   });
@@ -2236,7 +2266,7 @@ export class AdminDashboardComponent {
 
   paginatedCustomers = computed(() => {
     const start = (this.currentPage() - 1) * this.pageSize();
-    return this.filteredCustomers().slice(start, start + this.pageSize());
+    return this.dashboardCustomers().slice(start, start + this.pageSize());
   });
 
   paginatedRequests = computed(() => {
