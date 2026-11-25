@@ -1530,6 +1530,7 @@
                 tabindex="0"
                 [attr.aria-pressed]="customerCategoryFilter() === seg.key"
                 [attr.aria-label]="'Filter customers by ' + seg.name"
+                [title]="'Fleet: ' + seg.fleet"
                 (click)="toggleCustomerSegment(seg.key)"
                 (keydown.enter)="toggleCustomerSegment(seg.key)"
                 (keydown.space)="$event.preventDefault(); toggleCustomerSegment(seg.key)"
@@ -1552,40 +1553,30 @@
                         }
                       }
                     </svg>
+                    @if (customerCategoryFilter() === seg.key) {
+                      <span class="segment-active-dot" title="Filtering by this category">
+                        <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"></path></svg>
+                      </span>
+                    }
                   </span>
                   <div class="segment-titles">
                     <h3 class="segment-name">{{ seg.name }}</h3>
                     <p class="segment-sub">{{ seg.subtitle }}</p>
                   </div>
-                  @if (customerCategoryFilter() === seg.key) {
-                    <span class="segment-active-chip">
-                      <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"></path></svg>
-                      Filtering
-                    </span>
-                  }
+                  <div class="segment-count-wrap">
+                    <strong class="segment-count">{{ seg.count }}</strong>
+                    <span class="segment-count-label">{{ seg.count === 1 ? 'account' : 'accounts' }}</span>
+                  </div>
                 </div>
 
-                <div class="segment-stat">
-                  <strong class="segment-count">{{ seg.count }}</strong>
-                  <span class="segment-count-label">{{ seg.count === 1 ? 'account' : 'accounts' }}</span>
-                  <span class="segment-share">{{ seg.share }}% of total</span>
-                </div>
-                <div class="segment-bar" aria-hidden="true">
-                  <span [style.width.%]="seg.share"></span>
+                <div class="segment-meter">
+                  <div class="segment-bar" aria-hidden="true">
+                    <span [style.width.%]="seg.share"></span>
+                  </div>
+                  <span class="segment-share">{{ seg.share }}%</span>
                 </div>
 
-                <div class="segment-services">
-                  @for (svc of seg.services; track svc) {
-                    <span class="segment-service-chip">{{ svc }}</span>
-                  }
-                </div>
-
-                <div class="segment-foot">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle>
-                  </svg>
-                  <span>{{ seg.fleet }}</span>
-                </div>
+                <p class="segment-services">{{ seg.services.join(' · ') }}</p>
               </div>
             }
           </div>
