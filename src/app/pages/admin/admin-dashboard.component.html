@@ -1519,25 +1519,21 @@
             </div>
           </div>
 
-          <!-- 4 Customer Segment Cards (also act as table filters) -->
-          <div class="segment-grid">
+          <!-- Customer segments: one dashboard panel, each column filters the table -->
+          <div class="segment-strip" role="group" aria-label="Filter customers by category">
             @for (seg of customerSegments(); track seg.key) {
-              <div
-                class="segment-card"
+              <button
+                type="button"
+                class="segment-cell"
                 [class]="'tone-' + seg.tone"
                 [class.is-active]="customerCategoryFilter() === seg.key"
-                role="button"
-                tabindex="0"
                 [attr.aria-pressed]="customerCategoryFilter() === seg.key"
-                [attr.aria-label]="'Filter customers by ' + seg.name"
-                [title]="'Fleet: ' + seg.fleet"
+                [title]="seg.subtitle + '\n' + seg.services.join(' · ') + '\nFleet: ' + seg.fleet"
                 (click)="toggleCustomerSegment(seg.key)"
-                (keydown.enter)="toggleCustomerSegment(seg.key)"
-                (keydown.space)="$event.preventDefault(); toggleCustomerSegment(seg.key)"
               >
-                <div class="segment-head">
+                <span class="segment-label">
                   <span class="segment-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       @switch (seg.key) {
                         @case ('HOUSEHOLD') {
                           <path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M10 21v-6h4v6"></path>
@@ -1546,38 +1542,19 @@
                           <path d="M3 21h18"></path><path d="M5 21V9l5 3V9l5 3V4h4v17"></path><path d="M9 17h1M13 17h1"></path>
                         }
                         @case ('OCCASIONAL') {
-                          <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path><path d="M18.5 15l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"></path><path d="M5.5 16l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4L3.5 18l1.4-.6z"></path>
+                          <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path><path d="M18.5 15l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"></path>
                         }
                         @default {
                           <path d="M4 21 9 3"></path><path d="M20 21 15 3"></path><path d="M12 5v2M12 11v2M12 17v2"></path>
                         }
                       }
                     </svg>
-                    @if (customerCategoryFilter() === seg.key) {
-                      <span class="segment-active-dot" title="Filtering by this category">
-                        <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"></path></svg>
-                      </span>
-                    }
                   </span>
-                  <div class="segment-titles">
-                    <h3 class="segment-name">{{ seg.name }}</h3>
-                    <p class="segment-sub">{{ seg.subtitle }}</p>
-                  </div>
-                  <div class="segment-count-wrap">
-                    <strong class="segment-count">{{ seg.count }}</strong>
-                    <span class="segment-count-label">{{ seg.count === 1 ? 'account' : 'accounts' }}</span>
-                  </div>
-                </div>
-
-                <div class="segment-meter">
-                  <div class="segment-bar" aria-hidden="true">
-                    <span [style.width.%]="seg.share"></span>
-                  </div>
-                  <span class="segment-share">{{ seg.share }}%</span>
-                </div>
-
-                <p class="segment-services">{{ seg.services.join(' · ') }}</p>
-              </div>
+                  {{ seg.name }}
+                </span>
+                <span class="segment-count">{{ seg.count }}</span>
+                <span class="segment-meta">{{ seg.count === 1 ? 'account' : 'accounts' }} · {{ seg.share }}%</span>
+              </button>
             }
           </div>
 
