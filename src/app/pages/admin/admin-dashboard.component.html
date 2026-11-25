@@ -2748,10 +2748,32 @@
                 <h3 class="billing-card-title">How each category is billed</h3>
                 <p class="billing-card-desc">Pick a customer category to see its billing model, payment terms and service rates.</p>
               </div>
+              <div class="billing-card-actions">
+                @if (editingPrices()) {
+                  <button type="button" class="btn-price-link" (click)="resetPricesToDefault()">Reset to defaults</button>
+                  <button type="button" class="row-action-profile" (click)="cancelPriceEdit()">Cancel</button>
+                  <button type="button" class="btn-price-save" (click)="savePriceEdit()">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"></path></svg>
+                    <span>Save prices</span>
+                  </button>
+                } @else {
+                  <button type="button" class="row-action-profile" (click)="startPriceEdit()">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+                    <span>Edit prices</span>
+                  </button>
+                }
+              </div>
             </div>
 
+            @if (editingPrices()) {
+              <div class="price-edit-banner" [class.has-error]="priceEditError()">
+                <app-icon [name]="priceEditError() ? 'alert' : 'info'" [size]="13" />
+                <span>{{ priceEditError() || 'Editing prices for all categories. Examples update as you type. Invoices already issued keep their original amounts.' }}</span>
+              </div>
+            }
+
             <div class="billing-tabs" role="tablist" aria-label="Customer category">
-              @for (t of billingTariffs; track t.key) {
+              @for (t of billingTariffs(); track t.key) {
                 <button
                   type="button"
                   role="tab"
@@ -2813,8 +2835,35 @@
                         </span>
                       </td>
                       <td class="billing-muted">{{ r.basis }}</td>
-                      <td><strong class="billing-rate">{{ r.rate }}</strong></td>
-                      <td class="billing-muted">{{ r.example }}</td>
+                      <td>
+                        @if (editingPrices()) {
+                          @let d = priceDraft()[r.id];
+                          <div class="price-edit-fields">
+                            @if (r.base !== undefined) {
+                              <label class="price-field">
+                                <span class="price-field-prefix">₦</span>
+                                <input type="number" min="0" step="1000" [ngModel]="d.base" (ngModelChange)="setPriceDraft(r.id, 'base', $event)" [attr.aria-label]="r.service + ' base price'" />
+                                <span class="price-field-suffix">base</span>
+                              </label>
+                            }
+                            <label class="price-field">
+                              <span class="price-field-prefix">₦</span>
+                              <input type="number" min="0" [step]="r.price >= 10000 ? 500 : 50" [ngModel]="d.price" (ngModelChange)="setPriceDraft(r.id, 'price', $event)" [attr.aria-label]="r.service + ' price per ' + r.unit" />
+                              <span class="price-field-suffix">/ {{ r.unit }}</span>
+                            </label>
+                            @if (r.minimum !== undefined) {
+                              <label class="price-field">
+                                <span class="price-field-prefix">₦</span>
+                                <input type="number" min="0" step="1000" [ngModel]="d.minimum" (ngModelChange)="setPriceDraft(r.id, 'minimum', $event)" [attr.aria-label]="r.service + ' minimum charge'" />
+                                <span class="price-field-suffix">min</span>
+                              </label>
+                            }
+                          </div>
+                        } @else {
+                          <strong class="billing-rate">{{ rateLabel(r) }}</strong>
+                        }
+                      </td>
+                      <td class="billing-muted">{{ rateExample(r) }}</td>
                     </tr>
                   }
                 </tbody>
@@ -2834,7 +2883,7 @@
                 <div class="billing-filter-row">
                   <span class="toolbar-label">Category:</span>
                   <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === 'All'" (click)="setInvoiceCategoryFilter('All')">All</button>
-                  @for (t of billingTariffs; track t.key) {
+                  @for (t of billingTariffs(); track t.key) {
                     <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === t.key" (click)="setInvoiceCategoryFilter(t.key)">{{ t.name }}</button>
                   }
                 </div>
