@@ -2635,73 +2635,150 @@
           <div class="dedicated-header-card">
             <div class="dedicated-header-left">
               <div class="dedicated-badge-pill"><span>MAP &amp; JURISDICTION</span></div>
-              <h2 class="dedicated-header-title">LGA Municipal Waste Service Areas</h2>
-              <p class="dedicated-header-desc">Active coverage zones across Victoria Island, Lekki Phase 1, Ikeja Industrial Hub, and Lagos Mainland.</p>
+              <h2 class="dedicated-header-title">Service Areas &amp; Customer Locations</h2>
+              <p class="dedicated-header-desc">{{ customers().length }} customer locations across {{ serviceAreas().length }} LGAs. Pick an area to see only its locations.</p>
             </div>
           </div>
-          <section class="summary-table-section">
-          <div class="summary-table-card">
-            
-            <div class="table-scroll-wrapper">
-              <table class="summary-matrix-table">
-                
-                <!-- Upper Tier: Key Performance Indicators -->
+
+          <!-- Areas: each cell filters the table -->
+          <div class="area-strip" role="group" aria-label="Filter locations by LGA">
+            <button
+              type="button"
+              class="area-cell"
+              [class.is-active]="locationAreaFilter() === 'All'"
+              [attr.aria-pressed]="locationAreaFilter() === 'All'"
+              (click)="locationAreaFilter.set('All'); locationsPager.reset()"
+            >
+              <span class="area-name">All areas</span>
+              <span class="area-count">{{ customers().length }}</span>
+              <span class="area-meta">locations</span>
+            </button>
+            @for (area of serviceAreas(); track area.name) {
+              <button
+                type="button"
+                class="area-cell"
+                [class.is-active]="locationAreaFilter() === area.name"
+                [attr.aria-pressed]="locationAreaFilter() === area.name"
+                (click)="setLocationAreaFilter(area.name)"
+              >
+                <span class="area-name"><app-icon name="map-pin" [size]="13" /> {{ area.name }}</span>
+                <span class="area-count">{{ area.locations }}</span>
+                <span class="area-meta">{{ area.locations === 1 ? 'location' : 'locations' }} · {{ area.active }} active</span>
+              </button>
+            }
+          </div>
+
+          <!-- Locations table -->
+          <div class="dedicated-table-card">
+            <div class="invoice-filter-bar">
+              <div class="invoice-filter-title">
+                <h4>Customer locations</h4>
+                <span>{{ filteredLocations().length }} of {{ customers().length }}</span>
+              </div>
+
+              <div class="invoice-filter-controls">
+                <label class="invoice-select">
+                  <span class="invoice-select-label">Category</span>
+                  <select
+                    [ngModel]="locationCategoryFilter()"
+                    (ngModelChange)="setLocationCategoryFilter($event)"
+                    aria-label="Filter locations by category"
+                  >
+                    <option value="All">All</option>
+                    <option value="HOUSEHOLD">Household</option>
+                    <option value="BUSINESS">Business</option>
+                    <option value="OCCASIONAL">Occasional</option>
+                    <option value="GENERAL">General</option>
+                  </select>
+                </label>
+
+                <div class="invoice-search">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search address, customer..."
+                    aria-label="Search locations"
+                    [ngModel]="locationSearchQuery()"
+                    (ngModelChange)="locationSearchQuery.set($event); locationsPager.reset()"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive-wrapper">
+              <table class="ecobin-data-table">
                 <thead>
-                  <tr class="matrix-head-row">
-                    <th class="matrix-cell">
-                      <span class="matrix-metric-label">REGISTERED CUSTOMERS</span>
-                      <div class="matrix-metric-value brand-accent">{{ overviewStats().registeredCustomers }}</div>
-                    </th>
-                    <th class="matrix-cell">
-                      <span class="matrix-metric-label">COLLECTION REQUESTS</span>
-                      <div class="matrix-metric-value">{{ overviewStats().collectionRequests }}</div>
-                    </th>
-                    <th class="matrix-cell">
-                      <span class="matrix-metric-label">PENDING REQUESTS</span>
-                      <div class="matrix-metric-value text-amber">{{ overviewStats().pendingRequests }}</div>
-                    </th>
-                    <th class="matrix-cell">
-                      <span class="matrix-metric-label">ACTIVE VEHICLES</span>
-                      <div class="matrix-metric-value">{{ overviewStats().activeVehicles }}</div>
-                    </th>
-                    <th class="matrix-cell">
-                      <span class="matrix-metric-label">TOTAL REVENUE</span>
-                      <div class="matrix-metric-value brand-accent">{{ overviewStats().totalRevenue }}</div>
-                    </th>
+                  <tr>
+                    <th scope="col">LOCATION</th>
+                    <th scope="col">LGA</th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">SERVICE</th>
+                    <th scope="col">NEXT PICKUP</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col" style="text-align: right;">ACTION</th>
                   </tr>
                 </thead>
-
-                <!-- Lower Tier: Route Operation Metadata -->
                 <tbody>
-                  <tr class="matrix-body-row">
-                    <td class="matrix-cell meta">
-                      <span class="matrix-meta-label">START DATE</span>
-                      <span class="matrix-meta-val">{{ overviewStats().startDate }}</span>
-                    </td>
-                    <td class="matrix-cell meta">
-                      <span class="matrix-meta-label">TARGET COMPLETION</span>
-                      <span class="matrix-meta-val">{{ overviewStats().targetDate }}</span>
-                    </td>
-                    <td class="matrix-cell meta">
-                      <span class="matrix-meta-label">ZONE / LOCATION</span>
-                      <span class="matrix-meta-val truncate" [title]="overviewStats().zoneLocation">{{ overviewStats().zoneLocation }}</span>
-                    </td>
-                    <td class="matrix-cell meta">
-                      <span class="matrix-meta-label">MANIFEST ID</span>
-                      <span class="matrix-meta-val font-mono">{{ overviewStats().manifestId }}</span>
-                    </td>
-                    <td class="matrix-cell meta">
-                      <span class="matrix-meta-label">OPERATIONS LEAD</span>
-                      <span class="matrix-meta-val">{{ overviewStats().operationsLead }}</span>
-                    </td>
-                  </tr>
+                  @for (cst of locationsPager.rows(); track cst.id) {
+                    <tr class="data-table-row compact-row">
+                      <td>
+                        <div class="location-cell">
+                          <span class="location-pin"><app-icon name="map-pin" [size]="14" /></span>
+                          <strong class="customer-title truncate-cell" [title]="cst.address">{{ cst.address }}</strong>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <strong class="service-main-name">{{ lgaName(cst.lga) }}</strong>
+                          @if (lgaDistrict(cst.lga)) {
+                            <span class="billing-muted">{{ lgaDistrict(cst.lga) }}</span>
+                          }
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <span class="truncate-cell location-customer" [title]="cst.name">{{ cst.name }}</span>
+                          <span class="category-tag-pill micro" [class]="'cat-' + cst.category.toLowerCase()">{{ cst.category | titlecase }}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <span class="truncate-cell location-plan" [title]="cst.servicePlan">{{ cst.servicePlan }}</span>
+                          <span class="billing-muted">{{ cst.pickupFrequency }}</span>
+                        </div>
+                      </td>
+                      <td class="billing-muted">{{ cst.nextPickupDate }}</td>
+                      <td>
+                        <span
+                          class="status-badge-cell"
+                          [class.ok]="cst.status === 'Active'"
+                          [class.busy]="cst.status === 'Scheduled'"
+                          [class.alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
+                        >
+                          <span class="status-cell-dot"></span>
+                          <span>{{ cst.status }}</span>
+                        </span>
+                      </td>
+                      <td style="text-align: right;">
+                        <button type="button" class="row-action-profile" (click)="viewCustomerDetails(cst)" [attr.aria-label]="'View profile of ' + cst.name">
+                          <app-icon name="user" [size]="13" />
+                          <span>Profile</span>
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="table-empty-cell">No locations match your search or filters.</td>
+                    </tr>
+                  }
                 </tbody>
-
               </table>
             </div>
-
+            <app-table-pager [pager]="locationsPager" label="locations" />
           </div>
-        </section>
         </section>
       }
 

@@ -2479,6 +2479,61 @@ export class AdminDashboardComponent {
 
   invoicesPager = new TablePager(this.filteredInvoices);
 
+  // ==========================================
+  // SERVICE AREAS (customer locations by LGA)
+  // ==========================================
+
+  /** "Eti-Osa (Victoria Island / Lekki)" -> "Eti-Osa" */
+  lgaName(lga: string): string {
+    return lga.split(' (')[0].trim();
+  }
+
+  /** "Eti-Osa (Victoria Island / Lekki)" -> "Victoria Island / Lekki" */
+  lgaDistrict(lga: string): string {
+    const m = lga.match(/\(([^)]*)\)/);
+    return m ? m[1] : '';
+  }
+
+  serviceAreas = computed(() => {
+    const groups = new Map<string, { name: string; locations: number; active: number }>();
+    for (const c of this.customers()) {
+      const name = this.lgaName(c.lga);
+      const g = groups.get(name) ?? { name, locations: 0, active: 0 };
+      g.locations++;
+      if (c.status === 'Active') g.active++;
+      groups.set(name, g);
+    }
+    return [...groups.values()].sort((a, b) => b.locations - a.locations);
+  });
+
+  locationAreaFilter = signal<string>('All');
+  locationCategoryFilter = signal<string>('All');
+  locationSearchQuery = signal<string>('');
+
+  filteredLocations = computed(() => {
+    const area = this.locationAreaFilter();
+    const cat = this.locationCategoryFilter();
+    const q = this.locationSearchQuery().toLowerCase().trim();
+    return this.customers().filter(c =>
+      (area === 'All' || this.lgaName(c.lga) === area) &&
+      (cat === 'All' || c.category === cat) &&
+      (!q || [c.address, c.lga, c.name, c.servicePlan, c.pickupFrequency, c.accountNumber]
+        .some(v => v.toLowerCase().includes(q)))
+    );
+  });
+
+  locationsPager = new TablePager(this.filteredLocations);
+
+  setLocationAreaFilter(area: string): void {
+    this.locationAreaFilter.set(this.locationAreaFilter() === area ? 'All' : area);
+    this.locationsPager.reset();
+  }
+
+  setLocationCategoryFilter(cat: string): void {
+    this.locationCategoryFilter.set(cat);
+    this.locationsPager.reset();
+  }
+
   billingSummary = computed(() => {
     const list = this.invoices();
     const sum = (xs: BillingInvoice[], f: (i: BillingInvoice) => number) => xs.reduce((t, i) => t + f(i), 0);

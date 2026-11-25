@@ -5226,3 +5226,119 @@
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
+
+/* ========================================================
+   SERVICE AREAS PAGE
+   ======================================================== */
+.area-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.area-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px 18px;
+  border: none;
+  border-left: 1px solid #f1f5f9;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.area-cell:first-child {
+  border-left: none;
+}
+
+.area-cell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: #16a34a;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.area-cell:hover {
+  background: #f8fafc;
+}
+
+.area-cell.is-active {
+  background: #f6fdf8;
+}
+
+.area-cell.is-active::after {
+  opacity: 1;
+}
+
+.area-cell:focus-visible {
+  outline: 2px solid #16a34a;
+  outline-offset: -2px;
+}
+
+.area-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.area-name app-icon {
+  color: #16a34a;
+}
+
+.area-count {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+}
+
+.area-meta {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.location-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-pin {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.location-customer {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.location-plan {
+  font-size: 12px;
+  color: #334155;
+}
