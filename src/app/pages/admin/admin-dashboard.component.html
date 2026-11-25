@@ -1464,7 +1464,7 @@
           </div>
 
           <!-- Workforce KPI Metric Cards -->
-          <div class="workforce-kpi-grid">
+          <div class="workforce-kpi-grid cols-4">
             <div class="workforce-kpi-card">
               <div class="wf-kpi-icon-box total"><app-icon name="users" [size]="20" /></div>
               <div class="wf-kpi-info">
@@ -1475,20 +1475,14 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box male"><app-icon name="male" [size]="20" /></div>
+              <div class="wf-kpi-icon-box male"><app-icon name="broom" [size]="20" /></div>
               <div class="wf-kpi-info">
-                <span class="wf-kpi-label">MALE CLEANING STAFF</span>
-                <strong class="wf-kpi-val">{{ maleStaffCount() }} Staff</strong>
-                <span class="wf-kpi-sub">Field Cleaners &amp; Specialists</span>
-              </div>
-            </div>
-
-            <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box female"><app-icon name="female" [size]="20" /></div>
-              <div class="wf-kpi-info">
-                <span class="wf-kpi-label">FEMALE CLEANING STAFF</span>
-                <strong class="wf-kpi-val">{{ femaleStaffCount() }} Staff</strong>
-                <span class="wf-kpi-sub">Field Cleaners &amp; Leads</span>
+                <span class="wf-kpi-label">CLEANING STAFF</span>
+                <strong class="wf-kpi-val">{{ maleStaffCount() + femaleStaffCount() }} Staff</strong>
+                <span class="wf-kpi-sub wf-gender-split">
+                  <span><app-icon name="male" [size]="12" /> {{ maleStaffCount() }} male</span>
+                  <span><app-icon name="female" [size]="12" /> {{ femaleStaffCount() }} female</span>
+                </span>
               </div>
             </div>
 
