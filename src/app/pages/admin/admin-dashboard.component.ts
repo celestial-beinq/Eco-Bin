@@ -2345,6 +2345,17 @@ export class AdminDashboardComponent {
     this.editingPrices.set(true);
   }
 
+  /** Start editing and put the cursor in this rate's price box. */
+  editRate(rateId: string): void {
+    this.startPriceEdit();
+    setTimeout(() => {
+      if (typeof document === 'undefined') return;
+      const input = document.getElementById('price-' + rateId) as HTMLInputElement | null;
+      input?.focus();
+      input?.select();
+    });
+  }
+
   cancelPriceEdit(): void {
     this.editingPrices.set(false);
     this.priceEditError.set('');

@@ -2834,7 +2834,7 @@
                     <span>Save prices</span>
                   </button>
                 } @else {
-                  <button type="button" class="row-action-profile" (click)="startPriceEdit()">
+                  <button type="button" class="btn-price-save" (click)="startPriceEdit()">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
                     <span>Edit prices</span>
                   </button>
@@ -2925,7 +2925,7 @@
                             }
                             <label class="price-field">
                               <span class="price-field-prefix">₦</span>
-                              <input type="number" min="0" [step]="r.price >= 10000 ? 500 : 50" [ngModel]="d.price" (ngModelChange)="setPriceDraft(r.id, 'price', $event)" [attr.aria-label]="r.service + ' price per ' + r.unit" />
+                              <input type="number" min="0" [attr.id]="'price-' + r.id" [step]="r.price >= 10000 ? 500 : 50" [ngModel]="d.price" (ngModelChange)="setPriceDraft(r.id, 'price', $event)" [attr.aria-label]="r.service + ' price per ' + r.unit" />
                               <span class="price-field-suffix">/ {{ r.unit }}</span>
                             </label>
                             @if (r.minimum !== undefined) {
@@ -2937,7 +2937,18 @@
                             }
                           </div>
                         } @else {
-                          <strong class="billing-rate">{{ rateLabel(r) }}</strong>
+                          <span class="billing-rate-cell">
+                            <strong class="billing-rate">{{ rateLabel(r) }}</strong>
+                            <button
+                              type="button"
+                              class="btn-rate-edit"
+                              (click)="editRate(r.id)"
+                              [title]="'Change price for ' + r.service"
+                              [attr.aria-label]="'Change price for ' + r.service"
+                            >
+                              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+                            </button>
+                          </span>
                         }
                       </td>
                       <td class="billing-muted">{{ rateExample(r) }}</td>
