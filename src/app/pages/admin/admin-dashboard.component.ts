@@ -192,6 +192,46 @@ export interface WasteTruckFleetRecord {
   statusType: 'active' | 'busy' | 'available' | 'maintenance';
 }
 
+// ==========================================
+// BILLING (Payments & Billing page)
+// ==========================================
+export type BillingCategory = 'HOUSEHOLD' | 'BUSINESS' | 'OCCASIONAL' | 'GENERAL';
+
+export interface BillingRate {
+  service: string;
+  icon: string;
+  basis: string;     // how it is charged
+  rate: string;      // price shown to the admin
+  example: string;   // worked example
+}
+
+export interface BillingTariff {
+  key: BillingCategory;
+  name: string;
+  icon: string;
+  model: string;     // billing model
+  cycle: string;     // when the bill goes out
+  terms: string;     // when / how it must be paid
+  note: string;
+  rates: BillingRate[];
+}
+
+export interface BillingInvoice {
+  id: string;
+  invoiceNo: string;
+  customerName: string;
+  accountNumber: string;
+  category: BillingCategory;
+  service: string;
+  breakdown: string; // how the amount was calculated
+  amount: number;
+  paid: number;
+  period: string;
+  dueDate: string;
+  method: 'Direct Debit' | 'Card' | 'Bank Transfer' | 'Corporate Invoicing';
+  status: 'Paid' | 'Part-paid' | 'Pending' | 'Overdue';
+}
+
 export interface TransactionRecord {
   id: string;
   reference: string;
@@ -2203,6 +2243,153 @@ export class AdminDashboardComponent {
   oneOffRequestsPager = new TablePager(this.filteredOneOffRequests);
   schedulesPager = new TablePager(this.filteredSchedules);
   fleetPager = new TablePager(this.filteredFleetTrucks);
+
+  // ==========================================
+  // PAYMENTS & BILLING
+  // ==========================================
+
+  /** Price list: how each customer category is charged (sample rates, edit here). */
+  readonly billingTariffs: BillingTariff[] = [
+    {
+      key: 'HOUSEHOLD',
+      name: 'Household',
+      icon: 'home',
+      model: 'Monthly subscription per household',
+      cycle: 'Billed on the 1st of every month',
+      terms: 'Due in 7 days · direct debit, card or bank transfer',
+      note: 'Estates and apartment blocks get one invoice: number of households × the plan rate.',
+      rates: [
+        { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly plan · 1 visit per week', rate: '₦15,000 / household / month', example: '4 visits × ₦3,750 = ₦15,000' },
+        { service: 'Daily cleaning', icon: 'broom', basis: 'Monthly plan · 1 visit per day', rate: '₦45,000 / household / month', example: '30 visits × ₦1,500 = ₦45,000' },
+        { service: 'Waste disposal request', icon: 'trash', basis: 'Pay per pickup, on request', rate: '₦8,000 / pickup', example: '3 pickups this month = ₦24,000' },
+      ],
+    },
+    {
+      key: 'BUSINESS',
+      name: 'Business',
+      icon: 'factory',
+      model: 'Monthly service contract per site',
+      cycle: 'Invoiced at the end of every month',
+      terms: 'Net 14 days · bank transfer or corporate invoicing',
+      note: 'Waste is weighed at the transfer station, so disposal is charged per tonne. Site clearing is quoted after a site survey.',
+      rates: [
+        { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly contract · 1 visit per week', rate: '₦60,000 / site / month', example: '4 visits × ₦15,000 = ₦60,000' },
+        { service: 'Daily cleaning', icon: 'broom', basis: 'Monthly contract · 1 visit per day', rate: '₦180,000 / site / month', example: '30 visits × ₦6,000 = ₦180,000' },
+        { service: 'Waste disposal', icon: 'trash', basis: 'Per tonne collected', rate: '₦25,000 / tonne', example: '18.4 t × ₦25,000 = ₦460,000' },
+        { service: 'Site clearing', icon: 'shovel', basis: 'Per job · quoted after survey', rate: 'From ₦150,000 / job', example: '2.5-acre yard quoted at ₦650,000' },
+      ],
+    },
+    {
+      key: 'OCCASIONAL',
+      name: 'Occasional',
+      icon: 'party',
+      model: 'One-off booking per event',
+      cycle: 'Invoiced when the event is booked',
+      terms: '50% deposit to confirm · balance within 48 hours after the event',
+      note: 'The base price covers events of up to 300 guests.',
+      rates: [
+        { service: 'Event clean-up & waste disposal', icon: 'party', basis: 'Per event · base + extra guests', rate: '₦120,000 base + ₦300 / guest above 300', example: '1,200 guests: ₦120,000 + 900 × ₦300 = ₦390,000' },
+      ],
+    },
+    {
+      key: 'GENERAL',
+      name: 'General',
+      icon: 'road',
+      model: 'Per job, by length of road cleared',
+      cycle: 'One consolidated invoice to the LGA / agency each month',
+      terms: 'Net 30 days · corporate invoicing under the LGA contract',
+      note: 'Rates are fixed in the LGA sanitation contract.',
+      rates: [
+        { service: 'Roadside clean-up & waste disposal', icon: 'road', basis: 'Per kilometre cleared', rate: '₦60,000 / km', example: '3 km × ₦60,000 = ₦180,000' },
+      ],
+    },
+  ];
+
+  selectedTariffKey = signal<BillingCategory>('HOUSEHOLD');
+  selectedTariff = computed(() => this.billingTariffs.find(t => t.key === this.selectedTariffKey())!);
+
+  /** Recent invoices (sample data matching the customer accounts and the price list above). */
+  invoices = signal<BillingInvoice[]>([
+    { id: 'inv-1', invoiceNo: 'INV-2026-1101', customerName: '1004 Housing Estate Community', accountNumber: 'ECB-CST-1013', category: 'HOUSEHOLD', service: 'Daily cleaning', breakdown: '18 households × ₦45,000', amount: 810000, paid: 810000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Paid' },
+    { id: 'inv-2', invoiceNo: 'INV-2026-1102', customerName: 'Victoria Crest 4 Neighborhood Court', accountNumber: 'ECB-CST-1022', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '24 households × ₦15,000', amount: 360000, paid: 360000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Card', status: 'Paid' },
+    { id: 'inv-3', invoiceNo: 'INV-2026-1103', customerName: 'Parkview Estate Residents Management', accountNumber: 'ECB-CST-1015', category: 'HOUSEHOLD', service: 'Waste disposal request', breakdown: '6 pickups × ₦8,000', amount: 48000, paid: 0, period: 'Nov 2026', dueDate: 'Dec 2, 2026', method: 'Bank Transfer', status: 'Pending' },
+    { id: 'inv-4', invoiceNo: 'INV-2026-1104', customerName: 'Victoria Garden City Residents Association', accountNumber: 'ECB-CST-1019', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '60 households × ₦15,000', amount: 900000, paid: 0, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Overdue' },
+    { id: 'inv-5', invoiceNo: 'INV-2026-1105', customerName: 'Eko Hotels & Suites', accountNumber: 'ECB-CST-1011', category: 'BUSINESS', service: 'Daily cleaning', breakdown: '1 site × ₦180,000', amount: 180000, paid: 180000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Bank Transfer', status: 'Paid' },
+    { id: 'inv-6', invoiceNo: 'INV-2026-1106', customerName: 'Eko Hotels & Suites', accountNumber: 'ECB-CST-1011', category: 'BUSINESS', service: 'Waste disposal', breakdown: '18.4 t × ₦25,000', amount: 460000, paid: 460000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Bank Transfer', status: 'Paid' },
+    { id: 'inv-7', invoiceNo: 'INV-2026-1107', customerName: 'Seven-Up Bottling Co. Industrial Facility', accountNumber: 'ECB-CST-1016', category: 'BUSINESS', service: 'Waste disposal', breakdown: '48 t × ₦25,000', amount: 1200000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 28, 2026', method: 'Corporate Invoicing', status: 'Pending' },
+    { id: 'inv-8', invoiceNo: 'INV-2026-1108', customerName: 'Dangote Industrial Logistics Hub', accountNumber: 'ECB-CST-1021', category: 'BUSINESS', service: 'Site clearing', breakdown: 'Quoted job · 2.5-acre yard', amount: 650000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Corporate Invoicing', status: 'Overdue' },
+    { id: 'inv-9', invoiceNo: 'INV-2026-1109', customerName: 'Ikeja City Mall (Shoprite / Food Court)', accountNumber: 'ECB-CST-1014', category: 'BUSINESS', service: 'Weekly cleaning', breakdown: '1 site × ₦60,000', amount: 60000, paid: 60000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Card', status: 'Paid' },
+    { id: 'inv-10', invoiceNo: 'INV-2026-1110', customerName: 'The Monarch Lagos Grand Wedding Pavilion', accountNumber: 'ECB-CST-1018', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 900 guests × ₦300', amount: 390000, paid: 195000, period: 'Nov 17 event', dueDate: 'Nov 19, 2026', method: 'Bank Transfer', status: 'Part-paid' },
+    { id: 'inv-11', invoiceNo: 'INV-2026-1111', customerName: 'Landmark Centre & Beach Village', accountNumber: 'ECB-CST-1012', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 500 guests × ₦300', amount: 270000, paid: 270000, period: 'Nov 9 event', dueDate: 'Nov 11, 2026', method: 'Bank Transfer', status: 'Paid' },
+    { id: 'inv-12', invoiceNo: 'INV-2026-1112', customerName: 'Lekki-Epe Expressway Sanitation Corridor', accountNumber: 'ECB-CST-1017', category: 'GENERAL', service: 'Roadside clean-up & disposal', breakdown: '8 km × ₦60,000', amount: 480000, paid: 480000, period: 'Oct 2026', dueDate: 'Nov 30, 2026', method: 'Corporate Invoicing', status: 'Paid' },
+    { id: 'inv-13', invoiceNo: 'INV-2026-1113', customerName: 'Falomo Roundabout & Marina Waterfront', accountNumber: 'ECB-CST-1020', category: 'GENERAL', service: 'Roadside clean-up & disposal', breakdown: '3 km × ₦60,000', amount: 180000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 30, 2026', method: 'Corporate Invoicing', status: 'Pending' },
+  ]);
+
+  invoiceCategoryFilter = signal<'All' | BillingCategory>('All');
+  invoiceStatusFilter = signal<'All' | BillingInvoice['status']>('All');
+  invoiceSearchQuery = signal<string>('');
+  readonly invoiceStatuses: BillingInvoice['status'][] = ['Paid', 'Part-paid', 'Pending', 'Overdue'];
+
+  filteredInvoices = computed(() => {
+    const cat = this.invoiceCategoryFilter();
+    const status = this.invoiceStatusFilter();
+    const q = this.invoiceSearchQuery().toLowerCase().trim();
+    return this.invoices().filter(inv =>
+      (cat === 'All' || inv.category === cat) &&
+      (status === 'All' || inv.status === status) &&
+      (!q || [inv.invoiceNo, inv.customerName, inv.accountNumber, inv.service, inv.breakdown, inv.method]
+        .some(v => v.toLowerCase().includes(q)))
+    );
+  });
+
+  invoicesPager = new TablePager(this.filteredInvoices);
+
+  billingSummary = computed(() => {
+    const list = this.invoices();
+    const sum = (xs: BillingInvoice[], f: (i: BillingInvoice) => number) => xs.reduce((t, i) => t + f(i), 0);
+    const overdue = list.filter(i => i.status === 'Overdue');
+    return {
+      invoiced: sum(list, i => i.amount),
+      invoiceCount: list.length,
+      collected: sum(list, i => i.paid),
+      outstanding: sum(list, i => i.amount - i.paid),
+      overdue: sum(overdue, i => i.amount - i.paid),
+      overdueCount: overdue.length,
+    };
+  });
+
+  /** Total invoiced per category, shown on the price-list tabs. */
+  invoicedByCategory = computed(() => {
+    const totals: Record<string, number> = {};
+    for (const inv of this.invoices()) totals[inv.category] = (totals[inv.category] ?? 0) + inv.amount;
+    return totals;
+  });
+
+  naira(value: number): string {
+    return '₦' + value.toLocaleString('en-NG');
+  }
+
+  billingCategoryName(key: BillingCategory): string {
+    return this.billingTariffs.find(t => t.key === key)?.name ?? key;
+  }
+
+  setInvoiceCategoryFilter(cat: 'All' | BillingCategory): void {
+    this.invoiceCategoryFilter.set(cat);
+    this.invoicesPager.reset();
+  }
+
+  setInvoiceStatusFilter(status: 'All' | BillingInvoice['status']): void {
+    this.invoiceStatusFilter.set(status);
+    this.invoicesPager.reset();
+  }
+
+  downloadInvoiceReceipt(inv: BillingInvoice): void {
+    this.triggerToast(`Receipt for ${inv.invoiceNo} (${inv.customerName}) is ready to download.`);
+  }
+
+  sendInvoiceReminder(inv: BillingInvoice): void {
+    this.triggerToast(`Payment reminder sent to ${inv.customerName} for ${inv.invoiceNo} (${this.naira(inv.amount - inv.paid)} due).`);
+  }
 
   // Computed filtered list for Transactions
   filteredTransactions = computed(() => {

@@ -3011,781 +3011,223 @@
           <div class="dedicated-header-card">
             <div class="dedicated-header-left">
               <div class="dedicated-badge-pill"><span>FINANCE &amp; INVOICING</span></div>
-              <h2 class="dedicated-header-title">Customer Billing &amp; Payment Settlements</h2>
-              <p class="dedicated-header-desc">Verified transactions, automated bank transfers, and corporate invoicing records.</p>
-            </div>
-          </div>
-          <section class="operations-datatable-card">
-
-        <!-- CARD HEADER: TABS & CONTROLS -->
-        <div class="datatable-header-bar">
-          
-          <!-- Left Navigation Tabs -->
-          <div class="datatable-nav-tabs" role="tablist">
-            
-            <!-- 1. Recent Transactions Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'transactions'"
-              (click)="setTableTab('transactions')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'transactions'"
-            >
-              <span class="tab-label">Recent Transactions</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'transactions'">
-                {{ filteredTransactions().length }}
-              </span>
-            </button>
-
-            <!-- 2. Customers Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'customers'"
-              (click)="setTableTab('customers')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'customers'"
-            >
-              <span class="tab-label">Customers</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'customers'">
-                {{ filteredCustomers().length }}
-              </span>
-            </button>
-
-            <!-- 3. Collection Requests Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'requests'"
-              (click)="setTableTab('requests')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'requests'"
-            >
-              <span class="tab-label">Requests</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'requests'">
-                {{ filteredRequests().length }}
-              </span>
-            </button>
-
-            <!-- 4. Hauler Crews Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'crews'"
-              (click)="setTableTab('crews')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'crews'"
-            >
-              <span class="tab-label">Hauler Crews</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'crews'">
-                {{ filteredCrews().length }}
-              </span>
-            </button>
-
-          </div>
-
-          <!-- Right Toolbar Controls: Search, Status Filter & Action Button -->
-          <div class="datatable-toolbar-controls">
-            
-            <!-- Quick Search Input -->
-            <div class="search-input-box table-quick-search">
-              <span class="search-icon">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-              </span>
-              <input 
-                type="text" 
-                class="search-field" 
-                [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : activeTableTab() === 'customers' ? 'Search customers, LGA, plan...' : activeTableTab() === 'requests' ? 'Search request code, waste stream...' : 'Search haulers, trucks, hubs...'"
-                [ngModel]="tableSearchQuery()"
-                (ngModelChange)="tableSearchQuery.set($event); currentPage.set(1)"
-              />
-            </div>
-
-            <!-- Status Filter Dropdown -->
-            <div class="table-status-filter-wrap">
-              <select 
-                class="table-select-filter"
-                [ngModel]="tableStatusFilter()"
-                (ngModelChange)="setTableStatusFilter($event)"
-                aria-label="Filter status"
-              >
-                @if (activeTableTab() === 'transactions') {
-                  <option value="All">All Statuses</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                } @else if (activeTableTab() === 'customers') {
-                  <option value="All">All Statuses</option>
-                  <option value="Active">Active</option>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Pending Review">Pending Review</option>
-                } @else if (activeTableTab() === 'requests') {
-                  <option value="All">All Statuses</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Dispatched">Dispatched</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                } @else {
-                  <option value="All">All Fleet</option>
-                  <option value="available">Available</option>
-                  <option value="busy">On Duty</option>
-                  <option value="maintenance">Maintenance</option>
-                }
-              </select>
-            </div>
-
-            <!-- Action Button -->
-            @if (activeTableTab() === 'customers') {
-              <button type="button" class="btn-table-primary-add" (click)="openNewCustomerModal()">
-                <span class="plus-icon">+</span>
-                <span>Add Customer</span>
-              </button>
-            } @else if (activeTableTab() === 'requests') {
-              <button type="button" class="btn-table-primary-add" (click)="openNewRouteModal()">
-                <span class="plus-icon">+</span>
-                <span>New Request</span>
-              </button>
-            } @else if (activeTableTab() === 'crews') {
-              <button type="button" class="btn-table-primary-add" (click)="openTeamModal()">
-                <span class="plus-icon">+</span>
-                <span>Dispatch Fleet</span>
-              </button>
-            } @else {
-              <button type="button" class="btn-table-primary-add" (click)="triggerToast('Invoice generator opened. Ready to bill account.')">
-                <span class="plus-icon">+</span>
-                <span>Record Payment</span>
-              </button>
-            }
-
-          </div>
-
-        </div>
-
-        <!-- ========================================================
-             1. RECENT TRANSACTIONS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'transactions') {
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 170px;">TRANSACTION REF</th>
-                  <th scope="col" style="min-width: 220px;">CUSTOMER ACCOUNT</th>
-                  <th scope="col" style="min-width: 230px;">SERVICE DESCRIPTION</th>
-                  <th scope="col" style="min-width: 150px;">PAYMENT METHOD</th>
-                  <th scope="col" style="min-width: 130px;">AMOUNT</th>
-                  <th scope="col" style="min-width: 120px;">STATUS</th>
-                  <th scope="col" style="min-width: 110px; text-align: right;">RECEIPT</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (txn of paginatedTransactions(); track txn.id) {
-                  <tr class="data-table-row">
-                    
-                    <!-- Reference & Time -->
-                    <td>
-                      <div class="txn-ref-block">
-                        <strong class="font-mono txn-ref-code">{{ txn.reference }}</strong>
-                        <span class="txn-date-time">{{ txn.date }} • {{ txn.time }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Customer Account -->
-                    <td class="cell-hauler-main">
-                      <div class="table-user-cell">
-                        <div class="table-avatar-initials" style="background-color: #0e2a16;">
-                          {{ txn.customerName.slice(0, 2).toUpperCase() }}
-                        </div>
-                        <div class="table-user-info">
-                          <strong class="table-hauler-name">{{ txn.customerName }}</strong>
-                          <span class="table-crew-lead font-mono">{{ txn.accountNumber }}</span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <!-- Service Description -->
-                    <td>
-                      <span class="service-desc-txt">{{ txn.serviceType }}</span>
-                    </td>
-
-                    <!-- Payment Method -->
-                    <td>
-                      <span class="payment-method-pill">{{ txn.paymentMethod }}</span>
-                    </td>
-
-                    <!-- Amount -->
-                    <td>
-                      <strong class="txn-amount-val">{{ txn.formattedAmount }}</strong>
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="txn.status === 'Completed'"
-                        [class.busy]="txn.status === 'Processing'"
-                        [class.alert]="txn.status === 'Pending'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ txn.status }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Action: Receipt -->
-                    <td style="text-align: right;">
-                      <button 
-                        type="button" 
-                        class="btn-tbl-receipt" 
-                        (click)="downloadReceipt(txn)"
-                        title="Download official EcoBin receipt"
-                      >
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                          <polyline points="7 10 12 15 17 10"></polyline>
-                          <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        <span>Receipt</span>
-                      </button>
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- ========================================================
-             2. CUSTOMERS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'customers') {
-          
-          <!-- Customer Category Filter Pills Sub-Bar -->
-          <div class="cst-table-filter-bar">
-            <div class="cst-pills-row">
-              <button 
-                type="button" 
-                class="cst-filter-pill-btn" 
-                [class.is-active]="customerCategoryFilter() === 'All'"
-                (click)="setCustomerCategoryFilter('All')"
-              >
-                <span>All Accounts</span>
-                <span class="pill-count">2,450</span>
-              </button>
-              <button 
-                type="button" 
-                class="cst-filter-pill-btn" 
-                [class.is-active]="customerCategoryFilter() === 'Commercial'"
-                (click)="setCustomerCategoryFilter('Commercial')"
-              >
-                <span>Commercial</span>
-                <span class="pill-count">412</span>
-              </button>
-              <button 
-                type="button" 
-                class="cst-filter-pill-btn" 
-                [class.is-active]="customerCategoryFilter() === 'Residential'"
-                (click)="setCustomerCategoryFilter('Residential')"
-              >
-                <span>Residential Estates</span>
-                <span class="pill-count">836</span>
-              </button>
-              <button 
-                type="button" 
-                class="cst-filter-pill-btn" 
-                [class.is-active]="customerCategoryFilter() === 'Industrial'"
-                (click)="setCustomerCategoryFilter('Industrial')"
-              >
-                <span>Industrial</span>
-                <span class="pill-count">92</span>
-              </button>
-              <button 
-                type="button" 
-                class="cst-filter-pill-btn" 
-                [class.is-active]="customerCategoryFilter() === 'Recycling Partner'"
-                (click)="setCustomerCategoryFilter('Recycling Partner')"
-              >
-                <span>Recycling Partners</span>
-                <span class="pill-count">48</span>
-              </button>
-            </div>
-
-            <div class="cst-table-count-info">
-              <span>Showing <strong>{{ filteredCustomers().length }}</strong> verified accounts in directory</span>
+              <h2 class="dedicated-header-title">Payments &amp; Billing</h2>
+              <p class="dedicated-header-desc">How each customer category is charged, and every invoice issued against those rates.</p>
             </div>
           </div>
 
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table cst-elevated-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 260px;">CUSTOMER ACCOUNT</th>
-                  <th scope="col" style="min-width: 210px;">LOCATION &amp; LGA</th>
-                  <th scope="col" style="min-width: 230px;">SERVICE PLAN &amp; BINS</th>
-                  <th scope="col" style="min-width: 170px;">ESG &amp; RECOVERY</th>
-                  <th scope="col" style="min-width: 130px;">STATUS</th>
-                  <th scope="col" style="min-width: 170px; text-align: right;">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (cst of paginatedCustomers(); track cst.id) {
-                  <tr class="data-table-row cst-table-row">
-                    
-                    <!-- Customer Main Info -->
-                    <td class="cell-hauler-main">
-                      <div class="table-user-cell">
-                        <div class="table-avatar-initials cst-avatar-ring" [style.background-color]="cst.initialBg">
-                          {{ cst.initials }}
-                        </div>
-                        <div class="table-user-info">
-                          <div class="table-name-row">
-                            <strong class="table-hauler-name cst-interactive-name" (click)="viewCustomerDetails(cst)">{{ cst.name }}</strong>
-                            <span class="badge-cat-tag" [class]="'cat-' + cst.category.toLowerCase().replace(' ', '-')">
-                              {{ cst.category }}
-                            </span>
-                          </div>
-                          <div class="cst-subline-meta">
-                            <span class="cst-acc-code font-mono">{{ cst.accountNumber }}</span>
-                            <span class="cst-bullet">•</span>
-                            <span class="cst-contact-name">{{ cst.contactPerson }}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <!-- Location & LGA -->
-                    <td>
-                      <div class="table-location-block">
-                        <span class="table-depot-title">{{ cst.address }}</span>
-                        <span class="table-lga-tag">
-                          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                          <span>{{ cst.lga }}</span>
-                        </span>
-                      </div>
-                    </td>
-
-                    <!-- Service Plan & Bins -->
-                    <td>
-                      <div class="table-capacity-block">
-                        <strong class="cst-plan-title">{{ cst.servicePlan }}</strong>
-                        <span class="table-cap-type">{{ cst.binAllocation }} • {{ cst.pickupFrequency }}</span>
-                      </div>
-                    </td>
-
-                    <!-- ESG & Recovery -->
-                    <td>
-                      <div class="table-esg-block">
-                        <span class="badge-esg-pill" [class]="'esg-' + cst.esgTier.toLowerCase().replace(' ', '-')">
-                          <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                          </svg>
-                          <span>{{ cst.esgTier }}</span>
-                        </span>
-                        <span class="table-tonnage-txt">{{ cst.monthlyTonnage }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="cst.status === 'Active'"
-                        [class.busy]="cst.status === 'Scheduled'"
-                        [class.alert]="cst.status === 'Pending Review' || cst.status === 'Suspended'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ cst.status }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Actions -->
-                    <td style="text-align: right;">
-                      <div class="table-actions-cell">
-                        <button 
-                          type="button" 
-                          class="btn-tbl-pickup" 
-                          (click)="scheduleExtraPickup(cst)"
-                          title="Dispatch on-demand pickup truck"
-                        >
-                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="1" y="3" width="15" height="13" rx="2"></rect>
-                            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                          </svg>
-                          <span>Dispatch</span>
-                        </button>
-
-                        <button 
-                          type="button" 
-                          class="btn-tbl-details" 
-                          (click)="viewCustomerDetails(cst)"
-                          title="View customer profile"
-                        >
-                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          <span>Profile</span>
-                        </button>
-                      </div>
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- ========================================================
-             3. COLLECTION REQUESTS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'requests') {
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 160px;">REQUEST CODE</th>
-                  <th scope="col" style="min-width: 220px;">CUSTOMER &amp; LOCATION</th>
-                  <th scope="col" style="min-width: 210px;">WASTE CATEGORY &amp; VOLUME</th>
-                  <th scope="col" style="min-width: 120px;">PRIORITY</th>
-                  <th scope="col" style="min-width: 190px;">ASSIGNED CREW</th>
-                  <th scope="col" style="min-width: 130px;">STATUS</th>
-                  <th scope="col" style="min-width: 120px; text-align: right;">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (req of paginatedRequests(); track req.id) {
-                  <tr class="data-table-row">
-                    
-                    <!-- Code & Date -->
-                    <td>
-                      <div class="txn-ref-block">
-                        <strong class="font-mono text-brand">{{ req.requestCode }}</strong>
-                        <span class="txn-date-time">{{ req.scheduledDate }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Customer & Location -->
-                    <td>
-                      <div class="table-location-block">
-                        <strong class="table-depot-title">{{ req.customerName }}</strong>
-                        <span class="table-distance-pill">{{ req.location }} • {{ req.lga }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Waste Category & Volume -->
-                    <td>
-                      <div class="table-capacity-block">
-                        <strong class="table-cap-val">{{ req.volume }}</strong>
-                        <span class="table-cap-type">{{ req.wasteType }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Priority Badge -->
-                    <td>
-                      <span 
-                        class="priority-badge-pill"
-                        [class.p-urgent]="req.priority === 'Urgent'"
-                        [class.p-high]="req.priority === 'High'"
-                        [class.p-scheduled]="req.priority === 'Scheduled'"
-                        [class.p-normal]="req.priority === 'Normal'"
-                      >
-                        {{ req.priority }}
-                      </span>
-                    </td>
-
-                    <!-- Assigned Crew -->
-                    <td>
-                      <div class="assigned-crew-info">
-                        <strong class="assigned-crew-name">{{ req.assignedCrew || 'Unassigned' }}</strong>
-                        @if (req.truckId) {
-                          <span class="assigned-truck-id font-mono">{{ req.truckId }}</span>
-                        }
-                      </div>
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="req.status === 'Completed'"
-                        [class.busy]="req.status === 'In Progress' || req.status === 'Dispatched'"
-                        [class.alert]="req.status === 'Pending'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ req.status }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Actions -->
-                    <td style="text-align: right;">
-                      @if (req.status === 'Pending') {
-                        <button 
-                          type="button" 
-                          class="btn-tbl-dispatch"
-                          (click)="dispatchRequest(req)"
-                          title="Dispatch available hauler crew"
-                        >
-                          <span>+ Dispatch</span>
-                        </button>
-                      } @else {
-                        <button 
-                          type="button" 
-                          class="btn-tbl-details"
-                          (click)="triggerToast('Viewing telemetry for request ' + req.requestCode)"
-                        >
-                          <span>Details</span>
-                        </button>
-                      }
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- ========================================================
-             4. HAULER CREWS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'crews') {
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 220px;">HAULER CREW</th>
-                  <th scope="col" style="min-width: 180px;">DEPOT &amp; PROXIMITY</th>
-                  <th scope="col" style="min-width: 170px;">TRUCK &amp; CAPACITY</th>
-                  <th scope="col" style="min-width: 140px;">PERFORMANCE</th>
-                  <th scope="col" style="min-width: 150px;">STATUS</th>
-                  <th scope="col" style="min-width: 150px; text-align: right;">DISPATCH ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (item of paginatedCrews(); track item.id) {
-                  <tr class="data-table-row">
-                    
-                    <!-- Hauler Crew Name & Lead -->
-                    <td class="cell-hauler-main">
-                      <div class="table-user-cell">
-                        @if (item.avatar) {
-                          <div class="table-avatar-img-wrap">
-                            <img [src]="item.avatar" [alt]="item.name" class="table-avatar-img" />
-                          </div>
-                        } @else {
-                          <div class="table-avatar-initials" [style.background-color]="item.initialBg || '#16a34a'">
-                            {{ item.initials }}
-                          </div>
-                        }
-                        <div class="table-user-info">
-                          <div class="table-name-row">
-                            <strong class="table-hauler-name">{{ item.name }}</strong>
-                            @if (item.verified) {
-                              <span class="verified-check-inline" title="Verified LGA Hauler">
-                                <svg viewBox="0 0 24 24" width="13" height="13" fill="#16a34a">
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                </svg>
-                              </span>
-                            }
-                          </div>
-                          <span class="table-crew-lead">{{ item.crewLead }}</span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <!-- Depot & Proximity -->
-                    <td>
-                      <div class="table-location-block">
-                        <span class="table-depot-title">{{ item.depotLocation }}</span>
-                        <span class="table-distance-pill">{{ item.distance }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Truck Type & Capacity -->
-                    <td>
-                      <div class="table-capacity-block">
-                        <strong class="table-cap-val">{{ item.capacity }}</strong>
-                        <span class="table-cap-type">{{ item.capacityLabel }} ({{ item.truckId }})</span>
-                      </div>
-                    </td>
-
-                    <!-- Rating & Pickups -->
-                    <td>
-                      @if (item.isNew) {
-                        <span class="badge-pill-micro">{{ item.badgeLabel }}</span>
-                      } @else {
-                        <div class="table-rating-block">
-                          <span class="star-gold">★</span>
-                          <strong>{{ item.rating }}</strong>
-                          <span class="rating-trips-txt">({{ item.tripsCount }} trips)</span>
-                        </div>
-                      }
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="item.statusType === 'available'"
-                        [class.busy]="item.statusType === 'busy'"
-                        [class.alert]="item.statusType === 'maintenance'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ item.statusText }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Action Buttons -->
-                    <td style="text-align: right;">
-                      <div class="table-actions-cell">
-                        <button 
-                          type="button" 
-                          class="btn-tbl-save"
-                          [class.is-saved]="item.saved"
-                          (click)="toggleSave(item)"
-                          [title]="item.saved ? 'Saved to Roster' : 'Save Hauler'"
-                        >
-                          <app-icon name="heart" [size]="16" [filled]="item.saved" />
-                        </button>
-
-                        <button 
-                          type="button" 
-                          class="btn-tbl-dispatch"
-                          [class.is-dispatched]="item.dispatched"
-                          (click)="toggleDispatch(item)"
-                        >
-                          @if (item.dispatched) {
-                            <span>✓ Dispatched</span>
-                          } @else {
-                            <span>+ Dispatch</span>
-                          }
-                        </button>
-                      </div>
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- EMPTY STATE IF NO MATCHES -->
-        @if (currentTotal() === 0) {
-          <div class="empty-table-state-box">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#94a3b8" stroke-width="1.8">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <h5>No matching records found</h5>
-            <p>Try adjusting your search query or reset the status filter.</p>
-            <button type="button" class="btn-reset-filters" (click)="tableSearchQuery.set(''); tableStatusFilter.set('All');">
-              Reset Filters
-            </button>
-          </div>
-        }
-
-        <!-- ========================================================
-             REACTIVE PAGINATION COMPONENT FOOTER
-             ======================================================== -->
-        <div class="datatable-pagination-footer">
-          
-          <!-- Left: Results Counter -->
-          <div class="pagination-count-info">
-            Showing <strong class="font-mono">{{ startIndex() }}</strong> to <strong class="font-mono">{{ endIndex() }}</strong> of <strong class="font-mono">{{ currentTotal() }}</strong> results
-          </div>
-
-          <!-- Middle: Page Size Selector -->
-          <div class="pagination-page-size-wrap">
-            <span class="page-size-label">Rows per page:</span>
-            <div class="page-size-buttons">
-              <button 
-                type="button" 
-                class="btn-size-choice" 
-                [class.is-active]="pageSize() === 5"
-                (click)="setPageSize(5)"
-              >
-                5
-              </button>
-              <button 
-                type="button" 
-                class="btn-size-choice" 
-                [class.is-active]="pageSize() === 10"
-                (click)="setPageSize(10)"
-              >
-                10
-              </button>
-              <button 
-                type="button" 
-                class="btn-size-choice" 
-                [class.is-active]="pageSize() === 20"
-                (click)="setPageSize(20)"
-              >
-                20
-              </button>
+          <!-- 1. Billing summary -->
+          @let bill = billingSummary();
+          <div class="billing-kpi-strip">
+            <div class="billing-kpi">
+              <span class="billing-kpi-label">Invoiced</span>
+              <strong class="billing-kpi-value">{{ naira(bill.invoiced) }}</strong>
+              <span class="billing-kpi-sub">{{ bill.invoiceCount }} invoices</span>
+            </div>
+            <div class="billing-kpi">
+              <span class="billing-kpi-label">Collected</span>
+              <strong class="billing-kpi-value is-good">{{ naira(bill.collected) }}</strong>
+              <span class="billing-kpi-sub">{{ bill.invoiced ? ((bill.collected / bill.invoiced) * 100).toFixed(0) : 0 }}% of invoiced</span>
+            </div>
+            <div class="billing-kpi">
+              <span class="billing-kpi-label">Outstanding</span>
+              <strong class="billing-kpi-value is-warn">{{ naira(bill.outstanding) }}</strong>
+              <span class="billing-kpi-sub">Pending, part-paid &amp; overdue</span>
+            </div>
+            <div class="billing-kpi">
+              <span class="billing-kpi-label">Overdue</span>
+              <strong class="billing-kpi-value is-bad">{{ naira(bill.overdue) }}</strong>
+              <span class="billing-kpi-sub">{{ bill.overdueCount }} {{ bill.overdueCount === 1 ? 'invoice' : 'invoices' }} past due</span>
             </div>
           </div>
 
-          <!-- Right: Page Stepper Navigation -->
-          <div class="pagination-stepper">
-            
-            <!-- Previous Page Button -->
-            <button 
-              type="button" 
-              class="btn-pagination-nav" 
-              [disabled]="currentPage() === 1"
-              (click)="prevPage()"
-              aria-label="Previous page"
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-              <span>Prev</span>
-            </button>
+          <!-- 2. How each category is billed -->
+          @let tariff = selectedTariff();
+          <div class="billing-card">
+            <div class="billing-card-head">
+              <div>
+                <h3 class="billing-card-title">How each category is billed</h3>
+                <p class="billing-card-desc">Pick a customer category to see its billing model, payment terms and service rates.</p>
+              </div>
+            </div>
 
-            <!-- Page Number Pills -->
-            <div class="pagination-number-pills">
-              @for (p of pagesList(); track p) {
-                <button 
-                  type="button" 
-                  class="btn-page-number" 
-                  [class.is-active]="p === currentPage()"
-                  (click)="setPage(p)"
+            <div class="billing-tabs" role="tablist" aria-label="Customer category">
+              @for (t of billingTariffs; track t.key) {
+                <button
+                  type="button"
+                  role="tab"
+                  class="billing-tab"
+                  [class]="'cat-' + t.key.toLowerCase()"
+                  [class.is-active]="selectedTariffKey() === t.key"
+                  [attr.aria-selected]="selectedTariffKey() === t.key"
+                  (click)="selectedTariffKey.set(t.key)"
                 >
-                  {{ p }}
+                  <span class="billing-tab-icon"><app-icon [name]="t.icon" [size]="15" /></span>
+                  <span class="billing-tab-text">
+                    <span class="billing-tab-name">{{ t.name }}</span>
+                    <span class="billing-tab-sub">{{ naira(invoicedByCategory()[t.key] ?? 0) }} invoiced</span>
+                  </span>
                 </button>
               }
             </div>
 
-            <!-- Next Page Button -->
-            <button 
-              type="button" 
-              class="btn-pagination-nav" 
-              [disabled]="currentPage() === totalPages()"
-              (click)="nextPage()"
-              aria-label="Next page"
-            >
-              <span>Next</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
+            <div class="billing-terms" role="tabpanel">
+              <div class="billing-term">
+                <span class="billing-term-label">Billing model</span>
+                <span class="billing-term-value">{{ tariff.model }}</span>
+              </div>
+              <div class="billing-term">
+                <span class="billing-term-label">When it's billed</span>
+                <span class="billing-term-value">{{ tariff.cycle }}</span>
+              </div>
+              <div class="billing-term">
+                <span class="billing-term-label">Payment terms</span>
+                <span class="billing-term-value">{{ tariff.terms }}</span>
+              </div>
+            </div>
 
+            <div class="table-responsive-wrapper">
+              <table class="ecobin-data-table billing-rate-table">
+                <thead>
+                  <tr>
+                    <th scope="col">SERVICE</th>
+                    <th scope="col">HOW IT'S CHARGED</th>
+                    <th scope="col">RATE</th>
+                    <th scope="col">EXAMPLE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (r of tariff.rates; track r.service) {
+                    <tr class="data-table-row">
+                      <td>
+                        <span class="billing-service">
+                          <app-icon [name]="r.icon" [size]="14" />
+                          <strong>{{ r.service }}</strong>
+                        </span>
+                      </td>
+                      <td class="billing-muted">{{ r.basis }}</td>
+                      <td><strong class="billing-rate">{{ r.rate }}</strong></td>
+                      <td class="billing-muted">{{ r.example }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <p class="billing-note">
+              <app-icon name="info" [size]="13" />
+              <span>{{ tariff.note }}</span>
+            </p>
           </div>
 
-        </div>
+          <!-- 3. Invoices -->
+          <div class="dedicated-table-card">
+            <div class="dedicated-toolbar">
+              <div class="billing-filters">
+                <div class="billing-filter-row">
+                  <span class="toolbar-label">Category:</span>
+                  <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === 'All'" (click)="setInvoiceCategoryFilter('All')">All</button>
+                  @for (t of billingTariffs; track t.key) {
+                    <button type="button" class="btn-filter-pill" [class.is-active]="invoiceCategoryFilter() === t.key" (click)="setInvoiceCategoryFilter(t.key)">{{ t.name }}</button>
+                  }
+                </div>
+                <div class="billing-filter-row">
+                  <span class="toolbar-label">Status:</span>
+                  <button type="button" class="btn-filter-pill" [class.is-active]="invoiceStatusFilter() === 'All'" (click)="setInvoiceStatusFilter('All')">All</button>
+                  @for (st of invoiceStatuses; track st) {
+                    <button type="button" class="btn-filter-pill" [class.is-active]="invoiceStatusFilter() === st" (click)="setInvoiceStatusFilter(st)">{{ st }}</button>
+                  }
+                </div>
+              </div>
 
-      </section>
+              <div class="toolbar-search-box">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  class="dedicated-search-input"
+                  placeholder="Search invoice, customer, service..."
+                  [ngModel]="invoiceSearchQuery()"
+                  (ngModelChange)="invoiceSearchQuery.set($event); invoicesPager.reset()"
+                />
+              </div>
+            </div>
+
+            <div class="table-responsive-wrapper">
+              <table class="ecobin-data-table">
+                <thead>
+                  <tr>
+                    <th scope="col">INVOICE</th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">SERVICE &amp; CALCULATION</th>
+                    <th scope="col">AMOUNT</th>
+                    <th scope="col">METHOD</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col" style="text-align: right;">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (inv of invoicesPager.rows(); track inv.id) {
+                    <tr class="data-table-row compact-row">
+                      <td>
+                        <div class="request-code-cell">
+                          <strong class="font-mono text-brand">{{ inv.invoiceNo }}</strong>
+                          <span class="date-sub">{{ inv.period }} · due {{ inv.dueDate }}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <strong class="customer-title truncate-cell" [title]="inv.customerName">{{ inv.customerName }}</strong>
+                          <div class="cell-meta-line">
+                            <span class="contact-sub">{{ inv.accountNumber }}</span>
+                            <span class="category-tag-pill micro" [class]="'cat-' + inv.category.toLowerCase()">{{ billingCategoryName(inv.category) }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <strong class="service-main-name">{{ inv.service }}</strong>
+                          <span class="billing-muted">{{ inv.breakdown }}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="req-customer-block">
+                          <strong class="billing-amount">{{ naira(inv.amount) }}</strong>
+                          @if (inv.status === 'Part-paid') {
+                            <span class="billing-muted">{{ naira(inv.paid) }} paid</span>
+                          }
+                        </div>
+                      </td>
+                      <td class="billing-muted">{{ inv.method }}</td>
+                      <td>
+                        <span class="billing-status" [class]="'is-' + inv.status.toLowerCase()">{{ inv.status }}</span>
+                      </td>
+                      <td style="text-align: right;">
+                        @if (inv.status === 'Paid') {
+                          <button type="button" class="row-action-profile" (click)="downloadInvoiceReceipt(inv)">
+                            <app-icon name="receipt" [size]="13" />
+                            <span>Receipt</span>
+                          </button>
+                        } @else {
+                          <button type="button" class="row-action-profile" [class.is-urgent]="inv.status === 'Overdue'" (click)="sendInvoiceReminder(inv)">
+                            <app-icon name="bell" [size]="13" />
+                            <span>Remind</span>
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="table-empty-cell">No invoices match your search or filters.</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <app-table-pager [pager]="invoicesPager" label="invoices" />
+          </div>
         </section>
       }
 
