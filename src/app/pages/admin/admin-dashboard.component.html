@@ -1337,7 +1337,7 @@
                           (click)="toggleSave(item)"
                           [title]="item.saved ? 'Saved to Roster' : 'Save Hauler'"
                         >
-                          <span>{{ item.saved ? '♥' : '♡' }}</span>
+                          <app-icon name="heart" [size]="16" [filled]="item.saved" />
                         </button>
 
                         <button 
@@ -1507,7 +1507,7 @@
                   <line x1="8" y1="2" x2="8" y2="6"></line>
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-                <span>📅 Make Service Request</span>
+                <span>Make Service Request</span>
               </button>
               <button type="button" class="btn-dedicated-action primary" (click)="openNewCustomerModal()">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1736,7 +1736,7 @@
                               (click)="openRequestServiceModal(cst, 'Weekly Cleaning')"
                               title="Make weekly or daily cleaning request"
                             >
-                              <span>🧹 Weekly/Daily Cleaning</span>
+                              <app-icon name="broom" [size]="13" /><span>Weekly/Daily Cleaning</span>
                             </button>
                             <button 
                               type="button" 
@@ -1744,7 +1744,7 @@
                               (click)="openRequestServiceModal(cst, 'Waste Disposal Request')"
                               title="Waste disposal request"
                             >
-                              <span>🗑️ Waste Disposal</span>
+                              <app-icon name="trash" [size]="13" /><span>Waste Disposal</span>
                             </button>
                           }
 
@@ -1756,7 +1756,7 @@
                               (click)="openRequestServiceModal(cst, 'Daily Cleaning')"
                               title="Make weekly or daily cleaning"
                             >
-                              <span>🧹 Weekly/Daily Cleaning</span>
+                              <app-icon name="broom" [size]="13" /><span>Weekly/Daily Cleaning</span>
                             </button>
                             <button 
                               type="button" 
@@ -1764,7 +1764,7 @@
                               (click)="openRequestServiceModal(cst, 'Waste Disposal Request')"
                               title="Waste disposal request"
                             >
-                              <span>🗑️ Waste Disposal</span>
+                              <app-icon name="trash" [size]="13" /><span>Waste Disposal</span>
                             </button>
                             <button 
                               type="button" 
@@ -1772,7 +1772,7 @@
                               (click)="openRequestServiceModal(cst, 'Site Clearing')"
                               title="Site Clearing request"
                             >
-                              <span>🚜 Site Clearing</span>
+                              <app-icon name="shovel" [size]="13" /><span>Site Clearing</span>
                             </button>
                           }
 
@@ -1784,7 +1784,7 @@
                               (click)="openRequestServiceModal(cst, 'Event Clean up & Waste Disposal')"
                               title="Event Clean up & Waste Disposal"
                             >
-                              <span>🎉 Event Clean up &amp; Disposal</span>
+                              <app-icon name="party" [size]="13" /><span>Event Clean up &amp; Disposal</span>
                             </button>
                           }
 
@@ -1796,7 +1796,7 @@
                               (click)="openRequestServiceModal(cst, 'Road side clean up & Waste Disposal')"
                               title="Road side clean up & Waste Disposal"
                             >
-                              <span>🛣️ Roadside Clean up &amp; Disposal</span>
+                              <app-icon name="road" [size]="13" /><span>Roadside Clean up &amp; Disposal</span>
                             </button>
                           }
 
@@ -1849,7 +1849,7 @@
           <!-- Workforce KPI Metric Cards -->
           <div class="workforce-kpi-grid">
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box total">👥</div>
+              <div class="wf-kpi-icon-box total"><app-icon name="users" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">TOTAL WORKFORCE</span>
                 <strong class="wf-kpi-val">{{ cleaningStaff().length + drivers().length }} Active</strong>
@@ -1858,7 +1858,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box male">👨</div>
+              <div class="wf-kpi-icon-box male"><app-icon name="male" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">MALE CLEANING STAFF</span>
                 <strong class="wf-kpi-val">{{ maleStaffCount() }} Staff</strong>
@@ -1867,7 +1867,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box female">👩</div>
+              <div class="wf-kpi-icon-box female"><app-icon name="female" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">FEMALE CLEANING STAFF</span>
                 <strong class="wf-kpi-val">{{ femaleStaffCount() }} Staff</strong>
@@ -1876,7 +1876,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box supervisor">⭐</div>
+              <div class="wf-kpi-icon-box supervisor"><app-icon name="star" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">LOCATION SUPERVISORS</span>
                 <strong class="wf-kpi-val text-brand">{{ supervisorsCount() }} Assigned</strong>
@@ -1885,7 +1885,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box drivers">🚛</div>
+              <div class="wf-kpi-icon-box drivers"><app-icon name="truck" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">ACTIVE DRIVERS</span>
                 <strong class="wf-kpi-val">{{ activeDriversCount() }} Deployed</strong>
@@ -1903,7 +1903,7 @@
                 [class.is-active]="staffSubTab() === 'staff'"
                 (click)="setStaffSubTab('staff')"
               >
-                <span class="tab-icon">🧹</span>
+                <span class="tab-icon"><app-icon name="broom" [size]="15" /></span>
                 <span>1. CLEANING STAFF ({{ cleaningStaff().length }})</span>
               </button>
 
@@ -1913,7 +1913,7 @@
                 [class.is-active]="staffSubTab() === 'drivers'"
                 (click)="setStaffSubTab('drivers')"
               >
-                <span class="tab-icon">🚛</span>
+                <span class="tab-icon"><app-icon name="truck" [size]="15" /></span>
                 <span>2. DRIVERS ASSIGNED WITH STAFF ({{ drivers().length }})</span>
               </button>
             </div>
@@ -1941,7 +1941,7 @@
                     [class.is-active]="staffGenderFilter() === 'Male'"
                     (click)="setStaffGenderFilter('Male')"
                   >
-                    👨 Male ({{ maleStaffCount() }})
+                    <app-icon name="male" [size]="13" /> Male ({{ maleStaffCount() }})
                   </button>
                   <button 
                     type="button" 
@@ -1949,7 +1949,7 @@
                     [class.is-active]="staffGenderFilter() === 'Female'"
                     (click)="setStaffGenderFilter('Female')"
                   >
-                    👩 Female ({{ femaleStaffCount() }})
+                    <app-icon name="female" [size]="13" /> Female ({{ femaleStaffCount() }})
                   </button>
 
                   <span class="toolbar-label ml-2">Role:</span>
@@ -1959,7 +1959,7 @@
                     [class.is-active]="staffRoleFilter() === 'Supervisor'"
                     (click)="setStaffRoleFilter(staffRoleFilter() === 'Supervisor' ? 'All' : 'Supervisor')"
                   >
-                    ⭐ Supervisors ({{ supervisorsCount() }})
+                    <app-icon name="star" [size]="13" [filled]="true" /> Supervisors ({{ supervisorsCount() }})
                   </button>
                 </div>
 
@@ -2011,7 +2011,7 @@
                         <!-- Gender Pill (Male / Female) -->
                         <td>
                           <span class="gender-tag-pill" [class.male]="st.gender === 'Male'" [class.female]="st.gender === 'Female'">
-                            <span>{{ st.gender === 'Male' ? '👨 Male' : '👩 Female' }}</span>
+                            <app-icon [name]="st.gender === 'Male' ? 'male' : 'female'" [size]="12" /> <span>{{ st.gender }}</span>
                           </span>
                         </td>
 
@@ -2019,7 +2019,7 @@
                         <td>
                           @if (st.isSupervisor) {
                             <span class="supervisor-badge-lead">
-                              <span>⭐ Supervisor</span>
+                              <app-icon name="star" [size]="12" [filled]="true" /><span>Supervisor</span>
                             </span>
                           } @else {
                             <span class="cleaner-badge-regular">
@@ -2031,7 +2031,7 @@
                         <!-- Assigned Location -->
                         <td>
                           <div class="location-assigned-cell">
-                            <span class="loc-pin-icon">📍</span>
+                            <span class="loc-pin-icon"><app-icon name="map-pin" [size]="14" /></span>
                             <strong class="loc-name-text">{{ st.assignedLocation }}</strong>
                           </div>
                         </td>
@@ -2088,7 +2088,7 @@
             <div class="dedicated-table-card">
               
               <div class="assignment-instruction-callout">
-                <div class="callout-icon">🚛</div>
+                <div class="callout-icon"><app-icon name="truck" [size]="20" /></div>
                 <div>
                   <strong>Driver &amp; Crew Pairing Policy:</strong>
                   <span>Every driver is assigned with dedicated cleaning staff members and followed by a field supervisor to designated customer locations.</span>
@@ -2140,7 +2140,7 @@
                             @if (drv.assignedStaffTeam.length > 0) {
                               @for (stName of drv.assignedStaffTeam; track stName) {
                                 <span class="assigned-staff-chip">
-                                  <span>👤 {{ stName }}</span>
+                                  <app-icon name="user" [size]="12" /> <span>{{ stName }}</span>
                                 </span>
                               }
                             } @else {
@@ -2152,7 +2152,7 @@
                         <!-- Assigned Supervisor Following -->
                         <td>
                           <div class="supervisor-following-cell">
-                            <span class="super-lead-name">⭐ {{ drv.assignedSupervisor }}</span>
+                            <span class="super-lead-name"><app-icon name="star" [size]="12" [filled]="true" /> {{ drv.assignedSupervisor }}</span>
                             <span class="super-duty-sub">Follows team to location</span>
                           </div>
                         </td>
@@ -2160,7 +2160,7 @@
                         <!-- Target Location & Mission -->
                         <td>
                           <div class="location-mission-block">
-                            <strong class="dest-location-text">📍 {{ drv.assignedLocation }}</strong>
+                            <strong class="dest-location-text"><app-icon name="map-pin" [size]="13" /> {{ drv.assignedLocation }}</strong>
                             <span class="mission-type-pill">{{ drv.missionType }}</span>
                           </div>
                         </td>
@@ -2235,7 +2235,7 @@
 
           <!-- Highlight Notice: Request comes as once, new customers -->
           <div class="request-spec-notice-banner">
-            <div class="notice-badge-tag">ℹ️ REQUEST SPECIFICATION NOTE</div>
+            <div class="notice-badge-tag"><app-icon name="info" [size]="13" /> REQUEST SPECIFICATION NOTE</div>
             <p>
               <strong>Note: Requests come as once / new customers.</strong> These are on-demand, non-recurring bookings requiring immediate crew assignment, field supervisor deployment, and truck dispatch across Households, Businesses, Occasional Events, and Roadside corridors.
             </p>
@@ -2365,7 +2365,7 @@
                       <!-- Location & Needs -->
                       <td>
                         <div class="needs-location-cell">
-                          <span class="loc-txt truncate-cell" [title]="req.locationAddress + ' — ' + req.zoneLga">📍 {{ req.locationAddress }}</span>
+                          <span class="loc-txt truncate-cell" [title]="req.locationAddress + ' — ' + req.zoneLga"><app-icon name="map-pin" [size]="13" /> {{ req.locationAddress }}</span>
                           <p class="needs-desc truncate-cell" [title]="req.specificNeeds">{{ req.specificNeeds }}</p>
                         </div>
                       </td>
@@ -2379,7 +2379,7 @@
                               <span class="font-mono text-brand">{{ req.assignedTruckPlate }}</span> · {{ req.assignedSupervisor }}
                             </div>
                           } @else {
-                            <span class="unassigned-badge">⚠️ Unassigned</span>
+                            <span class="unassigned-badge"><app-icon name="alert" [size]="12" /> Unassigned</span>
                           }
                         </div>
                       </td>
@@ -2478,7 +2478,7 @@
               [class.is-active]="scheduleFrequencyFilter() === 'Every day'"
               (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Every day' ? 'All' : 'Every day')"
             >
-              <div class="freq-icon-pill green">📅</div>
+              <div class="freq-icon-pill green"><app-icon name="calendar-check" [size]="20" /></div>
               <div class="freq-info">
                 <span class="freq-label">EVERY DAY (DAILY)</span>
                 <strong class="freq-val">{{ dailySchedulesCount() }} Schedules</strong>
@@ -2491,7 +2491,7 @@
               [class.is-active]="scheduleFrequencyFilter() === 'Every 2 days'"
               (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Every 2 days' ? 'All' : 'Every 2 days')"
             >
-              <div class="freq-icon-pill cyan">🔁</div>
+              <div class="freq-icon-pill cyan"><app-icon name="repeat" [size]="20" /></div>
               <div class="freq-info">
                 <span class="freq-label">EVERY 2 DAYS</span>
                 <strong class="freq-val">{{ twoDaySchedulesCount() }} Schedules</strong>
@@ -2504,7 +2504,7 @@
               [class.is-active]="scheduleFrequencyFilter() === 'Weekly'"
               (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Weekly' ? 'All' : 'Weekly')"
             >
-              <div class="freq-icon-pill blue">🗓️</div>
+              <div class="freq-icon-pill blue"><app-icon name="calendar-range" [size]="20" /></div>
               <div class="freq-info">
                 <span class="freq-label">WEEKLY</span>
                 <strong class="freq-val">{{ weeklySchedulesCount() }} Schedules</strong>
@@ -2517,7 +2517,7 @@
               [class.is-active]="scheduleFrequencyFilter() === 'Monthly'"
               (click)="setScheduleFrequencyFilter(scheduleFrequencyFilter() === 'Monthly' ? 'All' : 'Monthly')"
             >
-              <div class="freq-icon-pill amber">📆</div>
+              <div class="freq-icon-pill amber"><app-icon name="calendar-days" [size]="20" /></div>
               <div class="freq-info">
                 <span class="freq-label">MONTHLY</span>
                 <strong class="freq-val">{{ monthlySchedulesCount() }} Schedules</strong>
@@ -2617,7 +2617,7 @@
                       <td>
                         <div class="sch-client-cell">
                           <strong class="client-name-txt">{{ sch.clientName }}</strong>
-                          <span class="loc-text">📍 {{ sch.location }}</span>
+                          <span class="loc-text"><app-icon name="map-pin" [size]="13" /> {{ sch.location }}</span>
                         </div>
                       </td>
 
@@ -2677,7 +2677,7 @@
                             (click)="triggerAdHocRun(sch)"
                             title="Trigger immediate ad-hoc sweep"
                           >
-                            <span>⚡ Run Ad-Hoc</span>
+                            <app-icon name="zap" [size]="13" /><span>Run Ad-Hoc</span>
                           </button>
                           <button 
                             type="button" 
@@ -2733,7 +2733,7 @@
           <!-- Fleet KPI Metrics -->
           <div class="workforce-kpi-grid">
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box total">🚛</div>
+              <div class="wf-kpi-icon-box total"><app-icon name="truck" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">TOTAL FLEET VEHICLES</span>
                 <strong class="wf-kpi-val">{{ fleetTrucks().length }} Trucks</strong>
@@ -2742,7 +2742,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box drivers">📍</div>
+              <div class="wf-kpi-icon-box drivers"><app-icon name="map-pin" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">ACTIVELY DISPATCHED</span>
                 <strong class="wf-kpi-val text-brand">{{ dispatchedTrucksCount() }} On Duty</strong>
@@ -2751,7 +2751,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box supervisor">🧹</div>
+              <div class="wf-kpi-icon-box supervisor"><app-icon name="broom" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">CLEANING MISSIONS</span>
                 <strong class="wf-kpi-val">3 Trucks</strong>
@@ -2760,7 +2760,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box male">🗑️</div>
+              <div class="wf-kpi-icon-box male"><app-icon name="trash" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">WASTE COLLECTION</span>
                 <strong class="wf-kpi-val">2 Trucks</strong>
@@ -2769,7 +2769,7 @@
             </div>
 
             <div class="workforce-kpi-card">
-              <div class="wf-kpi-icon-box female">🏢</div>
+              <div class="wf-kpi-icon-box female"><app-icon name="building" [size]="20" /></div>
               <div class="wf-kpi-info">
                 <span class="wf-kpi-label">IN DEPOT / STANDBY</span>
                 <strong class="wf-kpi-val">{{ availableTrucksCount() }} Available</strong>
@@ -2866,7 +2866,7 @@
                           <!-- Fuel Gauge -->
                           <div class="fuel-gauge-bar-wrap" [title]="'Fuel Level: ' + truck.currentFuel + '%'">
                             <div class="fuel-fill" [style.width.%]="truck.currentFuel"></div>
-                            <span class="fuel-txt">⛽ {{ truck.currentFuel }}% Fuel</span>
+                            <span class="fuel-txt"><app-icon name="fuel" [size]="10" /> {{ truck.currentFuel }}% Fuel</span>
                           </div>
                         </div>
                       </td>
@@ -2881,12 +2881,12 @@
                           </div>
                           <div class="crew-line-item">
                             <span class="role-lbl">Supervisor:</span>
-                            <span class="super-txt">⭐ {{ truck.assignedSupervisor }}</span>
+                            <span class="super-txt"><app-icon name="star" [size]="12" [filled]="true" /> {{ truck.assignedSupervisor }}</span>
                           </div>
                           @if (truck.assignedStaffTeam.length > 0) {
                             <div class="crew-staff-pills">
                               @for (m of truck.assignedStaffTeam; track m) {
-                                <span class="assigned-staff-chip micro">👤 {{ m }}</span>
+                                <span class="assigned-staff-chip micro"><app-icon name="user" [size]="11" /> {{ m }}</span>
                               }
                             </div>
                           } @else {
@@ -2921,7 +2921,7 @@
                           >
                             {{ truck.customerCategory }}
                           </span>
-                          <span class="loc-text">📍 {{ truck.destinationLocation }}</span>
+                          <span class="loc-text"><app-icon name="map-pin" [size]="13" /> {{ truck.destinationLocation }}</span>
                         </div>
                       </td>
 
@@ -3695,7 +3695,7 @@
                           (click)="toggleSave(item)"
                           [title]="item.saved ? 'Saved to Roster' : 'Save Hauler'"
                         >
-                          <span>{{ item.saved ? '♥' : '♡' }}</span>
+                          <app-icon name="heart" [size]="16" [filled]="item.saved" />
                         </button>
 
                         <button 
@@ -4240,7 +4240,7 @@
         <div class="modal-head">
           <div>
             <h3>Reassign Staff Location</h3>
-            <p class="modal-subhead">{{ st.name }} ({{ st.gender === 'Male' ? '👨 Male' : '👩 Female' }}) • {{ st.role }}</p>
+            <p class="modal-subhead">{{ st.name }} ({{ st.gender }}) • {{ st.role }}</p>
           </div>
           <button type="button" class="btn-close-modal" (click)="closeAssignStaffModal()">✕</button>
         </div>
@@ -4873,7 +4873,7 @@
         </div>
         <div class="modal-foot justify-content-between">
           <button type="button" class="btn-topbar-project" (click)="scheduleExtraPickup(cst); closeCustomerDetailsModal()">
-            📅 Dispatch Extra Pickup
+            <app-icon name="calendar-plus" [size]="14" /> Dispatch Extra Pickup
           </button>
           <button type="button" class="btn-modal-cancel" (click)="closeCustomerDetailsModal()">Close Profile</button>
         </div>
