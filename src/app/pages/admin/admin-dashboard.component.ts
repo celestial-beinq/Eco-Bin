@@ -197,12 +197,22 @@ export interface WasteTruckFleetRecord {
 // ==========================================
 export type BillingCategory = 'HOUSEHOLD' | 'BUSINESS' | 'OCCASIONAL' | 'GENERAL';
 
-export interface BillingRate {
+export interface BillingPriceFields {
+  price: number;        // price per unit
+  base?: number;        // fixed base charge (events)
+  minimum?: number;     // minimum charge per job
+}
+
+export interface BillingRate extends BillingPriceFields {
+  id: string;
   service: string;
   icon: string;
-  basis: string;     // how it is charged
-  rate: string;      // price shown to the admin
-  example: string;   // worked example
+  basis: string;        // how it is charged
+  unit: string;         // what the price is per, e.g. "visit"
+  includedQty?: number; // units covered by the base charge
+  exampleQty: number;   // quantity used in the worked example
+  exampleUnit: string;  // e.g. "visits"
+  per: string;          // example total is per month / job / event
 }
 
 export interface BillingTariff {
@@ -2249,8 +2259,11 @@ export class AdminDashboardComponent {
   // PAYMENTS & BILLING
   // ==========================================
 
-  /** Price list: how each customer category is charged (sample rates, edit here). */
-  readonly billingTariffs: BillingTariff[] = [
+  /**
+   * Price list: how each customer category is charged.
+   * These are the defaults; admins can change prices on the Payments & Billing page.
+   */
+  private readonly defaultBillingTariffs: BillingTariff[] = [
     {
       key: 'HOUSEHOLD',
       name: 'Household',
@@ -2259,11 +2272,11 @@ export class AdminDashboardComponent {
       cycle: 'Monthly, on the 1st',
       due: 'Within 7 days',
       methods: ['Direct debit', 'Card', 'Transfer'],
-      note: 'Estates and apartment blocks get one invoice: number of households × the plan rate.',
+      note: 'Estates and apartment blocks get one invoice: households × visits × rate per visit.',
       rates: [
-        { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly plan · 1 visit per week', rate: '₦15,000 / household / month', example: '4 visits × ₦3,750 = ₦15,000' },
-        { service: 'Daily cleaning', icon: 'broom', basis: 'Monthly plan · 1 visit per day', rate: '₦45,000 / household / month', example: '30 visits × ₦1,500 = ₦45,000' },
-        { service: 'Waste disposal request', icon: 'trash', basis: 'Pay per pickup, on request', rate: '₦8,000 / pickup', example: '3 pickups this month = ₦24,000' },
+        { id: 'hh-weekly', service: 'Weekly cleaning', icon: 'broom', basis: 'Per visit · 1 visit per week', price: 15000, unit: 'visit', exampleQty: 4, exampleUnit: 'visits', per: 'month' },
+        { id: 'hh-daily', service: 'Daily cleaning', icon: 'broom', basis: 'Per visit · 1 visit per day', price: 5000, unit: 'visit', exampleQty: 30, exampleUnit: 'visits', per: 'month' },
+        { id: 'hh-disposal', service: 'Waste disposal request', icon: 'trash', basis: 'Per pickup, on request', price: 8000, unit: 'pickup', exampleQty: 3, exampleUnit: 'pickups', per: 'month' },
       ],
     },
     {
@@ -2274,12 +2287,12 @@ export class AdminDashboardComponent {
       cycle: 'Monthly, at month end',
       due: 'Within 14 days',
       methods: ['Transfer', 'Corporate invoice'],
-      note: 'Waste is weighed at the transfer station, so disposal is charged per tonne. Site clearing is quoted after a site survey.',
+      note: 'Waste is weighed at the transfer station, so disposal is charged per tonne. Site size is confirmed by a survey before clearing.',
       rates: [
-        { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly contract · 1 visit per week', rate: '₦60,000 / site / month', example: '4 visits × ₦15,000 = ₦60,000' },
-        { service: 'Daily cleaning', icon: 'broom', basis: 'Monthly contract · 1 visit per day', rate: '₦180,000 / site / month', example: '30 visits × ₦6,000 = ₦180,000' },
-        { service: 'Waste disposal', icon: 'trash', basis: 'Per tonne collected', rate: '₦25,000 / tonne', example: '18.4 t × ₦25,000 = ₦460,000' },
-        { service: 'Site clearing', icon: 'shovel', basis: 'Per job · quoted after survey', rate: 'From ₦150,000 / job', example: '2.5-acre yard quoted at ₦650,000' },
+        { id: 'bz-weekly', service: 'Weekly cleaning', icon: 'broom', basis: 'Per visit · 1 visit per week', price: 40000, unit: 'visit', exampleQty: 4, exampleUnit: 'visits', per: 'month' },
+        { id: 'bz-daily', service: 'Daily cleaning', icon: 'broom', basis: 'Per visit · 1 visit per day', price: 15000, unit: 'visit', exampleQty: 30, exampleUnit: 'visits', per: 'month' },
+        { id: 'bz-disposal', service: 'Waste disposal', icon: 'trash', basis: 'Per tonne collected', price: 25000, unit: 'tonne', exampleQty: 18.4, exampleUnit: 't', per: 'month' },
+        { id: 'bz-site', service: 'Site clearing', icon: 'shovel', basis: 'Per acre surveyed', price: 260000, unit: 'acre', minimum: 150000, exampleQty: 2.5, exampleUnit: 'acres', per: 'job' },
       ],
     },
     {
@@ -2292,7 +2305,7 @@ export class AdminDashboardComponent {
       methods: ['Transfer', 'Card'],
       note: 'The base price covers events of up to 300 guests.',
       rates: [
-        { service: 'Event clean-up & waste disposal', icon: 'party', basis: 'Per event · base + extra guests', rate: '₦120,000 base + ₦300 / guest above 300', example: '1,200 guests: ₦120,000 + 900 × ₦300 = ₦390,000' },
+        { id: 'oc-event', service: 'Event clean-up & waste disposal', icon: 'party', basis: 'Per event · base + extra guests', base: 120000, includedQty: 300, price: 300, unit: 'extra guest', exampleQty: 1200, exampleUnit: 'guests', per: 'event' },
       ],
     },
     {
@@ -2305,27 +2318,144 @@ export class AdminDashboardComponent {
       methods: ['Corporate invoice'],
       note: 'Rates are fixed in the LGA sanitation contract.',
       rates: [
-        { service: 'Roadside clean-up & waste disposal', icon: 'road', basis: 'Per kilometre cleared', rate: '₦60,000 / km', example: '3 km × ₦60,000 = ₦180,000' },
+        { id: 'gn-road', service: 'Roadside clean-up & waste disposal', icon: 'road', basis: 'Per kilometre cleared', price: 60000, unit: 'km', exampleQty: 3, exampleUnit: 'km', per: 'job' },
       ],
     },
   ];
 
+  private readonly ratesStorageKey = 'ecobin.billing-rates';
+
+  billingTariffs = signal<BillingTariff[]>(this.withSavedRates(this.defaultBillingTariffs));
+
   selectedTariffKey = signal<BillingCategory>('HOUSEHOLD');
-  selectedTariff = computed(() => this.billingTariffs.find(t => t.key === this.selectedTariffKey())!);
+  selectedTariff = computed(() => this.billingTariffs().find(t => t.key === this.selectedTariffKey())!);
+
+  // ---- Price editing ----
+  editingPrices = signal(false);
+  priceDraft = signal<Record<string, BillingPriceFields>>({});
+  priceEditError = signal('');
+
+  startPriceEdit(): void {
+    const draft: Record<string, BillingPriceFields> = {};
+    for (const t of this.billingTariffs()) {
+      for (const r of t.rates) draft[r.id] = { price: r.price, base: r.base, minimum: r.minimum };
+    }
+    this.priceDraft.set(draft);
+    this.priceEditError.set('');
+    this.editingPrices.set(true);
+  }
+
+  cancelPriceEdit(): void {
+    this.editingPrices.set(false);
+    this.priceEditError.set('');
+  }
+
+  setPriceDraft(rateId: string, field: keyof BillingPriceFields, value: number | string | null): void {
+    const n = value === null || value === '' ? NaN : Number(value);
+    this.priceDraft.update(d => ({ ...d, [rateId]: { ...d[rateId], [field]: n } }));
+  }
+
+  savePriceEdit(): void {
+    const draft = this.priceDraft();
+    const bad = Object.values(draft).some(f =>
+      !(f.price > 0) ||
+      (f.base !== undefined && !(f.base > 0)) ||
+      (f.minimum !== undefined && !(f.minimum >= 0))
+    );
+    if (bad) {
+      this.priceEditError.set('Every price must be a number greater than 0.');
+      return;
+    }
+    this.billingTariffs.update(list => list.map(t => ({
+      ...t,
+      rates: t.rates.map(r => ({ ...r, ...draft[r.id] })),
+    })));
+    this.storeRates(draft);
+    this.editingPrices.set(false);
+    this.priceEditError.set('');
+    this.triggerToast('Prices updated. New prices apply to invoices issued from now on.');
+  }
+
+  resetPricesToDefault(): void {
+    const draft: Record<string, BillingPriceFields> = {};
+    for (const t of this.defaultBillingTariffs) {
+      for (const r of t.rates) draft[r.id] = { price: r.price, base: r.base, minimum: r.minimum };
+    }
+    this.priceDraft.set(draft);
+    this.priceEditError.set('');
+  }
+
+  /** The rate as shown: the saved one, or the draft while editing. */
+  effectiveRate(r: BillingRate): BillingRate {
+    return this.editingPrices() ? { ...r, ...this.priceDraft()[r.id] } : r;
+  }
+
+  rateLabel(r: BillingRate): string {
+    const e = this.effectiveRate(r);
+    if (e.base !== undefined) {
+      return `${this.naira(e.base)} base + ${this.naira(e.price)} / ${e.unit}`;
+    }
+    const min = e.minimum ? ` (min ${this.naira(e.minimum)})` : '';
+    return `${this.naira(e.price)} / ${e.unit}${min}`;
+  }
+
+  rateExample(r: BillingRate): string {
+    const e = this.effectiveRate(r);
+    if (![e.price, e.base ?? 0, e.minimum ?? 0].every(Number.isFinite)) return '—';
+    const qty = e.exampleQty.toLocaleString('en-NG');
+    if (e.base !== undefined) {
+      const included = e.includedQty ?? 0;
+      const extra = Math.max(0, e.exampleQty - included);
+      const total = e.base + extra * e.price;
+      return `${this.naira(e.base)} + (${qty} − ${included.toLocaleString('en-NG')}) × ${this.naira(e.price)} = ${this.naira(total)} / ${e.per}`;
+    }
+    const raw = Math.round(e.exampleQty * e.price);
+    const total = Math.max(raw, e.minimum ?? 0);
+    const minNote = total > raw ? ` → minimum ${this.naira(total)}` : '';
+    return `${qty} ${e.exampleUnit} × ${this.naira(e.price)} = ${this.naira(raw)}${minNote} / ${e.per}`;
+  }
+
+  private withSavedRates(tariffs: BillingTariff[]): BillingTariff[] {
+    const saved = this.readStoredRates();
+    if (!saved) return tariffs;
+    return tariffs.map(t => ({
+      ...t,
+      rates: t.rates.map(r => (saved[r.id] ? { ...r, ...saved[r.id] } : r)),
+    }));
+  }
+
+  // Prices are kept in this browser only until there is a backend to save them to.
+  private readStoredRates(): Record<string, BillingPriceFields> | null {
+    try {
+      if (typeof localStorage === 'undefined') return null;
+      const raw = localStorage.getItem(this.ratesStorageKey);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private storeRates(rates: Record<string, BillingPriceFields>): void {
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.setItem(this.ratesStorageKey, JSON.stringify(rates));
+    } catch {
+      /* storage unavailable: prices still apply for this session */
+    }
+  }
 
   /** Recent invoices (sample data matching the customer accounts and the price list above). */
   invoices = signal<BillingInvoice[]>([
-    { id: 'inv-1', invoiceNo: 'INV-2026-1101', customerName: '1004 Housing Estate Community', accountNumber: 'ECB-CST-1013', category: 'HOUSEHOLD', service: 'Daily cleaning', breakdown: '18 households × ₦45,000', amount: 810000, paid: 810000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Paid' },
-    { id: 'inv-2', invoiceNo: 'INV-2026-1102', customerName: 'Victoria Crest 4 Neighborhood Court', accountNumber: 'ECB-CST-1022', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '24 households × ₦15,000', amount: 360000, paid: 360000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Card', status: 'Paid' },
+    { id: 'inv-1', invoiceNo: 'INV-2026-1101', customerName: '1004 Housing Estate Community', accountNumber: 'ECB-CST-1013', category: 'HOUSEHOLD', service: 'Daily cleaning', breakdown: '18 households × 30 visits × ₦5,000', amount: 2700000, paid: 2700000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Paid' },
+    { id: 'inv-2', invoiceNo: 'INV-2026-1102', customerName: 'Victoria Crest 4 Neighborhood Court', accountNumber: 'ECB-CST-1022', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '24 households × 4 visits × ₦15,000', amount: 1440000, paid: 1440000, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Card', status: 'Paid' },
     { id: 'inv-3', invoiceNo: 'INV-2026-1103', customerName: 'Parkview Estate Residents Management', accountNumber: 'ECB-CST-1015', category: 'HOUSEHOLD', service: 'Waste disposal request', breakdown: '6 pickups × ₦8,000', amount: 48000, paid: 0, period: 'Nov 2026', dueDate: 'Dec 2, 2026', method: 'Bank Transfer', status: 'Pending' },
-    { id: 'inv-4', invoiceNo: 'INV-2026-1104', customerName: 'Victoria Garden City Residents Association', accountNumber: 'ECB-CST-1019', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '60 households × ₦15,000', amount: 900000, paid: 0, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Overdue' },
-    { id: 'inv-5', invoiceNo: 'INV-2026-1105', customerName: 'Eko Hotels & Suites', accountNumber: 'ECB-CST-1011', category: 'BUSINESS', service: 'Daily cleaning', breakdown: '1 site × ₦180,000', amount: 180000, paid: 180000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Bank Transfer', status: 'Paid' },
+    { id: 'inv-4', invoiceNo: 'INV-2026-1104', customerName: 'Victoria Garden City Residents Association', accountNumber: 'ECB-CST-1019', category: 'HOUSEHOLD', service: 'Weekly cleaning', breakdown: '60 households × 4 visits × ₦15,000', amount: 3600000, paid: 0, period: 'Nov 2026', dueDate: 'Nov 8, 2026', method: 'Direct Debit', status: 'Overdue' },
+    { id: 'inv-5', invoiceNo: 'INV-2026-1105', customerName: 'Eko Hotels & Suites', accountNumber: 'ECB-CST-1011', category: 'BUSINESS', service: 'Daily cleaning', breakdown: '30 visits × ₦15,000', amount: 450000, paid: 450000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Bank Transfer', status: 'Paid' },
     { id: 'inv-6', invoiceNo: 'INV-2026-1106', customerName: 'Eko Hotels & Suites', accountNumber: 'ECB-CST-1011', category: 'BUSINESS', service: 'Waste disposal', breakdown: '18.4 t × ₦25,000', amount: 460000, paid: 460000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Bank Transfer', status: 'Paid' },
     { id: 'inv-7', invoiceNo: 'INV-2026-1107', customerName: 'Seven-Up Bottling Co. Industrial Facility', accountNumber: 'ECB-CST-1016', category: 'BUSINESS', service: 'Waste disposal', breakdown: '48 t × ₦25,000', amount: 1200000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 28, 2026', method: 'Corporate Invoicing', status: 'Pending' },
-    { id: 'inv-8', invoiceNo: 'INV-2026-1108', customerName: 'Dangote Industrial Logistics Hub', accountNumber: 'ECB-CST-1021', category: 'BUSINESS', service: 'Site clearing', breakdown: 'Quoted job · 2.5-acre yard', amount: 650000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Corporate Invoicing', status: 'Overdue' },
-    { id: 'inv-9', invoiceNo: 'INV-2026-1109', customerName: 'Ikeja City Mall (Shoprite / Food Court)', accountNumber: 'ECB-CST-1014', category: 'BUSINESS', service: 'Weekly cleaning', breakdown: '1 site × ₦60,000', amount: 60000, paid: 60000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Card', status: 'Paid' },
-    { id: 'inv-10', invoiceNo: 'INV-2026-1110', customerName: 'The Monarch Lagos Grand Wedding Pavilion', accountNumber: 'ECB-CST-1018', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 900 guests × ₦300', amount: 390000, paid: 195000, period: 'Nov 17 event', dueDate: 'Nov 19, 2026', method: 'Bank Transfer', status: 'Part-paid' },
-    { id: 'inv-11', invoiceNo: 'INV-2026-1111', customerName: 'Landmark Centre & Beach Village', accountNumber: 'ECB-CST-1012', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 500 guests × ₦300', amount: 270000, paid: 270000, period: 'Nov 9 event', dueDate: 'Nov 11, 2026', method: 'Bank Transfer', status: 'Paid' },
+    { id: 'inv-8', invoiceNo: 'INV-2026-1108', customerName: 'Dangote Industrial Logistics Hub', accountNumber: 'ECB-CST-1021', category: 'BUSINESS', service: 'Site clearing', breakdown: '2.5 acres × ₦260,000', amount: 650000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Corporate Invoicing', status: 'Overdue' },
+    { id: 'inv-9', invoiceNo: 'INV-2026-1109', customerName: 'Ikeja City Mall (Shoprite / Food Court)', accountNumber: 'ECB-CST-1014', category: 'BUSINESS', service: 'Weekly cleaning', breakdown: '4 visits × ₦40,000', amount: 160000, paid: 160000, period: 'Oct 2026', dueDate: 'Nov 14, 2026', method: 'Card', status: 'Paid' },
+    { id: 'inv-10', invoiceNo: 'INV-2026-1110', customerName: 'The Monarch Lagos Grand Wedding Pavilion', accountNumber: 'ECB-CST-1018', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 900 extra guests × ₦300', amount: 390000, paid: 195000, period: 'Nov 17 event', dueDate: 'Nov 19, 2026', method: 'Bank Transfer', status: 'Part-paid' },
+    { id: 'inv-11', invoiceNo: 'INV-2026-1111', customerName: 'Landmark Centre & Beach Village', accountNumber: 'ECB-CST-1012', category: 'OCCASIONAL', service: 'Event clean-up & disposal', breakdown: '₦120,000 + 500 extra guests × ₦300', amount: 270000, paid: 270000, period: 'Nov 9 event', dueDate: 'Nov 11, 2026', method: 'Bank Transfer', status: 'Paid' },
     { id: 'inv-12', invoiceNo: 'INV-2026-1112', customerName: 'Lekki-Epe Expressway Sanitation Corridor', accountNumber: 'ECB-CST-1017', category: 'GENERAL', service: 'Roadside clean-up & disposal', breakdown: '8 km × ₦60,000', amount: 480000, paid: 480000, period: 'Oct 2026', dueDate: 'Nov 30, 2026', method: 'Corporate Invoicing', status: 'Paid' },
     { id: 'inv-13', invoiceNo: 'INV-2026-1113', customerName: 'Falomo Roundabout & Marina Waterfront', accountNumber: 'ECB-CST-1020', category: 'GENERAL', service: 'Roadside clean-up & disposal', breakdown: '3 km × ₦60,000', amount: 180000, paid: 0, period: 'Oct 2026', dueDate: 'Nov 30, 2026', method: 'Corporate Invoicing', status: 'Pending' },
   ]);
@@ -2375,7 +2505,7 @@ export class AdminDashboardComponent {
   }
 
   billingCategoryName(key: BillingCategory): string {
-    return this.billingTariffs.find(t => t.key === key)?.name ?? key;
+    return this.billingTariffs().find(t => t.key === key)?.name ?? key;
   }
 
   setInvoiceCategoryFilter(cat: 'All' | BillingCategory): void {
