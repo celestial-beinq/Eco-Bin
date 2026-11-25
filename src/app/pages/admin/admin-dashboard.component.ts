@@ -1935,6 +1935,54 @@ export class AdminDashboardComponent {
   occasionalCount = computed(() => this.customers().filter(c => c.category === 'OCCASIONAL').length);
   generalCount = computed(() => this.customers().filter(c => c.category === 'GENERAL' || c.category === 'Recycling Partner').length);
 
+  // Customer segment cards (Customer page): drive the 4 filter cards from one list
+  customerSegments = computed(() => {
+    const segments = [
+      {
+        key: 'HOUSEHOLD',
+        name: 'Household',
+        subtitle: 'Neighborhood & Apartments',
+        tone: 'household',
+        count: this.householdCount(),
+        services: ['Weekly / daily cleaning', 'Waste disposal'],
+        fleet: 'Curbside & Multi-Tenant'
+      },
+      {
+        key: 'BUSINESS',
+        name: 'Business',
+        subtitle: 'Industrial, Company, Service',
+        tone: 'business',
+        count: this.businessCount(),
+        services: ['Weekly / daily cleaning', 'Waste disposal', 'Site clearing'],
+        fleet: 'Heavy Roll-off & Balers'
+      },
+      {
+        key: 'OCCASIONAL',
+        name: 'Occasional',
+        subtitle: 'Events & Parties',
+        tone: 'occasional',
+        count: this.occasionalCount(),
+        services: ['Event clean-up & disposal'],
+        fleet: 'Overnight & On-Demand'
+      },
+      {
+        key: 'GENERAL',
+        name: 'General',
+        subtitle: 'Roadside & Public Spaces',
+        tone: 'general',
+        count: this.generalCount(),
+        services: ['Roadside clean-up & disposal'],
+        fleet: 'Highway & Public Sweeps'
+      }
+    ];
+    const total = segments.reduce((sum, s) => sum + s.count, 0);
+    return segments.map(s => ({ ...s, share: total ? Math.round((s.count / total) * 100) : 0 }));
+  });
+
+  toggleCustomerSegment(key: string): void {
+    this.setCustomerCategoryFilter(this.customerCategoryFilter() === key ? 'All' : key);
+  }
+
   // ==========================================
   // STAFF & DRIVERS COMPUTED
   // ==========================================

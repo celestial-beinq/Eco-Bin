@@ -1519,125 +1519,75 @@
             </div>
           </div>
 
-          <!-- 4 Main Customer Categories Cards -->
-          <div class="customer-spec-grid">
-            
-            <!-- 1. HOUSEHOLD -->
-            <div 
-              class="customer-spec-card" 
-              [class.active-card]="customerCategoryFilter() === 'HOUSEHOLD'"
-              (click)="setCustomerCategoryFilter(customerCategoryFilter() === 'HOUSEHOLD' ? 'All' : 'HOUSEHOLD')"
-            >
-              <div class="spec-card-head">
-                <div class="spec-icon-box household">🏡</div>
-                <div class="spec-count-tag">
-                  <strong>{{ householdCount() }}</strong>
-                  <span>Accounts</span>
+          <!-- 4 Customer Segment Cards (also act as table filters) -->
+          <div class="segment-grid">
+            @for (seg of customerSegments(); track seg.key) {
+              <div
+                class="segment-card"
+                [class]="'tone-' + seg.tone"
+                [class.is-active]="customerCategoryFilter() === seg.key"
+                role="button"
+                tabindex="0"
+                [attr.aria-pressed]="customerCategoryFilter() === seg.key"
+                [attr.aria-label]="'Filter customers by ' + seg.name"
+                (click)="toggleCustomerSegment(seg.key)"
+                (keydown.enter)="toggleCustomerSegment(seg.key)"
+                (keydown.space)="$event.preventDefault(); toggleCustomerSegment(seg.key)"
+              >
+                <div class="segment-head">
+                  <span class="segment-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      @switch (seg.key) {
+                        @case ('HOUSEHOLD') {
+                          <path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M10 21v-6h4v6"></path>
+                        }
+                        @case ('BUSINESS') {
+                          <path d="M3 21h18"></path><path d="M5 21V9l5 3V9l5 3V4h4v17"></path><path d="M9 17h1M13 17h1"></path>
+                        }
+                        @case ('OCCASIONAL') {
+                          <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path><path d="M18.5 15l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"></path><path d="M5.5 16l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4L3.5 18l1.4-.6z"></path>
+                        }
+                        @default {
+                          <path d="M4 21 9 3"></path><path d="M20 21 15 3"></path><path d="M12 5v2M12 11v2M12 17v2"></path>
+                        }
+                      }
+                    </svg>
+                  </span>
+                  <div class="segment-titles">
+                    <h3 class="segment-name">{{ seg.name }}</h3>
+                    <p class="segment-sub">{{ seg.subtitle }}</p>
+                  </div>
+                  @if (customerCategoryFilter() === seg.key) {
+                    <span class="segment-active-chip">
+                      <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"></path></svg>
+                      Filtering
+                    </span>
+                  }
                 </div>
-              </div>
-              <h3 class="spec-title">1. HOUSEHOLD</h3>
-              <p class="spec-subtitle">Neighborhood &amp; Apartments</p>
-              <div class="spec-features-list">
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Make weekly or daily cleaning</span>
-                </div>
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Waste disposal request</span>
-                </div>
-              </div>
-              <div class="spec-card-footer">
-                <span class="spec-pill-status">Curbside &amp; Multi-Tenant</span>
-              </div>
-            </div>
 
-            <!-- 2. BUSINESS -->
-            <div 
-              class="customer-spec-card"
-              [class.active-card]="customerCategoryFilter() === 'BUSINESS'"
-              (click)="setCustomerCategoryFilter(customerCategoryFilter() === 'BUSINESS' ? 'All' : 'BUSINESS')"
-            >
-              <div class="spec-card-head">
-                <div class="spec-icon-box business">🏭</div>
-                <div class="spec-count-tag">
-                  <strong>{{ businessCount() }}</strong>
-                  <span>Accounts</span>
+                <div class="segment-stat">
+                  <strong class="segment-count">{{ seg.count }}</strong>
+                  <span class="segment-count-label">{{ seg.count === 1 ? 'account' : 'accounts' }}</span>
+                  <span class="segment-share">{{ seg.share }}% of total</span>
                 </div>
-              </div>
-              <h3 class="spec-title">2. BUSINESS</h3>
-              <p class="spec-subtitle">Industrial, Company, Service</p>
-              <div class="spec-features-list">
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Make weekly or daily cleaning</span>
+                <div class="segment-bar" aria-hidden="true">
+                  <span [style.width.%]="seg.share"></span>
                 </div>
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Waste disposal request</span>
-                </div>
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Site Clearing</span>
-                </div>
-              </div>
-              <div class="spec-card-footer">
-                <span class="spec-pill-status">Heavy Roll-off &amp; Balers</span>
-              </div>
-            </div>
 
-            <!-- 3. OCCASIONAL -->
-            <div 
-              class="customer-spec-card"
-              [class.active-card]="customerCategoryFilter() === 'OCCASIONAL'"
-              (click)="setCustomerCategoryFilter(customerCategoryFilter() === 'OCCASIONAL' ? 'All' : 'OCCASIONAL')"
-            >
-              <div class="spec-card-head">
-                <div class="spec-icon-box occasional">🎉</div>
-                <div class="spec-count-tag">
-                  <strong>{{ occasionalCount() }}</strong>
-                  <span>Accounts</span>
+                <div class="segment-services">
+                  @for (svc of seg.services; track svc) {
+                    <span class="segment-service-chip">{{ svc }}</span>
+                  }
                 </div>
-              </div>
-              <h3 class="spec-title">3. OCCASIONAL</h3>
-              <p class="spec-subtitle">Events &amp; Parties</p>
-              <div class="spec-features-list">
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Event Clean up &amp; Waste Disposal</span>
-                </div>
-              </div>
-              <div class="spec-card-footer">
-                <span class="spec-pill-status">Overnight &amp; On-Demand</span>
-              </div>
-            </div>
 
-            <!-- 4. GENERAL -->
-            <div 
-              class="customer-spec-card"
-              [class.active-card]="customerCategoryFilter() === 'GENERAL'"
-              (click)="setCustomerCategoryFilter(customerCategoryFilter() === 'GENERAL' ? 'All' : 'GENERAL')"
-            >
-              <div class="spec-card-head">
-                <div class="spec-icon-box general">🛣️</div>
-                <div class="spec-count-tag">
-                  <strong>{{ generalCount() }}</strong>
-                  <span>Accounts</span>
+                <div class="segment-foot">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle>
+                  </svg>
+                  <span>{{ seg.fleet }}</span>
                 </div>
               </div>
-              <h3 class="spec-title">4. GENERAL</h3>
-              <p class="spec-subtitle">Road side clean up &amp; Waste Disposal</p>
-              <div class="spec-features-list">
-                <div class="spec-feature-item">
-                  <span class="spec-check">✓</span>
-                  <span>Road side clean up &amp; Waste Disposal</span>
-                </div>
-              </div>
-              <div class="spec-card-footer">
-                <span class="spec-pill-status">Highway &amp; Public Sweeps</span>
-              </div>
-            </div>
-
+            }
           </div>
 
           <!-- Customer Directory Table Card -->
