@@ -4782,10 +4782,10 @@
           <button type="button" class="btn-close-modal" (click)="closeCustomerDetailsModal()">✕</button>
         </div>
         <div class="modal-body">
-          <div class="customer-profile-grid">
-            <div class="profile-meta-card">
-              <span class="profile-label">ACCOUNT STATUS</span>
-              <span 
+          <div class="profile-stat-strip">
+            <div class="profile-stat">
+              <span class="profile-label">STATUS</span>
+              <span
                 class="status-badge-cell"
                 [class.ok]="cst.status === 'Active'"
                 [class.busy]="cst.status === 'Scheduled'"
@@ -4796,19 +4796,22 @@
               </span>
             </div>
 
-            <div class="profile-meta-card">
+            <div class="profile-stat">
               <span class="profile-label">ESG RATING</span>
-              <span class="badge-esg-pill">{{ cst.esgTier }}</span>
+              <span class="badge-esg-pill" [class]="'esg-' + cst.esgTier.toLowerCase().replace(' ', '-')">{{ cst.esgTier }}</span>
             </div>
 
-            <div class="profile-meta-card">
+            <div class="profile-stat">
               <span class="profile-label">MONTHLY DIVERSION</span>
-              <strong class="font-brand text-brand">{{ cst.monthlyTonnage }}</strong>
+              <strong class="profile-stat-value text-brand">{{ cst.monthlyTonnage }}</strong>
             </div>
 
-            <div class="profile-meta-card">
-              <span class="profile-label">LGA JURISDICTION</span>
-              <strong>{{ cst.lga }}</strong>
+            <div class="profile-stat" [title]="cst.lga">
+              <span class="profile-label">LGA</span>
+              <strong class="profile-stat-value">{{ cst.lga.split(' (')[0] }}</strong>
+              @if (cst.lga.includes(' (')) {
+                <span class="profile-stat-sub">{{ cst.lga.split(' (')[1].replace(')', '') }}</span>
+              }
             </div>
           </div>
 

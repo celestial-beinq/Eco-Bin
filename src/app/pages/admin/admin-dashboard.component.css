@@ -4545,3 +4545,61 @@
   border-color: #cbd5e1;
   color: #0f172a;
 }
+
+/* ========================================================
+   CUSTOMER PROFILE MODAL: compact stat strip
+   ======================================================== */
+.profile-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profile-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-left: 1px solid #e2e8f0;
+}
+
+.profile-stat:first-child {
+  border-left: none;
+}
+
+.profile-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #0f172a;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-stat-value.text-brand {
+  color: #15803d;
+}
+
+.profile-stat-sub {
+  margin-top: -4px;
+  max-width: 100%;
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 580px) {
+  .profile-stat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profile-stat:nth-child(3) { border-left: none; }
+  .profile-stat:nth-child(n + 3) { border-top: 1px solid #e2e8f0; }
+}
