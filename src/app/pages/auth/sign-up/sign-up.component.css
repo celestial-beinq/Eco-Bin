@@ -481,7 +481,6 @@
 .form-select:focus-visible {
   outline: none !important;
   background-color: #ffffff;
-  border-color: #84cc16;
   box-shadow: none !important;
 }
 

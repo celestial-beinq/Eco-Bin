@@ -85,6 +85,12 @@ button:focus-visible {
   box-shadow: none !important;
 }
 
+/* No focus outline on any other element either (links, tabs, clickable cards) */
+*:focus,
+*:focus-visible {
+  outline: none !important;
+}
+
 /* Bootstrap 5 Responsive Container Standards */
 :root {
   --bs-gutter-x: 1.5rem;

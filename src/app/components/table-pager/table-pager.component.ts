@@ -149,13 +149,6 @@ import { TablePager } from '../../shared/table-pager';
       cursor: not-allowed;
     }
 
-    .pager-size-btn:focus-visible,
-    .pager-nav:focus-visible,
-    .pager-num:focus-visible {
-      outline: 2px solid #16a34a;
-      outline-offset: 1px;
-    }
-
     @media (max-width: 768px) {
       .pager {
         flex-direction: column;
