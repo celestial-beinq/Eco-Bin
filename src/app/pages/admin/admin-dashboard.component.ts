@@ -1993,6 +1993,35 @@ export class AdminDashboardComponent {
     this.setCustomerCategoryFilter(this.customerCategoryFilter() === key ? 'All' : key);
   }
 
+  // Service request actions offered per customer category (Customers table)
+  private readonly serviceActionsByCategory: Record<string, { label: string; request: string; icon: string; tone: string }[]> = {
+    HOUSEHOLD: [
+      { label: 'Weekly / daily cleaning', request: 'Weekly Cleaning', icon: 'broom', tone: 'green' },
+      { label: 'Waste disposal', request: 'Waste Disposal Request', icon: 'trash', tone: 'teal' },
+    ],
+    BUSINESS: [
+      { label: 'Weekly / daily cleaning', request: 'Daily Cleaning', icon: 'broom', tone: 'green' },
+      { label: 'Waste disposal', request: 'Waste Disposal Request', icon: 'trash', tone: 'teal' },
+      { label: 'Site clearing', request: 'Site Clearing', icon: 'shovel', tone: 'orange' },
+    ],
+    OCCASIONAL: [
+      { label: 'Event clean-up & disposal', request: 'Event Clean up & Waste Disposal', icon: 'party', tone: 'purple' },
+    ],
+    GENERAL: [
+      { label: 'Roadside clean-up & disposal', request: 'Road side clean up & Waste Disposal', icon: 'road', tone: 'blue' },
+    ],
+  };
+
+  customerServiceActions(cst: CustomerAccount) {
+    const c = cst.category;
+    const key =
+      c === 'HOUSEHOLD' || c === 'Residential' ? 'HOUSEHOLD' :
+      c === 'BUSINESS' || c === 'Commercial' || c === 'Industrial' ? 'BUSINESS' :
+      c === 'OCCASIONAL' ? 'OCCASIONAL' :
+      c === 'GENERAL' || c === 'Recycling Partner' ? 'GENERAL' : '';
+    return this.serviceActionsByCategory[key] ?? [];
+  }
+
   // ==========================================
   // STAFF & DRIVERS COMPUTED
   // ==========================================

@@ -4469,3 +4469,79 @@
   font-weight: 500;
   white-space: normal;
 }
+
+/* ========================================================
+   TABLE ROW ACTIONS (Customers table)
+   ======================================================== */
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Service shortcuts grouped as one segmented control */
+.row-action-group {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  gap: 2px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+}
+
+.row-action-icon {
+  --tone: #16a34a;
+  --tone-soft: #dcfce7;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.row-action-icon.tone-green  { --tone: #15803d; --tone-soft: #dcfce7; }
+.row-action-icon.tone-teal   { --tone: #0f766e; --tone-soft: #ccfbf1; }
+.row-action-icon.tone-orange { --tone: #c2410c; --tone-soft: #ffedd5; }
+.row-action-icon.tone-purple { --tone: #7e22ce; --tone-soft: #f3e8ff; }
+.row-action-icon.tone-blue   { --tone: #0369a1; --tone-soft: #e0f2fe; }
+
+.row-action-icon:hover {
+  background: var(--tone-soft);
+  color: var(--tone);
+}
+
+.row-action-icon:focus-visible,
+.row-action-profile:focus-visible {
+  outline: 2px solid #16a34a;
+  outline-offset: 1px;
+}
+
+.row-action-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #334155;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.row-action-profile:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}

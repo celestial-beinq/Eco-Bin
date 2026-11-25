@@ -1632,7 +1632,7 @@
                     <th scope="col" style="min-width: 180px;">LOCATION &amp; CONTACT</th>
                     <th scope="col" style="min-width: 170px;">ACTIVE SERVICE</th>
                     <th scope="col" style="min-width: 130px;">STATUS</th>
-                    <th scope="col" style="min-width: 320px; text-align: right;">DIRECT SERVICE ACTIONS</th>
+                    <th scope="col" style="text-align: right;">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1693,87 +1693,32 @@
                         </span>
                       </td>
 
-                      <!-- Category-Specific Service Request Actions -->
+                      <!-- Service request + profile actions -->
                       <td style="text-align: right;">
-                        <div class="action-buttons-cell">
-                          <!-- Household Actions -->
-                          @if (cst.category === 'HOUSEHOLD' || cst.category === 'Residential') {
-                            <button 
-                              type="button" 
-                              class="btn-service-action green"
-                              (click)="openRequestServiceModal(cst, 'Weekly Cleaning')"
-                              title="Make weekly or daily cleaning request"
-                            >
-                              <app-icon name="broom" [size]="13" /><span>Weekly/Daily Cleaning</span>
-                            </button>
-                            <button 
-                              type="button" 
-                              class="btn-service-action teal"
-                              (click)="openRequestServiceModal(cst, 'Waste Disposal Request')"
-                              title="Waste disposal request"
-                            >
-                              <app-icon name="trash" [size]="13" /><span>Waste Disposal</span>
-                            </button>
+                        <div class="row-actions">
+                          @if (customerServiceActions(cst).length) {
+                            <div class="row-action-group" role="group" aria-label="Request a service">
+                              @for (act of customerServiceActions(cst); track act.request) {
+                                <button
+                                  type="button"
+                                  class="row-action-icon"
+                                  [class]="'tone-' + act.tone"
+                                  [title]="'Request: ' + act.label"
+                                  [attr.aria-label]="'Request ' + act.label + ' for ' + cst.name"
+                                  (click)="openRequestServiceModal(cst, act.request)"
+                                >
+                                  <app-icon [name]="act.icon" [size]="15" />
+                                </button>
+                              }
+                            </div>
                           }
-
-                          <!-- Business Actions -->
-                          @if (cst.category === 'BUSINESS' || cst.category === 'Commercial' || cst.category === 'Industrial') {
-                            <button 
-                              type="button" 
-                              class="btn-service-action green"
-                              (click)="openRequestServiceModal(cst, 'Daily Cleaning')"
-                              title="Make weekly or daily cleaning"
-                            >
-                              <app-icon name="broom" [size]="13" /><span>Weekly/Daily Cleaning</span>
-                            </button>
-                            <button 
-                              type="button" 
-                              class="btn-service-action teal"
-                              (click)="openRequestServiceModal(cst, 'Waste Disposal Request')"
-                              title="Waste disposal request"
-                            >
-                              <app-icon name="trash" [size]="13" /><span>Waste Disposal</span>
-                            </button>
-                            <button 
-                              type="button" 
-                              class="btn-service-action orange"
-                              (click)="openRequestServiceModal(cst, 'Site Clearing')"
-                              title="Site Clearing request"
-                            >
-                              <app-icon name="shovel" [size]="13" /><span>Site Clearing</span>
-                            </button>
-                          }
-
-                          <!-- Occasional Actions -->
-                          @if (cst.category === 'OCCASIONAL') {
-                            <button 
-                              type="button" 
-                              class="btn-service-action purple"
-                              (click)="openRequestServiceModal(cst, 'Event Clean up & Waste Disposal')"
-                              title="Event Clean up & Waste Disposal"
-                            >
-                              <app-icon name="party" [size]="13" /><span>Event Clean up &amp; Disposal</span>
-                            </button>
-                          }
-
-                          <!-- General Actions -->
-                          @if (cst.category === 'GENERAL' || cst.category === 'Recycling Partner') {
-                            <button 
-                              type="button" 
-                              class="btn-service-action blue"
-                              (click)="openRequestServiceModal(cst, 'Road side clean up & Waste Disposal')"
-                              title="Road side clean up & Waste Disposal"
-                            >
-                              <app-icon name="road" [size]="13" /><span>Roadside Clean up &amp; Disposal</span>
-                            </button>
-                          }
-
-                          <button 
-                            type="button" 
-                            class="btn-tbl-details"
+                          <button
+                            type="button"
+                            class="row-action-profile"
                             (click)="viewCustomerDetails(cst)"
-                            title="View customer profile"
+                            [attr.aria-label]="'View profile of ' + cst.name"
                           >
+                            <app-icon name="user" [size]="13" />
                             <span>Profile</span>
                           </button>
                         </div>
