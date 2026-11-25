@@ -2554,6 +2554,115 @@ export class AdminDashboardComponent {
   sendInvoiceReminder(inv: BillingInvoice): void {
     this.triggerToast(`Payment reminder sent to ${inv.customerName} for ${inv.invoiceNo} (${this.naira(inv.amount - inv.paid)} due).`);
   }
+  // ---- Invoice multi-select & bulk actions ----
+  selectedInvoiceIds = signal<ReadonlySet<string>>(new Set());
+
+  selectedInvoices = computed(() => {
+    const ids = this.selectedInvoiceIds();
+    return this.invoices().filter(i => ids.has(i.id));
+  });
+
+  /** Breakdown of the selection, used to enable/label the bulk buttons. */
+  selectionSummary = computed(() => {
+    const list = this.selectedInvoices();
+    const unpaid = list.filter(i => i.status !== 'Paid');
+    return {
+      count: list.length,
+      unpaidCount: unpaid.length,
+      paidCount: list.length - unpaid.length,
+      outstanding: unpaid.reduce((t, i) => t + (i.amount - i.paid), 0),
+    };
+  });
+
+  allPageInvoicesSelected = computed(() => {
+    const rows = this.invoicesPager.rows();
+    const ids = this.selectedInvoiceIds();
+    return rows.length > 0 && rows.every(r => ids.has(r.id));
+  });
+
+  somePageInvoicesSelected = computed(() => {
+    const ids = this.selectedInvoiceIds();
+    return this.invoicesPager.rows().some(r => ids.has(r.id));
+  });
+
+  /** True when every invoice matching the current filters is selected. */
+  allFilteredInvoicesSelected = computed(() => {
+    const ids = this.selectedInvoiceIds();
+    const list = this.filteredInvoices();
+    return list.length > 0 && list.every(i => ids.has(i.id));
+  });
+
+  isInvoiceSelected(id: string): boolean {
+    return this.selectedInvoiceIds().has(id);
+  }
+
+  toggleInvoiceSelection(id: string): void {
+    this.selectedInvoiceIds.update(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
+
+  toggleSelectPageInvoices(): void {
+    const rows = this.invoicesPager.rows();
+    const selectAll = !this.allPageInvoicesSelected();
+    this.selectedInvoiceIds.update(prev => {
+      const next = new Set(prev);
+      for (const r of rows) {
+        if (selectAll) next.add(r.id); else next.delete(r.id);
+      }
+      return next;
+    });
+  }
+
+  selectAllFilteredInvoices(): void {
+    this.selectedInvoiceIds.set(new Set(this.filteredInvoices().map(i => i.id)));
+  }
+
+  clearInvoiceSelection(): void {
+    this.selectedInvoiceIds.set(new Set());
+  }
+
+  bulkMarkInvoicesPaid(): void {
+    const ids = new Set(this.selectedInvoices().filter(i => i.status !== 'Paid').map(i => i.id));
+    if (!ids.size) return;
+    this.invoices.update(list => list.map(i => (ids.has(i.id) ? { ...i, paid: i.amount, status: 'Paid' } : i)));
+    this.triggerToast(`${ids.size} ${ids.size === 1 ? 'invoice' : 'invoices'} marked as paid.`);
+    this.clearInvoiceSelection();
+  }
+
+  bulkSendInvoiceReminders(): void {
+    const { unpaidCount, outstanding } = this.selectionSummary();
+    if (!unpaidCount) return;
+    this.triggerToast(`Payment reminders sent for ${unpaidCount} unpaid ${unpaidCount === 1 ? 'invoice' : 'invoices'} (${this.naira(outstanding)} outstanding).`);
+    this.clearInvoiceSelection();
+  }
+
+  bulkDownloadInvoiceReceipts(): void {
+    const { paidCount } = this.selectionSummary();
+    if (!paidCount) return;
+    this.triggerToast(`${paidCount} ${paidCount === 1 ? 'receipt is' : 'receipts are'} ready to download.`);
+  }
+
+  exportSelectedInvoices(): void {
+    const rows = this.selectedInvoices();
+    if (!rows.length || typeof document === 'undefined') return;
+    const header = ['Invoice', 'Customer', 'Account', 'Category', 'Service', 'Calculation', 'Amount (NGN)', 'Paid (NGN)', 'Period', 'Due date', 'Method', 'Status'];
+    const cell = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;
+    const lines = [header, ...rows.map(i => [
+      i.invoiceNo, i.customerName, i.accountNumber, this.billingCategoryName(i.category), i.service,
+      i.breakdown, i.amount, i.paid, i.period, i.dueDate, i.method, i.status,
+    ])].map(r => r.map(cell).join(','));
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ecobin-invoices-${rows.length}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    this.triggerToast(`Exported ${rows.length} ${rows.length === 1 ? 'invoice' : 'invoices'} to CSV.`);
+  }
 
   // Computed filtered list for Transactions
   filteredTransactions = computed(() => {
