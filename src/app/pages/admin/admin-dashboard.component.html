@@ -735,36 +735,6 @@
               </span>
             </button>
 
-            <!-- 3. Collection Requests Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'requests'"
-              (click)="setTableTab('requests')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'requests'"
-            >
-              <span class="tab-label">Requests</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'requests'">
-                {{ filteredRequests().length }}
-              </span>
-            </button>
-
-            <!-- 4. Hauler Crews Tab -->
-            <button 
-              type="button" 
-              class="datatable-tab-btn" 
-              [class.is-active]="activeTableTab() === 'crews'"
-              (click)="setTableTab('crews')"
-              role="tab"
-              [attr.aria-selected]="activeTableTab() === 'crews'"
-            >
-              <span class="tab-label">Hauler Crews</span>
-              <span class="tab-badge-pill" [class.is-active]="activeTableTab() === 'crews'">
-                {{ filteredCrews().length }}
-              </span>
-            </button>
-
           </div>
 
           <!-- Right Toolbar Controls: Search, Status Filter & Action Button -->
@@ -781,7 +751,7 @@
               <input 
                 type="text" 
                 class="search-field" 
-                [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : activeTableTab() === 'customers' ? 'Search customers, LGA, plan...' : activeTableTab() === 'requests' ? 'Search request code, waste stream...' : 'Search haulers, trucks, hubs...'"
+                [placeholder]="activeTableTab() === 'transactions' ? 'Search reference, customer, payment...' : 'Search customers, LGA, plan...'"
                 [ngModel]="tableSearchQuery()"
                 (ngModelChange)="tableSearchQuery.set($event); currentPage.set(1)"
               />
@@ -805,17 +775,6 @@
                   <option value="Active">Active</option>
                   <option value="Scheduled">Scheduled</option>
                   <option value="Pending Review">Pending Review</option>
-                } @else if (activeTableTab() === 'requests') {
-                  <option value="All">All Statuses</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Dispatched">Dispatched</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                } @else {
-                  <option value="All">All Fleet</option>
-                  <option value="available">Available</option>
-                  <option value="busy">On Duty</option>
-                  <option value="maintenance">Maintenance</option>
                 }
               </select>
             </div>
@@ -825,16 +784,6 @@
               <button type="button" class="btn-table-primary-add" (click)="openNewCustomerModal()">
                 <span class="plus-icon">+</span>
                 <span>Add Customer</span>
-              </button>
-            } @else if (activeTableTab() === 'requests') {
-              <button type="button" class="btn-table-primary-add" (click)="openNewRouteModal()">
-                <span class="plus-icon">+</span>
-                <span>New Request</span>
-              </button>
-            } @else if (activeTableTab() === 'crews') {
-              <button type="button" class="btn-table-primary-add" (click)="openTeamModal()">
-                <span class="plus-icon">+</span>
-                <span>Dispatch Fleet</span>
               </button>
             } @else {
               <button type="button" class="btn-table-primary-add" (click)="triggerToast('Invoice generator opened. Ready to bill account.')">
@@ -1124,256 +1073,6 @@
                 }
               </tbody>
             </table>
-          </div>
-        }
-
-        <!-- ========================================================
-             3. COLLECTION REQUESTS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'requests') {
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 160px;">REQUEST CODE</th>
-                  <th scope="col" style="min-width: 220px;">CUSTOMER &amp; LOCATION</th>
-                  <th scope="col" style="min-width: 210px;">WASTE CATEGORY &amp; VOLUME</th>
-                  <th scope="col" style="min-width: 120px;">PRIORITY</th>
-                  <th scope="col" style="min-width: 190px;">ASSIGNED CREW</th>
-                  <th scope="col" style="min-width: 130px;">STATUS</th>
-                  <th scope="col" style="min-width: 120px; text-align: right;">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (req of paginatedRequests(); track req.id) {
-                  <tr class="data-table-row">
-                    
-                    <!-- Code & Date -->
-                    <td>
-                      <div class="txn-ref-block">
-                        <strong class="font-mono text-brand">{{ req.requestCode }}</strong>
-                        <span class="txn-date-time">{{ req.scheduledDate }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Customer & Location -->
-                    <td>
-                      <div class="table-location-block">
-                        <strong class="table-depot-title">{{ req.customerName }}</strong>
-                        <span class="table-distance-pill">{{ req.location }} • {{ req.lga }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Waste Category & Volume -->
-                    <td>
-                      <div class="table-capacity-block">
-                        <strong class="table-cap-val">{{ req.volume }}</strong>
-                        <span class="table-cap-type">{{ req.wasteType }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Priority Badge -->
-                    <td>
-                      <span 
-                        class="priority-badge-pill"
-                        [class.p-urgent]="req.priority === 'Urgent'"
-                        [class.p-high]="req.priority === 'High'"
-                        [class.p-scheduled]="req.priority === 'Scheduled'"
-                        [class.p-normal]="req.priority === 'Normal'"
-                      >
-                        {{ req.priority }}
-                      </span>
-                    </td>
-
-                    <!-- Assigned Crew -->
-                    <td>
-                      <div class="assigned-crew-info">
-                        <strong class="assigned-crew-name">{{ req.assignedCrew || 'Unassigned' }}</strong>
-                        @if (req.truckId) {
-                          <span class="assigned-truck-id font-mono">{{ req.truckId }}</span>
-                        }
-                      </div>
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="req.status === 'Completed'"
-                        [class.busy]="req.status === 'In Progress' || req.status === 'Dispatched'"
-                        [class.alert]="req.status === 'Pending'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ req.status }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Actions -->
-                    <td style="text-align: right;">
-                      @if (req.status === 'Pending') {
-                        <button 
-                          type="button" 
-                          class="btn-tbl-dispatch"
-                          (click)="dispatchRequest(req)"
-                          title="Dispatch available hauler crew"
-                        >
-                          <span>+ Dispatch</span>
-                        </button>
-                      } @else {
-                        <button 
-                          type="button" 
-                          class="btn-tbl-details"
-                          (click)="triggerToast('Viewing telemetry for request ' + req.requestCode)"
-                        >
-                          <span>Details</span>
-                        </button>
-                      }
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- ========================================================
-             4. HAULER CREWS TABLE
-             ======================================================== -->
-        @if (activeTableTab() === 'crews') {
-          <div class="table-responsive-wrapper">
-            <table class="ecobin-data-table">
-              <thead>
-                <tr>
-                  <th scope="col" style="min-width: 220px;">HAULER CREW</th>
-                  <th scope="col" style="min-width: 180px;">DEPOT &amp; PROXIMITY</th>
-                  <th scope="col" style="min-width: 170px;">TRUCK &amp; CAPACITY</th>
-                  <th scope="col" style="min-width: 140px;">PERFORMANCE</th>
-                  <th scope="col" style="min-width: 150px;">STATUS</th>
-                  <th scope="col" style="min-width: 150px; text-align: right;">DISPATCH ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (item of paginatedCrews(); track item.id) {
-                  <tr class="data-table-row">
-                    
-                    <!-- Hauler Crew Name & Lead -->
-                    <td class="cell-hauler-main">
-                      <div class="table-user-cell">
-                        @if (item.avatar) {
-                          <div class="table-avatar-img-wrap">
-                            <img [src]="item.avatar" [alt]="item.name" class="table-avatar-img" />
-                          </div>
-                        } @else {
-                          <div class="table-avatar-initials" [style.background-color]="item.initialBg || '#16a34a'">
-                            {{ item.initials }}
-                          </div>
-                        }
-                        <div class="table-user-info">
-                          <div class="table-name-row">
-                            <strong class="table-hauler-name">{{ item.name }}</strong>
-                            @if (item.verified) {
-                              <span class="verified-check-inline" title="Verified LGA Hauler">
-                                <svg viewBox="0 0 24 24" width="13" height="13" fill="#16a34a">
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                </svg>
-                              </span>
-                            }
-                          </div>
-                          <span class="table-crew-lead">{{ item.crewLead }}</span>
-                        </div>
-                      </div>
-                    </td>
-
-                    <!-- Depot & Proximity -->
-                    <td>
-                      <div class="table-location-block">
-                        <span class="table-depot-title">{{ item.depotLocation }}</span>
-                        <span class="table-distance-pill">{{ item.distance }}</span>
-                      </div>
-                    </td>
-
-                    <!-- Truck Type & Capacity -->
-                    <td>
-                      <div class="table-capacity-block">
-                        <strong class="table-cap-val">{{ item.capacity }}</strong>
-                        <span class="table-cap-type">{{ item.capacityLabel }} ({{ item.truckId }})</span>
-                      </div>
-                    </td>
-
-                    <!-- Rating & Pickups -->
-                    <td>
-                      @if (item.isNew) {
-                        <span class="badge-pill-micro">{{ item.badgeLabel }}</span>
-                      } @else {
-                        <div class="table-rating-block">
-                          <span class="star-gold">★</span>
-                          <strong>{{ item.rating }}</strong>
-                          <span class="rating-trips-txt">({{ item.tripsCount }} trips)</span>
-                        </div>
-                      }
-                    </td>
-
-                    <!-- Status -->
-                    <td>
-                      <span 
-                        class="status-badge-cell"
-                        [class.ok]="item.statusType === 'available'"
-                        [class.busy]="item.statusType === 'busy'"
-                        [class.alert]="item.statusType === 'maintenance'"
-                      >
-                        <span class="status-cell-dot"></span>
-                        <span>{{ item.statusText }}</span>
-                      </span>
-                    </td>
-
-                    <!-- Action Buttons -->
-                    <td style="text-align: right;">
-                      <div class="table-actions-cell">
-                        <button 
-                          type="button" 
-                          class="btn-tbl-save"
-                          [class.is-saved]="item.saved"
-                          (click)="toggleSave(item)"
-                          [title]="item.saved ? 'Saved to Roster' : 'Save Hauler'"
-                        >
-                          <app-icon name="heart" [size]="16" [filled]="item.saved" />
-                        </button>
-
-                        <button 
-                          type="button" 
-                          class="btn-tbl-dispatch"
-                          [class.is-dispatched]="item.dispatched"
-                          (click)="toggleDispatch(item)"
-                        >
-                          @if (item.dispatched) {
-                            <span>✓ Dispatched</span>
-                          } @else {
-                            <span>+ Dispatch</span>
-                          }
-                        </button>
-                      </div>
-                    </td>
-
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-
-        <!-- EMPTY STATE IF NO MATCHES -->
-        @if (currentTotal() === 0) {
-          <div class="empty-table-state-box">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#94a3b8" stroke-width="1.8">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <h5>No matching records found</h5>
-            <p>Try adjusting your search query or reset the status filter.</p>
-            <button type="button" class="btn-reset-filters" (click)="tableSearchQuery.set(''); tableStatusFilter.set('All');">
-              Reset Filters
-            </button>
           </div>
         }
 
@@ -3073,16 +2772,24 @@
 
             <div class="billing-terms" role="tabpanel">
               <div class="billing-term">
-                <span class="billing-term-label">Billing model</span>
+                <span class="billing-term-label">Model</span>
                 <span class="billing-term-value">{{ tariff.model }}</span>
               </div>
               <div class="billing-term">
-                <span class="billing-term-label">When it's billed</span>
+                <span class="billing-term-label">Billed</span>
                 <span class="billing-term-value">{{ tariff.cycle }}</span>
               </div>
               <div class="billing-term">
-                <span class="billing-term-label">Payment terms</span>
-                <span class="billing-term-value">{{ tariff.terms }}</span>
+                <span class="billing-term-label">Due</span>
+                <span class="billing-term-value">{{ tariff.due }}</span>
+              </div>
+              <div class="billing-term">
+                <span class="billing-term-label">Pay by</span>
+                <span class="billing-method-list">
+                  @for (m of tariff.methods; track m) {
+                    <span class="billing-method">{{ m }}</span>
+                  }
+                </span>
               </div>
             </div>
 

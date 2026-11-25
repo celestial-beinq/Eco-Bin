@@ -211,7 +211,8 @@ export interface BillingTariff {
   icon: string;
   model: string;     // billing model
   cycle: string;     // when the bill goes out
-  terms: string;     // when / how it must be paid
+  due: string;       // payment deadline
+  methods: string[]; // accepted payment methods
   note: string;
   rates: BillingRate[];
 }
@@ -2254,9 +2255,10 @@ export class AdminDashboardComponent {
       key: 'HOUSEHOLD',
       name: 'Household',
       icon: 'home',
-      model: 'Monthly subscription per household',
-      cycle: 'Billed on the 1st of every month',
-      terms: 'Due in 7 days · direct debit, card or bank transfer',
+      model: 'Subscription per household',
+      cycle: 'Monthly, on the 1st',
+      due: 'Within 7 days',
+      methods: ['Direct debit', 'Card', 'Transfer'],
       note: 'Estates and apartment blocks get one invoice: number of households × the plan rate.',
       rates: [
         { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly plan · 1 visit per week', rate: '₦15,000 / household / month', example: '4 visits × ₦3,750 = ₦15,000' },
@@ -2268,9 +2270,10 @@ export class AdminDashboardComponent {
       key: 'BUSINESS',
       name: 'Business',
       icon: 'factory',
-      model: 'Monthly service contract per site',
-      cycle: 'Invoiced at the end of every month',
-      terms: 'Net 14 days · bank transfer or corporate invoicing',
+      model: 'Service contract per site',
+      cycle: 'Monthly, at month end',
+      due: 'Within 14 days',
+      methods: ['Transfer', 'Corporate invoice'],
       note: 'Waste is weighed at the transfer station, so disposal is charged per tonne. Site clearing is quoted after a site survey.',
       rates: [
         { service: 'Weekly cleaning', icon: 'broom', basis: 'Monthly contract · 1 visit per week', rate: '₦60,000 / site / month', example: '4 visits × ₦15,000 = ₦60,000' },
@@ -2283,9 +2286,10 @@ export class AdminDashboardComponent {
       key: 'OCCASIONAL',
       name: 'Occasional',
       icon: 'party',
-      model: 'One-off booking per event',
-      cycle: 'Invoiced when the event is booked',
-      terms: '50% deposit to confirm · balance within 48 hours after the event',
+      model: 'One-off, per event',
+      cycle: 'At booking',
+      due: '50% upfront, rest 48h after',
+      methods: ['Transfer', 'Card'],
       note: 'The base price covers events of up to 300 guests.',
       rates: [
         { service: 'Event clean-up & waste disposal', icon: 'party', basis: 'Per event · base + extra guests', rate: '₦120,000 base + ₦300 / guest above 300', example: '1,200 guests: ₦120,000 + 900 × ₦300 = ₦390,000' },
@@ -2295,9 +2299,10 @@ export class AdminDashboardComponent {
       key: 'GENERAL',
       name: 'General',
       icon: 'road',
-      model: 'Per job, by length of road cleared',
-      cycle: 'One consolidated invoice to the LGA / agency each month',
-      terms: 'Net 30 days · corporate invoicing under the LGA contract',
+      model: 'Per kilometre cleared',
+      cycle: 'Monthly, one invoice to the LGA',
+      due: 'Within 30 days',
+      methods: ['Corporate invoice'],
       note: 'Rates are fixed in the LGA sanitation contract.',
       rates: [
         { service: 'Roadside clean-up & waste disposal', icon: 'road', basis: 'Per kilometre cleared', rate: '₦60,000 / km', example: '3 km × ₦60,000 = ₦180,000' },
@@ -2360,7 +2365,7 @@ export class AdminDashboardComponent {
 
   /** Total invoiced per category, shown on the price-list tabs. */
   invoicedByCategory = computed(() => {
-    const totals: Record<string, number> = {};
+    const totals: Partial<Record<BillingCategory, number>> = {};
     for (const inv of this.invoices()) totals[inv.category] = (totals[inv.category] ?? 0) + inv.amount;
     return totals;
   });
