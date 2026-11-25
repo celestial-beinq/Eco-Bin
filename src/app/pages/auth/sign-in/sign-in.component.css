@@ -207,13 +207,13 @@
    RIGHT FORM CONTAINER
    ======================================================== */
 .auth-form-container {
-  flex: 1.15;
+  flex: 1;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 72px 36px 48px;
+  justify-content: center;
+  padding: 48px 36px;
   overflow-y: auto;
 }
 

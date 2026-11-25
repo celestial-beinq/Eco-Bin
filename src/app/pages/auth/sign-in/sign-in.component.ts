@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent {
+  private router = inject(Router);
+
   showPassword = signal<boolean>(false);
   rememberMe = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
@@ -43,6 +45,9 @@ export class SignInComponent {
     setTimeout(() => {
       this.isSubmitting.set(false);
       this.submitSuccess.set(true);
+
+      // Show the success message briefly, then go to the admin dashboard
+      setTimeout(() => this.router.navigate(['/admin']), 800);
     }, 1200);
   }
 }
